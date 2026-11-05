@@ -9,6 +9,10 @@ export type {
 } from "./types/database";
 export { createSupabaseClient } from "./supabase/client";
 export {
+  isSupabaseConfigured,
+  getSupabaseBrowserClient,
+} from "./supabase/browser";
+export {
   POINTS_PER_COMPLETED_REQUEST,
   canAwardPoints,
   calculateAwardPoints,

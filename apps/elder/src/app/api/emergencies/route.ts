@@ -19,7 +19,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "INVALID_BODY" }, { status: 400 });
   }
 
-  upsertElder({
+  await upsertElder({
     deviceKey: body.deviceKey,
     name: body.elderName,
     age: body.elderAge ?? 0,
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     createdAt: new Date().toISOString(),
   });
 
-  const item = createEmergencyRecord({
+  const item = await createEmergencyRecord({
     deviceKey: body.deviceKey,
     elderName: body.elderName,
     latitude: body.latitude,

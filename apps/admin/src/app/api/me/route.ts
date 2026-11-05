@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/admin-auth";
 
 export async function GET(request: Request) {
-  const result = requireAdmin(request);
+  const result = await requireAdmin(request);
   if ("error" in result && result.error) return result.error;
   const { admin } = result as { admin: { id: string; name: string; email: string } };
   return NextResponse.json({

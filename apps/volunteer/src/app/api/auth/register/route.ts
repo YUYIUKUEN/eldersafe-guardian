@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    const volunteer = registerVolunteer({
+    const volunteer = await registerVolunteer({
       name: body.name,
       phone: body.phone,
       email: body.email,

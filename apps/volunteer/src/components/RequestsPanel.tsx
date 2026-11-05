@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Link, useRouter } from "@/i18n/navigation";
 import { VolunteerShell } from "@/components/VolunteerShell";
+import { getSupabaseBrowserClient } from "@eldersafe/shared/supabase/browser";
+import { subscribeElderSafeRealtime } from "@eldersafe/shared/realtime";
 import { authHeaders, getSessionToken } from "@/lib/session";
 
 const LocationMap = dynamic(
@@ -19,6 +21,7 @@ type HelpItem = {
   elderAddress: string;
   status: "pending" | "accepted" | "completed";
   audioDataUrl?: string;
+  audioUrl?: string;
   latitude?: number;
   longitude?: number;
   createdAt: string;
@@ -60,6 +63,12 @@ export function RequestsPanel() {
 
   useEffect(() => {
     void load();
+    const client = getSupabaseBrowserClient();
+    return subscribeElderSafeRealtime(client, {
+      onHelpRequestChange: () => {
+        void load();
+      },
+    });
   }, []);
 
   async function accept(id: string) {
@@ -193,10 +202,14 @@ export function RequestsPanel() {
                 </div>
               </div>
 
-              {item.audioDataUrl ? (
+              {item.audioUrl || item.audioDataUrl ? (
                 <div className="mt-3">
                   <p className="mb-1 text-sm font-medium">{t("audio")}</p>
-                  <audio controls className="w-full" src={item.audioDataUrl} />
+                  <audio
+                    controls
+                    className="w-full"
+                    src={item.audioUrl || item.audioDataUrl}
+                  />
                 </div>
               ) : null}
 

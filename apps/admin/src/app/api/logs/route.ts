@@ -3,7 +3,7 @@ import { listActivityLogs } from "@eldersafe/shared/server";
 import { requireAdmin } from "@/lib/admin-auth";
 
 export async function GET(request: Request) {
-  const result = requireAdmin(request);
+  const result = await requireAdmin(request);
   if ("error" in result && result.error) return result.error;
   const url = new URL(request.url);
   const actorType = url.searchParams.get("actorType") as
@@ -14,7 +14,7 @@ export async function GET(request: Request) {
     | null;
   const action = url.searchParams.get("action") ?? undefined;
   return NextResponse.json({
-    items: listActivityLogs({
+    items: await listActivityLogs({
       actorType: actorType || undefined,
       action,
     }),

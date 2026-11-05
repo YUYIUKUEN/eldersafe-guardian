@@ -18,7 +18,7 @@ export async function POST(request: Request) {
   if (!volunteerId) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
-  const volunteer = approveVolunteer(volunteerId);
+  const volunteer = await approveVolunteer(volunteerId);
   return NextResponse.json({
     volunteer: {
       id: volunteer.id,

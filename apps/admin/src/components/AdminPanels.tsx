@@ -5,6 +5,8 @@ import { FormEvent, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { AdminShell } from "@/components/AdminShell";
+import { getSupabaseBrowserClient } from "@eldersafe/shared/supabase/browser";
+import { subscribeElderSafeRealtime } from "@eldersafe/shared/realtime";
 import { downloadTop3Certificates } from "@/lib/certificates";
 import { authHeaders, getSessionToken } from "@/lib/session";
 
@@ -356,11 +358,19 @@ export function EmergenciesPanel() {
   const [items, setItems] = useState<any[]>([]);
 
   useEffect(() => {
-    void fetch("/api/emergencies", { headers: authHeaders() }).then(
-      async (response) => {
-        if (response.ok) setItems((await response.json()).items ?? []);
+    async function load() {
+      const response = await fetch("/api/emergencies", {
+        headers: authHeaders(),
+      });
+      if (response.ok) setItems((await response.json()).items ?? []);
+    }
+    void load();
+    const client = getSupabaseBrowserClient();
+    return subscribeElderSafeRealtime(client, {
+      onEmergencyChange: () => {
+        void load();
       },
-    );
+    });
   }, []);
 
   const withLocation = items.filter(
@@ -413,18 +423,50 @@ export function LeaderboardPanel() {
   const [items, setItems] = useState<Array<{ id: string; name: string; points: number }>>(
     [],
   );
+  const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
+  const [scope, setScope] = useState<"all" | "month">("month");
 
   useEffect(() => {
-    void fetch("/api/leaderboard", { headers: authHeaders() }).then(
-      async (response) => {
-        if (response.ok) setItems((await response.json()).items ?? []);
-      },
-    );
-  }, []);
+    const query =
+      scope === "month"
+        ? `/api/leaderboard?scope=month&month=${encodeURIComponent(month)}`
+        : "/api/leaderboard";
+    void fetch(query, { headers: authHeaders() }).then(async (response) => {
+      if (response.ok) {
+        const data = await response.json();
+        setItems(data.items ?? []);
+        if (data.month) setMonth(data.month);
+      }
+    });
+  }, [month, scope]);
 
   return (
     <AdminShell adminName={adminName}>
       <h2 className="text-xl font-bold">{t("title")}</h2>
+      <div className="flex flex-wrap gap-3">
+        <label className="text-sm">
+          {t("scope")}
+          <select
+            className="ml-2 rounded border px-2 py-1"
+            value={scope}
+            onChange={(event) => setScope(event.target.value as "all" | "month")}
+          >
+            <option value="month">{t("thisMonth")}</option>
+            <option value="all">{t("allTime")}</option>
+          </select>
+        </label>
+        {scope === "month" ? (
+          <label className="text-sm">
+            {t("month")}
+            <input
+              type="month"
+              className="ml-2 rounded border px-2 py-1"
+              value={month}
+              onChange={(event) => setMonth(event.target.value)}
+            />
+          </label>
+        ) : null}
+      </div>
       {items.length === 0 ? (
         <p>{t("empty")}</p>
       ) : (

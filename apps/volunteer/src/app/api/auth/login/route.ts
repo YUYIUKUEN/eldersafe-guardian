@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "INVALID_BODY" }, { status: 400 });
   }
   try {
-    const volunteer = loginVolunteer(body.email, body.password);
+    const volunteer = await loginVolunteer(body.email, body.password);
     const token = createVolunteerSession(volunteer.id);
     return NextResponse.json({
       token,

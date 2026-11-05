@@ -11,7 +11,7 @@ export async function GET(request: Request) {
   if (!volunteerId) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
-  const volunteer = getVolunteer(volunteerId);
+  const volunteer = await getVolunteer(volunteerId);
   if (!volunteer) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }

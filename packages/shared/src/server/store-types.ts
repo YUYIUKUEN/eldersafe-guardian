@@ -45,11 +45,14 @@ export type SharedHelpRequest = {
   status: RequestStatus;
   volunteerId?: string | null;
   audioDataUrl?: string;
+  audioPath?: string;
+  audioUrl?: string;
   latitude?: number;
   longitude?: number;
   createdAt: string;
   completedAt?: string;
   elderConfirmedAt?: string;
+  pointsAwardedAt?: string;
 };
 
 export type SharedEmergency = {

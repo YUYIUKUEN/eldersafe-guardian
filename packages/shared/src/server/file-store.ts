@@ -307,9 +307,11 @@ export function confirmHelpRequestByElder(
   if (request.status !== "completed") throw new Error("NOT_COMPLETED");
   if (request.elderConfirmedAt) return request;
 
+  const confirmedAt = new Date().toISOString();
   store.helpRequests[index] = {
     ...request,
-    elderConfirmedAt: new Date().toISOString(),
+    elderConfirmedAt: confirmedAt,
+    pointsAwardedAt: confirmedAt,
   };
 
   if (request.volunteerId) {
@@ -466,10 +468,45 @@ export function listLeaderboard(month?: string): Array<{
   name: string;
   points: number;
 }> {
-  void month;
+  if (month) return listMonthlyLeaderboard(month);
   return ensureStore()
     .volunteers.filter((item) => item.approved && !item.disabled)
     .map((item) => ({ id: item.id, name: item.name, points: item.points }))
+    .sort((a, b) => b.points - a.points);
+}
+
+/** Monthly leaderboard: count confirmed completions in YYYY-MM. */
+export function listMonthlyLeaderboard(
+  month = new Date().toISOString().slice(0, 7),
+): Array<{ id: string; name: string; points: number }> {
+  const start = `${month}-01T00:00:00.000Z`;
+  const endDate = new Date(start);
+  endDate.setUTCMonth(endDate.getUTCMonth() + 1);
+  const end = endDate.toISOString();
+  const store = ensureStore();
+  const counts = new Map<string, number>();
+  for (const request of store.helpRequests) {
+    if (!request.volunteerId || !request.pointsAwardedAt) continue;
+    if (request.pointsAwardedAt < start || request.pointsAwardedAt >= end) {
+      continue;
+    }
+    counts.set(
+      request.volunteerId,
+      (counts.get(request.volunteerId) ?? 0) + 1,
+    );
+  }
+  return store.volunteers
+    .filter((item) => item.approved && !item.disabled && counts.has(item.id))
+    .map((item) => ({
+      id: item.id,
+      name: item.name,
+      points:
+        (counts.get(item.id) ?? 0) *
+        calculateAwardPoints({
+          requestStatus: "completed",
+          elderConfirmed: true,
+        }),
+    }))
     .sort((a, b) => b.points - a.points);
 }
 

@@ -143,7 +143,8 @@
     "rank": "名次",
     "name": "姓名",
     "points": "積分",
-    "empty": "暫時未有排行資料"
+    "empty": "暫時未有排行資料",
+    "monthlyHint": "顯示本月積分（長者確認完成後才計入）"
   },
   "Admin": {
     "title": "管理員網站",
@@ -218,6 +219,10 @@
     "name": "姓名",
     "points": "積分",
     "certificateTitle": "ElderSafe Guardian 義工嘉許證書",
-    "certificateBody": "謹此嘉許 {name} 於本月義工服務表現出色，榮獲第 {rank} 名。"
+    "certificateBody": "謹此嘉許 {name} 於本月義工服務表現出色，榮獲第 {rank} 名。",
+    "scope": "範圍",
+    "month": "月份",
+    "allTime": "全部時間",
+    "thisMonth": "本月"
   }
 }

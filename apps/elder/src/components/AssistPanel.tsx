@@ -122,7 +122,29 @@ export function AssistPanel({ profile, onClose, onSent }: AssistPanelProps) {
         longitude,
       });
 
-      // Sync to shared local file-store so volunteer site can see it.
+      // Prefer Supabase Storage when configured; otherwise keep data URL.
+      let audioPath: string | undefined;
+      let audioUrl: string | undefined = audioDataUrl;
+      const uploadForm = new FormData();
+      uploadForm.set("deviceKey", profile.deviceKey);
+      uploadForm.set(
+        "file",
+        new File([audioBlob], "help.webm", {
+          type: audioBlob.type || "audio/webm",
+        }),
+      );
+      const uploadResponse = await fetch("/api/recordings/upload", {
+        method: "POST",
+        body: uploadForm,
+      });
+      if (uploadResponse.ok) {
+        const uploaded = await uploadResponse.json();
+        if (uploaded.mode === "supabase" && uploaded.publicUrl) {
+          audioPath = uploaded.path;
+          audioUrl = uploaded.publicUrl;
+        }
+      }
+
       const response = await fetch("/api/help-requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -134,7 +156,9 @@ export function AssistPanel({ profile, onClose, onSent }: AssistPanelProps) {
           elderPhone: profile.phone,
           emergencyContact: profile.emergencyContact,
           healthNotes: profile.healthNotes,
-          audioDataUrl,
+          audioDataUrl: audioUrl,
+          audioPath,
+          audioUrl,
           latitude,
           longitude,
         }),
@@ -150,6 +174,7 @@ export function AssistPanel({ profile, onClose, onSent }: AssistPanelProps) {
         metadata: {
           localId: local.id,
           sharedId: data.item?.id,
+          storage: Boolean(audioPath),
         },
       });
       setStatus(t("sent"));

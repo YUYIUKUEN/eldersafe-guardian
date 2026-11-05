@@ -12,7 +12,7 @@ export async function PATCH(request: Request, context: RouteContext) {
   if (typeof body.latitude !== "number" || typeof body.longitude !== "number") {
     return NextResponse.json({ error: "INVALID_BODY" }, { status: 400 });
   }
-  const item = updateEmergencyByToken(token, body.latitude, body.longitude);
+  const item = await updateEmergencyByToken(token, body.latitude, body.longitude);
   if (!item) return NextResponse.json({ error: "NOT_FOUND" }, { status: 404 });
   return NextResponse.json({ item });
 }

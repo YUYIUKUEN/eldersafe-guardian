@@ -3,7 +3,7 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 4（管理員網站）已完成（本機共用 store）；下一階段可接真正 Supabase／即時功能**
+**目前進度：階段 5（Supabase／Realtime／Storage／每月排行榜）已完成；未設定雲端金鑰時自動 fallback 本機 `.data/store.json`**
 
 ---
 
@@ -55,13 +55,14 @@
 
 ## 階段 5：獎勵系統、共用後端與即時功能
 
-- [ ] 設計並建立共用 Supabase schema
-- [ ] 將本機 file-store 遷到 Supabase（積分規則已在 shared）
-- [ ] 每月排行榜邏輯
-- [ ] Top 3 義工可下載 PDF 證書（admin 已可下載；待接雲端資料）
-- [ ] Realtime：位置更新、求助單狀態、緊急事件通知
-- [ ] Storage：錄音檔上傳與播放
-- [ ] 日誌工具於三個網站共用（本機 logs 已有，待遷雲端）
+- [x] 設計並建立共用 Supabase schema（`supabase/migrations/001_init.sql`）
+- [x] Backend facade：有真實金鑰用 Supabase，否則 fallback 本機 file-store
+- [x] 每月排行榜（依 `points_awarded_at`／長者確認後計分）
+- [x] Top 3 義工 PDF 證書（admin 可下載；可切本月／全部時間）
+- [x] Realtime：義工求助列表、admin 緊急事件自動刷新（有 Supabase 時）
+- [x] Storage：錄音上傳至 `recordings` bucket（本機模式改存 data URL）
+- [x] 共用日誌工具 `@eldersafe/shared` + activity_logs 表／本機 logs
+- [x] 各 app `.env.local.example` 與 `supabase/README.md` 設定說明
 
 ---
 
@@ -86,5 +87,5 @@
 | 2 | 長者 Web App | 已完成 |
 | 3 | 義工網站 | 已完成 |
 | 4 | 管理員網站 | 已完成 |
-| 5 | 獎勵系統、共用後端與即時功能 | 未開始 |
+| 5 | 獎勵系統、共用後端與即時功能 | 已完成 |
 | 6 | 測試、各自部署與畢業專題收尾 | 未開始 |

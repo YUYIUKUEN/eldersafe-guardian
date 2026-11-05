@@ -63,7 +63,23 @@ cp apps/admin/.env.local.example apps/admin/.env.local
 4. 查看求助單狀態；完成後可「確認完成」
 5. PWA manifest，可加入手機主畫面
 
-注意：而家資料暫存瀏覽器本機 + 專案根目錄 `.data/store.json`（本機開發共用），真正雲端後端會在階段 5 接 Supabase。
+## 階段 5：Supabase（可選）／本機 fallback
+
+未填真實 Supabase 金鑰時，三個網站繼續共用專案根目錄 `.data/store.json`。
+
+接上雲端：
+
+1. 建立 Supabase 專案  
+2. 在 SQL Editor 執行 [`supabase/migrations/001_init.sql`](./supabase/migrations/001_init.sql)（說明見 [`supabase/README.md`](./supabase/README.md)）  
+3. 把 URL、anon key、service role key 寫入三個 app 的 `.env.local`  
+4. 重啟 `pnpm dev:*`
+
+啟用後會自動使用：
+
+- Postgres 資料表（長者／義工／管理員／求助／緊急／日誌）
+- Storage bucket `recordings`（錄音）
+- Realtime（義工求助列表、admin 緊急事件自動刷新）
+- 每月排行榜（長者確認完成後才計分）
 
 ## 義工網站（階段 3）
 

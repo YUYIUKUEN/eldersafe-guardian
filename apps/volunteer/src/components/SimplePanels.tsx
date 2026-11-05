@@ -116,7 +116,7 @@ export function LeaderboardPanel() {
       return;
     }
     void Promise.all([
-      fetch("/api/leaderboard").then((response) => response.json()),
+      fetch("/api/leaderboard?scope=month").then((response) => response.json()),
       fetch("/api/me", { headers: authHeaders() }).then((response) =>
         response.json(),
       ),
@@ -129,6 +129,7 @@ export function LeaderboardPanel() {
   return (
     <VolunteerShell volunteerName={name}>
       <h2 className="text-xl font-bold">{t("title")}</h2>
+      <p className="text-sm text-slate-600">{t("monthlyHint")}</p>
       {items.length === 0 ? (
         <p>{t("empty")}</p>
       ) : (

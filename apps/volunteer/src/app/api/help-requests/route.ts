@@ -12,18 +12,13 @@ export async function GET(request: Request) {
   if (!volunteerId) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
-  const volunteer = getVolunteer(volunteerId);
+  const volunteer = await getVolunteer(volunteerId);
   if (!volunteer) {
     return NextResponse.json({ error: "UNAUTHORIZED" }, { status: 401 });
   }
 
   const mine = new URL(request.url).searchParams.get("mine") === "1";
-  const items = listHelpRequests(
-    mine ? { volunteerId } : undefined,
-  ).map((item) => ({
-    ...item,
-    // Do not send huge audio payloads in list unless needed; keep for player.
-  }));
+  const items = await listHelpRequests(mine ? { volunteerId } : undefined);
 
   return NextResponse.json({
     items,

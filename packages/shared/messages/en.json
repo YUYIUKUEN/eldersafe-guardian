@@ -143,7 +143,8 @@
     "rank": "Rank",
     "name": "Name",
     "points": "Points",
-    "empty": "No leaderboard data yet"
+    "empty": "No leaderboard data yet",
+    "monthlyHint": "Shows points earned this month (after elder confirmation)"
   },
   "Admin": {
     "title": "Admin Site",
@@ -218,6 +219,10 @@
     "name": "Name",
     "points": "Points",
     "certificateTitle": "ElderSafe Guardian Volunteer Certificate",
-    "certificateBody": "This certifies that {name} achieved rank {rank} for outstanding volunteer service this month."
+    "certificateBody": "This certifies that {name} achieved rank {rank} for outstanding volunteer service this month.",
+    "scope": "Scope",
+    "month": "Month",
+    "allTime": "All-time",
+    "thisMonth": "This month"
   }
 }

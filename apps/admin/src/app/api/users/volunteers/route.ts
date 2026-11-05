@@ -8,14 +8,16 @@ import {
 import { requireAdmin } from "@/lib/admin-auth";
 
 export async function GET(request: Request) {
-  const result = requireAdmin(request);
+  const result = await requireAdmin(request);
   if ("error" in result && result.error) return result.error;
-  const items = listVolunteers().map(({ passwordHash: _passwordHash, ...rest }) => rest);
+  const items = (await listVolunteers()).map(
+    ({ passwordHash: _passwordHash, ...rest }) => rest,
+  );
   return NextResponse.json({ items });
 }
 
 export async function PATCH(request: Request) {
-  const result = requireAdmin(request);
+  const result = await requireAdmin(request);
   if ("error" in result && result.error) return result.error;
   const admin = (result as { admin: { id: string } }).admin;
   const body = (await request.json()) as {
@@ -28,21 +30,21 @@ export async function PATCH(request: Request) {
   }
   try {
     if (body.action === "approve") {
-      return NextResponse.json({ item: approveVolunteer(body.id, admin.id) });
+      return NextResponse.json({ item: await approveVolunteer(body.id, admin.id) });
     }
     if (body.action === "disable") {
       return NextResponse.json({
-        item: setVolunteerDisabled(body.id, true, admin.id),
+        item: await setVolunteerDisabled(body.id, true, admin.id),
       });
     }
     if (body.action === "enable") {
       return NextResponse.json({
-        item: setVolunteerDisabled(body.id, false, admin.id),
+        item: await setVolunteerDisabled(body.id, false, admin.id),
       });
     }
     if (body.action === "points" && typeof body.points === "number") {
       return NextResponse.json({
-        item: adjustVolunteerPoints(body.id, body.points, admin.id),
+        item: await adjustVolunteerPoints(body.id, body.points, admin.id),
       });
     }
     return NextResponse.json({ error: "INVALID_ACTION" }, { status: 400 });

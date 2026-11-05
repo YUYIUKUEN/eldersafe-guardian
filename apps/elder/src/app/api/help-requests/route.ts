@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   if (!deviceKey) {
     return NextResponse.json({ error: "deviceKey required" }, { status: 400 });
   }
-  return NextResponse.json({ items: listHelpRequests({ deviceKey }) });
+  return NextResponse.json({ items: await listHelpRequests({ deviceKey }) });
 }
 
 export async function POST(request: Request) {
@@ -22,16 +22,18 @@ export async function POST(request: Request) {
     elderPhone: string;
     emergencyContact: string;
     healthNotes?: string;
-    audioDataUrl: string;
+    audioDataUrl?: string;
+    audioPath?: string;
+    audioUrl?: string;
     latitude?: number;
     longitude?: number;
   };
 
-  if (!body.deviceKey || !body.audioDataUrl || !body.elderName) {
+  if (!body.deviceKey || !body.elderName || !(body.audioDataUrl || body.audioUrl)) {
     return NextResponse.json({ error: "invalid body" }, { status: 400 });
   }
 
-  upsertElder({
+  await upsertElder({
     deviceKey: body.deviceKey,
     name: body.elderName,
     age: body.elderAge,
@@ -42,12 +44,14 @@ export async function POST(request: Request) {
     createdAt: new Date().toISOString(),
   });
 
-  const item = createHelpRequestRecord({
+  const item = await createHelpRequestRecord({
     deviceKey: body.deviceKey,
     elderName: body.elderName,
     elderAge: body.elderAge,
     elderAddress: body.elderAddress,
-    audioDataUrl: body.audioDataUrl,
+    audioDataUrl: body.audioUrl ?? body.audioDataUrl,
+    audioPath: body.audioPath,
+    audioUrl: body.audioUrl ?? body.audioDataUrl,
     latitude: body.latitude,
     longitude: body.longitude,
   });

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "INVALID_BODY" }, { status: 400 });
   }
   try {
-    const admin = loginAdmin(body.email, body.password);
+    const admin = await loginAdmin(body.email, body.password);
     const token = createAdminSession(admin.id);
     return NextResponse.json({
       token,

@@ -12,7 +12,7 @@ export async function POST(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "deviceKey required" }, { status: 400 });
   }
   try {
-    const item = confirmHelpRequestByElder(id, body.deviceKey);
+    const item = await confirmHelpRequestByElder(id, body.deviceKey);
     return NextResponse.json({ item });
   } catch (error) {
     return NextResponse.json(
