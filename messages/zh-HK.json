@@ -3,34 +3,23 @@
     "appName": "ElderSafe Guardian",
     "language": "語言",
     "english": "English",
-    "chineseHK": "繁體中文（香港）",
-    "loading": "載入中…",
-    "backHome": "返回主頁"
+    "chineseHK": "繁體中文（香港）"
   },
   "HomePage": {
     "title": "ElderSafe Guardian",
-    "subtitle": "以長者為先的安全網頁應用，三個獨立入口共用同一後端。",
-    "choosePortal": "請選擇入口繼續",
+    "subtitle": "以長者為先的安全網頁應用",
+    "choosePortal": "請選擇入口",
     "elderPortal": "長者 Web App",
-    "elderDescription": "超大按鈕支援緊急求助與陪伴協助，專為手機設計。",
     "volunteerPortal": "義工網站",
-    "volunteerDescription": "註冊登入、接求助單，並透過協助長者賺取積分。",
-    "adminPortal": "管理員網站",
-    "adminDescription": "管理用戶、緊急事件、配對總覽與排行榜。"
+    "adminPortal": "管理員網站"
   },
   "Elder": {
-    "title": "長者 Web App",
-    "comingSoon": "此入口將於階段 2 開始實作。",
-    "hint": "首頁將只有兩個超大按鈕：緊急求助、需要人陪伴／協助。"
+    "title": "長者 Web App"
   },
   "Volunteer": {
-    "title": "義工網站",
-    "comingSoon": "此入口將於階段 3 開始實作。",
-    "hint": "之後可註冊、登入、接單，並查看積分與紀錄。"
+    "title": "義工網站"
   },
   "Admin": {
-    "title": "管理員網站",
-    "comingSoon": "此入口將於階段 4 開始實作。",
-    "hint": "管理員可管理用戶、日誌、緊急事件與證書。"
+    "title": "管理員網站"
   }
 }

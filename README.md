@@ -4,49 +4,32 @@
 
 完整規格見 [`PROJECT_SPEC.md`](./PROJECT_SPEC.md)，開發進度見 [`PROGRESS.md`](./PROGRESS.md)。
 
-## 三個入口
+## 而家有咩
 
-| 路徑 | 對象 |
-|------|------|
-| `/elder` | 長者 Web App（手機優先） |
-| `/volunteer` | 義工網站 |
-| `/admin` | 管理員網站 |
+- Next.js（App Router、TypeScript、Tailwind CSS、ESLint、`src/`）
+- next-intl：預設 `zh-HK`，另支援 `en`；右上角可切換語言
+- 選擇頁 `/`，以及三個空白入口：`/elder`、`/volunteer`、`/admin`
 
-預設語言為 `zh-HK`（路徑無前綴，例如 `/elder`）。英文路徑為 `/en/elder` 等。
-
-## 技術棧
-
-- Next.js（App Router、TypeScript）
-- Tailwind CSS
-- next-intl（en / zh-HK）
-- Supabase（稍後接上 PostgreSQL、Auth、Storage、Realtime）
-- Leaflet + OpenStreetMap（稍後）
-- Vercel 部署（稍後）
+（尚未接資料庫或登入。）
 
 ## 本機啟動
 
-1. 安裝依賴：
+1. 進入專案資料夾，安裝依賴：
 
 ```bash
 npm install
 ```
 
-2. 複製環境變數範本，並填入你自己的值（**不要 commit `.env.local`**）：
-
-```bash
-cp .env.local.example .env.local
-```
-
-3. 啟動開發伺服器（錄音／定位可用 `localhost`）：
+2. 啟動開發伺服器：
 
 ```bash
 npm run dev
 ```
 
-然後打開 [http://localhost:3000](http://localhost:3000)。
+3. 用瀏覽器打開：[http://localhost:3000](http://localhost:3000)
 
-## 重要規則（摘要）
+## 檢查清單
 
-- 所有畫面文字必須放在 `messages/en.json` 與 `messages/zh-HK.json`，不可寫死在頁面。
-- 金鑰只放 `.env.local`，不可 commit。
-- 緊急求助測試模式必須撥 `EMERGENCY_TEST_PHONE`，不得撥 999。
+- 主頁有三個入口連結
+- 右上角可切換「繁體中文（香港）」／「English」
+- `/elder`、`/volunteer`、`/admin` 各自顯示標題（會跟住語言改變）

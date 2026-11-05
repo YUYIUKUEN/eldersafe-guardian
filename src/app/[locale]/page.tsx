@@ -15,19 +15,16 @@ export default async function HomePage({ params }: HomePageProps) {
     {
       href: "/elder" as const,
       title: t("elderPortal"),
-      description: t("elderDescription"),
       accent: "border-danger text-danger",
     },
     {
       href: "/volunteer" as const,
       title: t("volunteerPortal"),
-      description: t("volunteerDescription"),
       accent: "border-assist text-assist",
     },
     {
       href: "/admin" as const,
       title: t("adminPortal"),
-      description: t("adminDescription"),
       accent: "border-brand text-brand",
     },
   ];
@@ -51,12 +48,9 @@ export default async function HomePage({ params }: HomePageProps) {
           <Link
             key={portal.href}
             href={portal.href}
-            className={`rounded-2xl border-2 bg-white/80 p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${portal.accent}`}
+            className={`rounded-2xl border-2 bg-white/80 p-6 text-2xl font-semibold shadow-sm transition hover:-translate-y-0.5 hover:shadow-md ${portal.accent}`}
           >
-            <h2 className="text-2xl font-semibold">{portal.title}</h2>
-            <p className="mt-3 text-base leading-relaxed text-slate-700">
-              {portal.description}
-            </p>
+            {portal.title}
           </Link>
         ))}
       </section>
