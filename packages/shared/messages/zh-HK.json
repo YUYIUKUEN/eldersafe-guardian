@@ -186,7 +186,11 @@
     "empty": "暫時未有日誌",
     "time": "時間",
     "actor": "角色",
-    "action": "動作"
+    "action": "動作",
+    "actorElder": "長者",
+    "actorVolunteer": "義工",
+    "actorAdmin": "管理員",
+    "actorSystem": "系統"
   },
   "AdminPairings": {
     "title": "配對總覽",

@@ -86,7 +86,7 @@ export function ElderApp() {
         {t("myRequests")}
       </button>
 
-      <p className="text-center text-[18px] leading-relaxed text-slate-600">
+      <p className="text-center text-[20px] leading-relaxed text-slate-600">
         {t("addToHomeHint")}
       </p>
     </section>

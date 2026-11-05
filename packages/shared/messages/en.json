@@ -186,7 +186,11 @@
     "empty": "No logs yet",
     "time": "Time",
     "actor": "Role",
-    "action": "Action"
+    "action": "Action",
+    "actorElder": "Elder",
+    "actorVolunteer": "Volunteer",
+    "actorAdmin": "Admin",
+    "actorSystem": "System"
   },
   "AdminPairings": {
     "title": "Pairing overview",

@@ -17,6 +17,7 @@ type SharedItem = {
   id: string;
   status: "pending" | "accepted" | "completed";
   audioDataUrl?: string;
+  audioUrl?: string;
   createdAt: string;
   elderConfirmedAt?: string;
 };
@@ -86,13 +87,15 @@ export function HelpRequestList({ profile, onBack }: HelpRequestListProps) {
               <p className="mt-2 text-[20px] text-slate-700">
                 {t("createdAt")}: {new Date(request.createdAt).toLocaleString()}
               </p>
-              {"audioDataUrl" in request && request.audioDataUrl ? (
-                <audio
-                  className="mt-3 w-full"
-                  controls
-                  src={request.audioDataUrl}
-                />
-              ) : null}
+              {(() => {
+                const src =
+                  ("audioUrl" in request && request.audioUrl) ||
+                  ("audioDataUrl" in request && request.audioDataUrl) ||
+                  undefined;
+                return src ? (
+                  <audio className="mt-3 w-full" controls src={src} />
+                ) : null;
+              })()}
               {request.status === "completed" && !request.elderConfirmedAt ? (
                 <button
                   type="button"

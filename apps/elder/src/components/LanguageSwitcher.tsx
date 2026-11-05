@@ -12,10 +12,10 @@ export function LanguageSwitcher() {
   const pathname = usePathname();
 
   return (
-    <label className="flex items-center gap-2 text-sm text-slate-700">
+    <label className="flex items-center gap-2 text-[20px] text-slate-700">
       <span className="font-medium">{t("language")}</span>
       <select
-        className="rounded border border-slate-300 bg-white px-2 py-1"
+        className="min-h-12 rounded-xl border-2 border-slate-300 bg-white px-3 py-2 text-[20px]"
         value={locale}
         onChange={(event) =>
           router.replace(pathname, { locale: event.target.value as AppLocale })

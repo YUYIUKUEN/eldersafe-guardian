@@ -222,10 +222,10 @@ export function LogsPanel() {
             onChange={(event) => setActorType(event.target.value)}
           >
             <option value="">{t("all")}</option>
-            <option value="elder">elder</option>
-            <option value="volunteer">volunteer</option>
-            <option value="admin">admin</option>
-            <option value="system">system</option>
+            <option value="elder">{t("actorElder")}</option>
+            <option value="volunteer">{t("actorVolunteer")}</option>
+            <option value="admin">{t("actorAdmin")}</option>
+            <option value="system">{t("actorSystem")}</option>
           </select>
         </label>
         <label className="text-sm">

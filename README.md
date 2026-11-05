@@ -4,6 +4,7 @@
 
 - 規格：[`PROJECT_SPEC.md`](./PROJECT_SPEC.md)
 - 進度：[`PROGRESS.md`](./PROGRESS.md)
+- 示範流程：[`DEMO.md`](./DEMO.md)
 
 ## 專案結構（pnpm monorepo）
 
