@@ -3,7 +3,7 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 0（專案規格與文件）進行中**
+**目前進度：階段 1（Monorepo 骨架與共用套件）已完成骨架；可進入階段 2**
 
 ---
 
@@ -11,19 +11,19 @@
 
 - [x] 建立 `PROJECT_SPEC.md`（完整產品規格：三獨立網站 monorepo）
 - [x] 建立 `PROGRESS.md`（階段 0 至階段 6 進度清單）
-- [ ] 確認技術棧與環境需求（Node.js、pnpm、Supabase、Vercel）
-- [ ] 準備各 app 的 `.env.local.example`（不含真實金鑰）
+- [x] 確認技術棧與環境需求（Node.js、pnpm、Supabase、Vercel）
+- [x] 準備各 app 的 `.env.local.example`（不含真實金鑰）
 
 ---
 
 ## 階段 1：Monorepo 骨架與共用套件
 
-- [ ] 初始化 pnpm workspace monorepo
-- [ ] 建立三個獨立 Next.js 專案：`apps/elder`、`apps/volunteer`、`apps/admin`（App Router、TypeScript、Tailwind CSS）
-- [ ] 建立 `packages/shared`（資料庫型別、Supabase 連線、積分規則、語言檔、日誌工具骨架）
-- [ ] 設定 next-intl（en / zh-HK）於 shared／各 app
-- [ ] 確認三個 app 可分別於 localhost 啟動
-- [ ] 金鑰只放各 app 的 `.env.local`，不可 commit
+- [x] 初始化 pnpm workspace monorepo
+- [x] 建立三個獨立 Next.js 專案：`apps/elder`、`apps/volunteer`、`apps/admin`（App Router、TypeScript、Tailwind CSS）
+- [x] 建立 `packages/shared`（資料庫型別、Supabase 連線、積分規則、語言檔、日誌工具骨架）
+- [x] 設定 next-intl（en / zh-HK）於 shared／各 app
+- [x] 確認三個 app 可分別 build（本機 ports：3000 / 3001 / 3002）
+- [x] 金鑰只放各 app 的 `.env.local`，不可 commit（已設定 `.gitignore` + `.env.local.example`）
 
 ---
 
@@ -103,8 +103,8 @@
 
 | 階段 | 名稱 | 狀態 |
 |------|------|------|
-| 0 | 專案規格與文件起步 | 進行中 |
-| 1 | Monorepo 骨架與共用套件 | 未開始 |
+| 0 | 專案規格與文件起步 | 已完成 |
+| 1 | Monorepo 骨架與共用套件 | 已完成 |
 | 2 | 長者 Web App（`apps/elder`） | 未開始 |
 | 3 | 義工網站（`apps/volunteer`） | 未開始 |
 | 4 | 管理員網站（`apps/admin`） | 未開始 |

@@ -1,0 +1,20 @@
+{
+  "Common": {
+    "appName": "ElderSafe Guardian",
+    "language": "Language",
+    "english": "English",
+    "chineseHK": "Traditional Chinese (Hong Kong)"
+  },
+  "Elder": {
+    "title": "Elder Web App",
+    "subtitle": "Elder-first safety interface (phone only)"
+  },
+  "Volunteer": {
+    "title": "Volunteer Site",
+    "subtitle": "Take requests, view locations, and earn points"
+  },
+  "Admin": {
+    "title": "Admin Site",
+    "subtitle": "Manage users, emergencies, and leaderboards"
+  }
+}

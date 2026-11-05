@@ -1,0 +1,20 @@
+{
+  "Common": {
+    "appName": "ElderSafe Guardian",
+    "language": "語言",
+    "english": "English",
+    "chineseHK": "繁體中文（香港）"
+  },
+  "Elder": {
+    "title": "長者 Web App",
+    "subtitle": "以長者為先的安全介面（手機專用）"
+  },
+  "Volunteer": {
+    "title": "義工網站",
+    "subtitle": "接求助單、查看位置與積分"
+  },
+  "Admin": {
+    "title": "管理員網站",
+    "subtitle": "用戶、緊急事件與排行榜管理"
+  }
+}
