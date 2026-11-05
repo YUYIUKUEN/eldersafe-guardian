@@ -79,3 +79,17 @@ pnpm dev:volunteer   # http://localhost:3001
 3. 若未批核，按「（示範）模擬管理員批核」（`DEMO_MODE=true`）  
 4. 接單 → 查看地圖 → 標記完成  
 5. 回到長者 App 按「確認完成」→ 義工積分 +10  
+
+## 管理員網站（階段 4）
+
+```bash
+cp apps/admin/.env.local.example apps/admin/.env.local
+pnpm dev:admin   # http://localhost:3002
+```
+
+本機預設管理員：
+
+- 電郵：`admin@eldersafe.local`
+- 密碼：`admin123`
+
+功能：用戶管理（審批／停用）、日誌篩選、配對總覽、活躍度、緊急事件地圖、排行榜、下載 Top 3 PDF 證書。

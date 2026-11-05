@@ -147,6 +147,77 @@
   },
   "Admin": {
     "title": "Admin Site",
-    "subtitle": "Manage users, emergencies, and leaderboards"
+    "subtitle": "Manage users, emergencies, and leaderboards",
+    "navUsers": "Users",
+    "navLogs": "Logs",
+    "navPairings": "Pairings",
+    "navActivity": "Activity",
+    "navEmergencies": "Emergencies",
+    "navLeaderboard": "Leaderboard / Certificates",
+    "loginTitle": "Admin login",
+    "email": "Email",
+    "password": "Password",
+    "login": "Log in",
+    "invalid": "Incorrect email or password",
+    "defaultHint": "Local default: admin@eldersafe.local / admin123"
+  },
+  "AdminUsers": {
+    "title": "User management",
+    "elders": "Elders",
+    "volunteers": "Volunteers",
+    "approve": "Approve",
+    "disable": "Disable",
+    "enable": "Enable",
+    "approved": "Approved",
+    "pending": "Pending",
+    "disabled": "Disabled",
+    "points": "Points",
+    "savePoints": "Save points",
+    "emptyElders": "No elders yet",
+    "emptyVolunteers": "No volunteers yet"
+  },
+  "AdminLogs": {
+    "title": "Logs",
+    "filterActor": "Filter by role",
+    "filterAction": "Action keyword",
+    "all": "All",
+    "apply": "Apply filters",
+    "empty": "No logs yet",
+    "time": "Time",
+    "actor": "Role",
+    "action": "Action"
+  },
+  "AdminPairings": {
+    "title": "Pairing overview",
+    "empty": "No help requests yet",
+    "volunteer": "Volunteer",
+    "unassigned": "Unassigned"
+  },
+  "AdminActivity": {
+    "title": "Activity lists",
+    "elders": "Elder activity",
+    "volunteers": "Volunteer activity",
+    "requests": "Help requests",
+    "emergencies": "Emergencies",
+    "accepted": "Accepted",
+    "completed": "Completed"
+  },
+  "AdminEmergencies": {
+    "title": "Emergencies",
+    "empty": "No emergencies yet",
+    "map": "Live map",
+    "noLocation": "No location",
+    "createdAt": "Created at",
+    "updatedAt": "Location updated"
+  },
+  "AdminLeaderboard": {
+    "title": "Leaderboard management",
+    "downloadTop3": "Download Top 3 certificates (PDF)",
+    "empty": "Not enough volunteers for Top 3",
+    "rank": "Rank",
+    "name": "Name",
+    "points": "Points",
+    "certificateTitle": "ElderSafe Guardian Volunteer Certificate",
+    "certificateBody": "This certifies that {name} achieved rank {rank} for outstanding volunteer service this month."
   }
 }

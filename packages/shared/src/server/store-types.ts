@@ -8,6 +8,7 @@ export type SharedElder = {
   address: string;
   emergencyContact: string;
   healthNotes?: string;
+  disabled?: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -24,6 +25,14 @@ export type SharedVolunteer = {
   approved: boolean;
   disabled: boolean;
   points: number;
+  createdAt: string;
+};
+
+export type SharedAdmin = {
+  id: string;
+  name: string;
+  email: string;
+  passwordHash: string;
   createdAt: string;
 };
 
@@ -55,9 +64,20 @@ export type SharedEmergency = {
   notifiedAdmin: boolean;
 };
 
+export type SharedActivityLog = {
+  id: string;
+  actorType: "elder" | "volunteer" | "admin" | "system";
+  actorId?: string;
+  action: string;
+  metadata?: Record<string, unknown>;
+  createdAt: string;
+};
+
 export type SharedStoreData = {
   elders: SharedElder[];
   volunteers: SharedVolunteer[];
+  admins: SharedAdmin[];
   helpRequests: SharedHelpRequest[];
   emergencies: SharedEmergency[];
+  logs: SharedActivityLog[];
 };

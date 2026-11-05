@@ -147,6 +147,77 @@
   },
   "Admin": {
     "title": "管理員網站",
-    "subtitle": "用戶、緊急事件與排行榜管理"
+    "subtitle": "用戶、緊急事件與排行榜管理",
+    "navUsers": "用戶管理",
+    "navLogs": "日誌",
+    "navPairings": "配對總覽",
+    "navActivity": "活躍度",
+    "navEmergencies": "緊急事件",
+    "navLeaderboard": "排行榜／證書",
+    "loginTitle": "管理員登入",
+    "email": "電郵",
+    "password": "密碼",
+    "login": "登入",
+    "invalid": "電郵或密碼不正確",
+    "defaultHint": "本機預設帳號：admin@eldersafe.local / admin123"
+  },
+  "AdminUsers": {
+    "title": "用戶管理",
+    "elders": "長者",
+    "volunteers": "義工",
+    "approve": "審批",
+    "disable": "停用",
+    "enable": "啟用",
+    "approved": "已批核",
+    "pending": "待批核",
+    "disabled": "已停用",
+    "points": "積分",
+    "savePoints": "儲存積分",
+    "emptyElders": "暫時未有長者資料",
+    "emptyVolunteers": "暫時未有義工資料"
+  },
+  "AdminLogs": {
+    "title": "日誌",
+    "filterActor": "角色篩選",
+    "filterAction": "動作關鍵字",
+    "all": "全部",
+    "apply": "套用篩選",
+    "empty": "暫時未有日誌",
+    "time": "時間",
+    "actor": "角色",
+    "action": "動作"
+  },
+  "AdminPairings": {
+    "title": "配對總覽",
+    "empty": "暫時未有求助單",
+    "volunteer": "義工",
+    "unassigned": "未接單"
+  },
+  "AdminActivity": {
+    "title": "活躍度列表",
+    "elders": "長者活躍度",
+    "volunteers": "義工活躍度",
+    "requests": "求助單數",
+    "emergencies": "緊急事件數",
+    "accepted": "接單數",
+    "completed": "完成數"
+  },
+  "AdminEmergencies": {
+    "title": "緊急事件",
+    "empty": "暫時未有緊急事件",
+    "map": "即時地圖",
+    "noLocation": "未有位置",
+    "createdAt": "建立時間",
+    "updatedAt": "位置更新"
+  },
+  "AdminLeaderboard": {
+    "title": "排行榜管理",
+    "downloadTop3": "下載 Top 3 證書（PDF）",
+    "empty": "未有足夠義工產生 Top 3",
+    "rank": "名次",
+    "name": "姓名",
+    "points": "積分",
+    "certificateTitle": "ElderSafe Guardian 義工嘉許證書",
+    "certificateBody": "謹此嘉許 {name} 於本月義工服務表現出色，榮獲第 {rank} 名。"
   }
 }

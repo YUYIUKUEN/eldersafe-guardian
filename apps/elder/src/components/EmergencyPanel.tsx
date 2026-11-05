@@ -78,6 +78,31 @@ export function EmergencyPanel({ profile, onClose }: EmergencyPanelProps) {
       longitude,
     });
     setEvent(created);
+
+    try {
+      await fetch("/api/emergencies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          deviceKey: profile.deviceKey,
+          elderName: profile.name,
+          elderAge: profile.age,
+          elderPhone: profile.phone,
+          elderAddress: profile.address,
+          emergencyContact: profile.emergencyContact,
+          healthNotes: profile.healthNotes,
+          latitude,
+          longitude,
+          policeShareToken: created.policeShareToken,
+        }),
+      });
+    } catch (error) {
+      log.error("failed to sync emergency", {
+        actorType: "elder",
+        metadata: { error: String(error) },
+      });
+    }
+
     log.info("emergency created", {
       actorType: "elder",
       actorId: profile.deviceKey,
@@ -99,6 +124,14 @@ export function EmergencyPanel({ profile, onClose }: EmergencyPanelProps) {
         point.latitude,
         point.longitude,
       );
+      void fetch(`/api/emergencies/${created.policeShareToken}/location`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          latitude: point.latitude,
+          longitude: point.longitude,
+        }),
+      });
     });
     watchIdRef.current = watchId;
   }
