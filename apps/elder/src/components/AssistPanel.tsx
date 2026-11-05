@@ -113,16 +113,44 @@ export function AssistPanel({ profile, onClose, onSent }: AssistPanelProps) {
       }
 
       const audioDataUrl = await blobToDataUrl(audioBlob);
-      const request = createHelpRequest({
+
+      // Keep a local copy for same-browser elder UI.
+      const local = createHelpRequest({
         deviceKey: profile.deviceKey,
         audioDataUrl,
         latitude,
         longitude,
       });
+
+      // Sync to shared local file-store so volunteer site can see it.
+      const response = await fetch("/api/help-requests", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          deviceKey: profile.deviceKey,
+          elderName: profile.name,
+          elderAge: profile.age,
+          elderAddress: profile.address,
+          elderPhone: profile.phone,
+          emergencyContact: profile.emergencyContact,
+          healthNotes: profile.healthNotes,
+          audioDataUrl,
+          latitude,
+          longitude,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("sync failed");
+      }
+      const data = await response.json();
+
       log.info("help request created", {
         actorType: "elder",
         actorId: profile.deviceKey,
-        metadata: { requestId: request.id },
+        metadata: {
+          localId: local.id,
+          sharedId: data.item?.id,
+        },
       });
       setStatus(t("sent"));
       onSent();

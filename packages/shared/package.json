@@ -5,6 +5,8 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./server": "./src/server/file-store.ts",
+    "./server-types": "./src/server/store-types.ts",
     "./messages/en.json": "./messages/en.json",
     "./messages/zh-HK.json": "./messages/zh-HK.json"
   },

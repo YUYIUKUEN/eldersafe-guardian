@@ -63,4 +63,19 @@ cp apps/admin/.env.local.example apps/admin/.env.local
 4. 查看求助單狀態；完成後可「確認完成」
 5. PWA manifest，可加入手機主畫面
 
-注意：而家資料暫存瀏覽器本機，跨裝置警方連結／真正後端會在階段 5 接 Supabase。
+注意：而家資料暫存瀏覽器本機 + 專案根目錄 `.data/store.json`（本機開發共用），真正雲端後端會在階段 5 接 Supabase。
+
+## 義工網站（階段 3）
+
+```bash
+cp apps/volunteer/.env.local.example apps/volunteer/.env.local
+pnpm dev:volunteer   # http://localhost:3001
+```
+
+示範流程：
+
+1. 長者 App（3000）送出錄音求助  
+2. 義工註冊／登入（3001）  
+3. 若未批核，按「（示範）模擬管理員批核」（`DEMO_MODE=true`）  
+4. 接單 → 查看地圖 → 標記完成  
+5. 回到長者 App 按「確認完成」→ 義工積分 +10  

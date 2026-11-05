@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Noto_Sans_HK } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
@@ -56,10 +57,12 @@ export default async function LocaleLayout({
             <p className="text-lg font-bold tracking-tight text-brand">
               {t("appName")}
             </p>
-            <LanguageSwitcher />
+            <Suspense fallback={null}>
+              <LanguageSwitcher />
+            </Suspense>
           </header>
           <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col px-4 pb-10 sm:px-6">
-            {children}
+            <Suspense fallback={null}>{children}</Suspense>
           </main>
         </NextIntlClientProvider>
       </body>

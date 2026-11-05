@@ -11,6 +11,9 @@ out
 .env.*
 !.env*.example
 
+# local shared demo database
+.data
+
 # misc
 .DS_Store
 *.pem

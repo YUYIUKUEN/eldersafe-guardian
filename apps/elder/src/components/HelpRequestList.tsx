@@ -1,11 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
-  confirmHelpRequestComplete,
   listHelpRequests,
-  markHelpRequestCompletedForDemo,
   type StoredElderProfile,
   type StoredHelpRequest,
 } from "@eldersafe/shared";
@@ -15,11 +13,41 @@ type HelpRequestListProps = {
   onBack: () => void;
 };
 
+type SharedItem = {
+  id: string;
+  status: "pending" | "accepted" | "completed";
+  audioDataUrl?: string;
+  createdAt: string;
+  elderConfirmedAt?: string;
+};
+
 export function HelpRequestList({ profile, onBack }: HelpRequestListProps) {
   const t = useTranslations("ElderRequests");
-  const [requests, setRequests] = useState<StoredHelpRequest[]>(() =>
-    listHelpRequests(profile.deviceKey),
+  const [requests, setRequests] = useState<Array<StoredHelpRequest | SharedItem>>(
+    [],
   );
+
+  async function refresh() {
+    try {
+      const response = await fetch(
+        `/api/help-requests?deviceKey=${encodeURIComponent(profile.deviceKey)}`,
+      );
+      if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data.items) && data.items.length > 0) {
+          setRequests(data.items);
+          return;
+        }
+      }
+    } catch {
+      // Fall back to local storage below.
+    }
+    setRequests(listHelpRequests(profile.deviceKey));
+  }
+
+  useEffect(() => {
+    void refresh();
+  }, [profile.deviceKey]);
 
   const statusLabel = useMemo(
     () => ({
@@ -30,18 +58,13 @@ export function HelpRequestList({ profile, onBack }: HelpRequestListProps) {
     [t],
   );
 
-  function refresh() {
-    setRequests(listHelpRequests(profile.deviceKey));
-  }
-
-  function confirm(requestId: string) {
-    confirmHelpRequestComplete(requestId, profile.deviceKey);
-    refresh();
-  }
-
-  function demoComplete(requestId: string) {
-    markHelpRequestCompletedForDemo(requestId, profile.deviceKey);
-    refresh();
+  async function confirm(requestId: string) {
+    await fetch(`/api/help-requests/${requestId}/confirm`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ deviceKey: profile.deviceKey }),
+    });
+    await refresh();
   }
 
   return (
@@ -63,14 +86,18 @@ export function HelpRequestList({ profile, onBack }: HelpRequestListProps) {
               <p className="mt-2 text-[20px] text-slate-700">
                 {t("createdAt")}: {new Date(request.createdAt).toLocaleString()}
               </p>
-              {request.audioDataUrl ? (
-                <audio className="mt-3 w-full" controls src={request.audioDataUrl} />
+              {"audioDataUrl" in request && request.audioDataUrl ? (
+                <audio
+                  className="mt-3 w-full"
+                  controls
+                  src={request.audioDataUrl}
+                />
               ) : null}
               {request.status === "completed" && !request.elderConfirmedAt ? (
                 <button
                   type="button"
                   className="mt-4 min-h-14 w-full rounded-xl bg-brand text-[20px] font-bold text-white"
-                  onClick={() => confirm(request.id)}
+                  onClick={() => void confirm(request.id)}
                 >
                   {t("confirmComplete")}
                 </button>
@@ -79,15 +106,6 @@ export function HelpRequestList({ profile, onBack }: HelpRequestListProps) {
                 <p className="mt-3 text-[20px] font-semibold text-brand">
                   {t("confirmed")}
                 </p>
-              ) : null}
-              {request.status === "pending" ? (
-                <button
-                  type="button"
-                  className="mt-3 min-h-12 w-full rounded-xl border-2 border-dashed border-slate-400 text-[18px] text-slate-600"
-                  onClick={() => demoComplete(request.id)}
-                >
-                  {t("demoMarkCompleted")}
-                </button>
               ) : null}
             </li>
           ))}

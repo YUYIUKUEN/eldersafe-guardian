@@ -7,7 +7,9 @@
     "cancel": "取消",
     "save": "儲存",
     "loading": "請稍候…",
-    "error": "出現問題，請再試一次"
+    "error": "出現問題，請再試一次",
+    "logout": "登出",
+    "back": "返回"
   },
   "Elder": {
     "title": "長者 Web App",
@@ -81,7 +83,67 @@
   },
   "Volunteer": {
     "title": "義工網站",
-    "subtitle": "接求助單、查看位置與積分"
+    "subtitle": "接求助單、查看位置與積分",
+    "navRequests": "求助列表",
+    "navPoints": "我的積分",
+    "navRecords": "我的紀錄",
+    "navLeaderboard": "排行榜",
+    "pendingApproval": "帳號待管理員審批，暫時未能接單。",
+    "demoApprove": "（示範）模擬管理員批核"
+  },
+  "VolunteerAuth": {
+    "loginTitle": "義工登入",
+    "registerTitle": "義工註冊",
+    "email": "電郵",
+    "password": "密碼",
+    "name": "姓名",
+    "phone": "電話",
+    "age": "年齡",
+    "serviceAreas": "可服務地區（用逗號分隔）",
+    "bio": "簡介",
+    "login": "登入",
+    "register": "註冊",
+    "noAccount": "未有帳號？註冊",
+    "hasAccount": "已有帳號？登入",
+    "invalid": "電郵或密碼不正確",
+    "emailExists": "此電郵已註冊",
+    "required": "請填寫所有欄位"
+  },
+  "VolunteerRequests": {
+    "title": "求助列表",
+    "empty": "暫時未有求助單",
+    "elderName": "長者姓名",
+    "elderAge": "年齡",
+    "address": "住址",
+    "location": "即時位置",
+    "audio": "錄音",
+    "status": "狀態",
+    "createdAt": "建立時間",
+    "statusPending": "待接單",
+    "statusAccepted": "已接單",
+    "statusCompleted": "完成",
+    "accept": "接單",
+    "viewMap": "查看地圖",
+    "markComplete": "標記完成",
+    "openDetail": "查看詳情",
+    "noLocation": "未有位置",
+    "notAllowed": "未獲批核，未能接單"
+  },
+  "VolunteerPoints": {
+    "title": "我的積分",
+    "points": "目前積分：{points}",
+    "hint": "長者確認完成後，才會獲得積分。"
+  },
+  "VolunteerRecords": {
+    "title": "我的紀錄",
+    "empty": "暫時未有接單紀錄"
+  },
+  "VolunteerLeaderboard": {
+    "title": "排行榜",
+    "rank": "名次",
+    "name": "姓名",
+    "points": "積分",
+    "empty": "暫時未有排行資料"
   },
   "Admin": {
     "title": "管理員網站",

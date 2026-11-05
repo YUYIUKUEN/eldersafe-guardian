@@ -7,7 +7,9 @@
     "cancel": "Cancel",
     "save": "Save",
     "loading": "Please wait…",
-    "error": "Something went wrong. Please try again."
+    "error": "Something went wrong. Please try again.",
+    "logout": "Log out",
+    "back": "Back"
   },
   "Elder": {
     "title": "Elder Web App",
@@ -81,7 +83,67 @@
   },
   "Volunteer": {
     "title": "Volunteer Site",
-    "subtitle": "Take requests, view locations, and earn points"
+    "subtitle": "Take requests, view locations, and earn points",
+    "navRequests": "Help requests",
+    "navPoints": "My points",
+    "navRecords": "My records",
+    "navLeaderboard": "Leaderboard",
+    "pendingApproval": "Waiting for admin approval. You cannot take requests yet.",
+    "demoApprove": "(Demo) Simulate admin approval"
+  },
+  "VolunteerAuth": {
+    "loginTitle": "Volunteer login",
+    "registerTitle": "Volunteer register",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "phone": "Phone",
+    "age": "Age",
+    "serviceAreas": "Service areas (comma separated)",
+    "bio": "Bio",
+    "login": "Log in",
+    "register": "Register",
+    "noAccount": "No account? Register",
+    "hasAccount": "Already registered? Log in",
+    "invalid": "Incorrect email or password",
+    "emailExists": "Email already registered",
+    "required": "Please fill in all fields"
+  },
+  "VolunteerRequests": {
+    "title": "Help requests",
+    "empty": "No help requests yet",
+    "elderName": "Elder name",
+    "elderAge": "Age",
+    "address": "Address",
+    "location": "Live location",
+    "audio": "Recording",
+    "status": "Status",
+    "createdAt": "Created at",
+    "statusPending": "Pending",
+    "statusAccepted": "Accepted",
+    "statusCompleted": "Completed",
+    "accept": "Accept",
+    "viewMap": "View map",
+    "markComplete": "Mark complete",
+    "openDetail": "Open details",
+    "noLocation": "No location",
+    "notAllowed": "Not approved to take requests"
+  },
+  "VolunteerPoints": {
+    "title": "My points",
+    "points": "Current points: {points}",
+    "hint": "Points are awarded only after the elder confirms completion."
+  },
+  "VolunteerRecords": {
+    "title": "My records",
+    "empty": "No accepted requests yet"
+  },
+  "VolunteerLeaderboard": {
+    "title": "Leaderboard",
+    "rank": "Rank",
+    "name": "Name",
+    "points": "Points",
+    "empty": "No leaderboard data yet"
   },
   "Admin": {
     "title": "Admin Site",

@@ -4,12 +4,14 @@
   --background: #f3f7f4;
   --foreground: #13261c;
   --brand: #1f6b4a;
+  --assist: #1565c0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-brand: var(--brand);
+  --color-assist: var(--assist);
   --font-sans: var(--font-noto-sans-hk);
 }
 
