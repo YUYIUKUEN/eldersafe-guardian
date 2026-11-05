@@ -1,0 +1,19 @@
+{
+  "name": "eldersafe-guardian",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.33.4",
+  "scripts": {
+    "dev:elder": "pnpm --filter @eldersafe/elder dev",
+    "dev:volunteer": "pnpm --filter @eldersafe/volunteer dev",
+    "dev:admin": "pnpm --filter @eldersafe/admin dev",
+    "build": "pnpm -r --filter \"./apps/*\" build",
+    "build:elder": "pnpm --filter @eldersafe/elder build",
+    "build:volunteer": "pnpm --filter @eldersafe/volunteer build",
+    "build:admin": "pnpm --filter @eldersafe/admin build",
+    "lint": "pnpm -r --filter \"./apps/*\" lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
