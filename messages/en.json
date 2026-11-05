@@ -1,0 +1,36 @@
+{
+  "Common": {
+    "appName": "ElderSafe Guardian",
+    "language": "Language",
+    "english": "English",
+    "chineseHK": "Traditional Chinese (Hong Kong)",
+    "loading": "Loading…",
+    "backHome": "Back to home"
+  },
+  "HomePage": {
+    "title": "ElderSafe Guardian",
+    "subtitle": "An elder-first safety web app with three portals sharing one backend.",
+    "choosePortal": "Choose a portal to continue",
+    "elderPortal": "Elder Web App",
+    "elderDescription": "Large buttons for emergency help and companion requests. Designed for phones.",
+    "volunteerPortal": "Volunteer Site",
+    "volunteerDescription": "Register, take requests, and earn points for helping elders.",
+    "adminPortal": "Admin Site",
+    "adminDescription": "Manage users, emergencies, pairings, and leaderboards."
+  },
+  "Elder": {
+    "title": "Elder Web App",
+    "comingSoon": "This portal is being built in Stage 2.",
+    "hint": "Home will show two large buttons: Emergency Help and Need Companion / Assistance."
+  },
+  "Volunteer": {
+    "title": "Volunteer Site",
+    "comingSoon": "This portal is being built in Stage 3.",
+    "hint": "You will be able to register, sign in, take requests, and view points."
+  },
+  "Admin": {
+    "title": "Admin Site",
+    "comingSoon": "This portal is being built in Stage 4.",
+    "hint": "Admins will manage users, logs, emergencies, and certificates."
+  }
+}

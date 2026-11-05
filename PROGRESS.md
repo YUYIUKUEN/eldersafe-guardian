@@ -3,7 +3,7 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 0（專案規格與文件）進行中**
+**目前進度：階段 1（專案骨架與基礎設施）進行中**
 
 ---
 
@@ -11,21 +11,21 @@
 
 - [x] 建立 `PROJECT_SPEC.md`（完整產品規格）
 - [x] 建立 `PROGRESS.md`（階段進度清單）
-- [ ] 確認技術棧與環境需求（Node.js、Supabase、Vercel）
-- [ ] 準備 `.env.local.example`（列出需要的環境變數，不含真實金鑰）
+- [x] 確認技術棧與環境需求（Node.js、Supabase、Vercel）
+- [x] 準備 `.env.local.example`（列出需要的環境變數，不含真實金鑰）
 
 ---
 
 ## 階段 1：專案骨架與基礎設施
 
-- [ ] 初始化 Next.js（App Router + TypeScript）專案
-- [ ] 設定 Tailwind CSS
-- [ ] 設定 next-intl（en / zh-HK 語言檔結構）
-- [ ] 接上 Supabase（PostgreSQL、Auth、Storage、Realtime）
+- [x] 初始化 Next.js（App Router + TypeScript）專案
+- [x] 設定 Tailwind CSS
+- [x] 設定 next-intl（en / zh-HK 語言檔結構）
+- [ ] 接上 Supabase（PostgreSQL、Auth、Storage、Realtime）— 客戶端 helper 已備好，待建立專案與 schema
 - [ ] 設計並建立資料庫 schema（長者、義工、管理員、求助單、緊急事件、積分、日誌等）
-- [ ] 建立三個路由入口骨架：`/elder`、`/volunteer`、`/admin`
-- [ ] 設定 `.env.local`（本機用；不可 commit）
-- [ ] 確認 localhost 可運行
+- [x] 建立三個路由入口骨架：`/elder`、`/volunteer`、`/admin`
+- [x] 設定 `.env.local.example`（本機用 `.env.local` 不可 commit）
+- [x] 確認 localhost 可運行（`npm run build`、`npm run lint`、`npm run dev` 已驗證）
 
 ---
 
@@ -102,8 +102,8 @@
 
 | 階段 | 名稱 | 狀態 |
 |------|------|------|
-| 0 | 專案規格與文件起步 | 進行中 |
-| 1 | 專案骨架與基礎設施 | 未開始 |
+| 0 | 專案規格與文件起步 | 已完成 |
+| 1 | 專案骨架與基礎設施 | 進行中 |
 | 2 | 長者 Web App | 未開始 |
 | 3 | 義工網站 | 未開始 |
 | 4 | 管理員網站 | 未開始 |
