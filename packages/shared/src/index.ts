@@ -14,3 +14,21 @@ export {
   calculateAwardPoints,
 } from "./points/rules";
 export { createLogger, type LogEntry, type LogLevel } from "./logger/index";
+export { createId } from "./elder/id";
+export type {
+  StoredElderProfile,
+  StoredHelpRequest,
+  StoredEmergencyEvent,
+} from "./elder/storage-types";
+export {
+  getOrCreateDeviceKey,
+  getElderProfile,
+  saveElderProfile,
+  listHelpRequests,
+  createHelpRequest,
+  confirmHelpRequestComplete,
+  markHelpRequestCompletedForDemo,
+  createEmergencyEvent,
+  updateEmergencyLocation,
+  getEmergencyByToken,
+} from "./elder/local-store";

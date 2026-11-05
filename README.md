@@ -52,3 +52,15 @@ cp apps/admin/.env.local.example apps/admin/.env.local
 ## 語言
 
 預設 `zh-HK`，另支援 `en`。文案放在 `packages/shared/messages/`，頁面右上角可切換語言。
+
+## 長者 App 現況（階段 2）
+
+`apps/elder` 已可用本機儲存示範完整流程：
+
+1. 首次填寫基本資料（裝置密鑰識別，不用登入）
+2. 紅色「緊急求助」：5 秒倒數／取消；測試模式撥 `NEXT_PUBLIC_EMERGENCY_TEST_PHONE`（不得撥 999）
+3. 藍色「需要人陪伴／協助」：錄音後送出求助單（附位置）
+4. 查看求助單狀態；完成後可「確認完成」
+5. PWA manifest，可加入手機主畫面
+
+注意：而家資料暫存瀏覽器本機，跨裝置警方連結／真正後端會在階段 5 接 Supabase。

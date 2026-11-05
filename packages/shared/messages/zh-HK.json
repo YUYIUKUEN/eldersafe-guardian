@@ -3,11 +3,81 @@
     "appName": "ElderSafe Guardian",
     "language": "語言",
     "english": "English",
-    "chineseHK": "繁體中文（香港）"
+    "chineseHK": "繁體中文（香港）",
+    "cancel": "取消",
+    "save": "儲存",
+    "loading": "請稍候…",
+    "error": "出現問題，請再試一次"
   },
   "Elder": {
     "title": "長者 Web App",
-    "subtitle": "以長者為先的安全介面（手機專用）"
+    "subtitle": "以長者為先的安全介面（手機專用）",
+    "homeEmergency": "緊急求助",
+    "homeAssist": "需要人陪伴／協助",
+    "myRequests": "我的求助單",
+    "addToHomeHint": "可將此網站加入手機主畫面，當應用程式使用"
+  },
+  "ElderOnboarding": {
+    "title": "第一次使用",
+    "subtitle": "請填寫一次基本資料，之後不用再登入。",
+    "name": "姓名",
+    "age": "年齡",
+    "phone": "電話",
+    "address": "住址",
+    "emergencyContact": "緊急聯絡人",
+    "healthNotes": "健康備註（選填）",
+    "submit": "完成並開始使用",
+    "required": "請填寫此欄"
+  },
+  "ElderEmergency": {
+    "title": "緊急求助",
+    "countdown": "即將撥出電話",
+    "seconds": "{count} 秒",
+    "cancel": "取消",
+    "calling": "正在打開撥號…",
+    "created": "已建立緊急事件",
+    "policeLink": "警方查看位置連結",
+    "copyLink": "複製連結",
+    "copied": "已複製",
+    "locationSharing": "正在分享即時位置",
+    "locationDenied": "未能取得位置，請允許定位後再試",
+    "backHome": "返回主頁"
+  },
+  "ElderAssist": {
+    "title": "需要人陪伴／協助",
+    "start": "開始錄音",
+    "stop": "停止",
+    "replay": "重聽",
+    "rerecord": "重錄",
+    "send": "送出",
+    "recording": "錄音中…",
+    "ready": "錄音完成，可以重聽或送出",
+    "sending": "正在送出…",
+    "sent": "已送出求助單",
+    "needRecording": "請先錄音再送出",
+    "micDenied": "未能使用麥克風，請允許權限後再試",
+    "locationDenied": "未能取得位置，請允許定位後再試",
+    "close": "關閉"
+  },
+  "ElderRequests": {
+    "title": "我的求助單",
+    "empty": "暫時未有求助單",
+    "statusPending": "待接單",
+    "statusAccepted": "已接單",
+    "statusCompleted": "完成",
+    "createdAt": "建立時間",
+    "confirmComplete": "確認完成",
+    "confirmed": "已確認完成",
+    "demoMarkCompleted": "（示範）標示為完成",
+    "backHome": "返回主頁"
+  },
+  "PoliceView": {
+    "title": "緊急位置（警方查看）",
+    "elder": "長者",
+    "updatedAt": "位置更新時間",
+    "noLocation": "尚未收到位置",
+    "notFound": "找不到此緊急事件",
+    "openMap": "開啟地圖"
   },
   "Volunteer": {
     "title": "義工網站",

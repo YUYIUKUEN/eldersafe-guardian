@@ -3,11 +3,81 @@
     "appName": "ElderSafe Guardian",
     "language": "Language",
     "english": "English",
-    "chineseHK": "Traditional Chinese (Hong Kong)"
+    "chineseHK": "Traditional Chinese (Hong Kong)",
+    "cancel": "Cancel",
+    "save": "Save",
+    "loading": "Please wait…",
+    "error": "Something went wrong. Please try again."
   },
   "Elder": {
     "title": "Elder Web App",
-    "subtitle": "Elder-first safety interface (phone only)"
+    "subtitle": "Elder-first safety interface (phone only)",
+    "homeEmergency": "Emergency Help",
+    "homeAssist": "Need Companion / Assistance",
+    "myRequests": "My Help Requests",
+    "addToHomeHint": "You can add this website to your home screen and use it like an app"
+  },
+  "ElderOnboarding": {
+    "title": "First-time setup",
+    "subtitle": "Enter your details once. No sign-in needed afterwards.",
+    "name": "Name",
+    "age": "Age",
+    "phone": "Phone",
+    "address": "Address",
+    "emergencyContact": "Emergency contact",
+    "healthNotes": "Health notes (optional)",
+    "submit": "Save and continue",
+    "required": "Please fill in this field"
+  },
+  "ElderEmergency": {
+    "title": "Emergency Help",
+    "countdown": "Calling soon",
+    "seconds": "{count} seconds",
+    "cancel": "Cancel",
+    "calling": "Opening dialler…",
+    "created": "Emergency event created",
+    "policeLink": "Police location link",
+    "copyLink": "Copy link",
+    "copied": "Copied",
+    "locationSharing": "Sharing live location",
+    "locationDenied": "Could not get location. Please allow location access.",
+    "backHome": "Back to home"
+  },
+  "ElderAssist": {
+    "title": "Need Companion / Assistance",
+    "start": "Start recording",
+    "stop": "Stop",
+    "replay": "Replay",
+    "rerecord": "Record again",
+    "send": "Send",
+    "recording": "Recording…",
+    "ready": "Recording ready. Replay or send.",
+    "sending": "Sending…",
+    "sent": "Help request sent",
+    "needRecording": "Please record before sending",
+    "micDenied": "Microphone unavailable. Please allow permission.",
+    "locationDenied": "Could not get location. Please allow location access.",
+    "close": "Close"
+  },
+  "ElderRequests": {
+    "title": "My Help Requests",
+    "empty": "No help requests yet",
+    "statusPending": "Pending",
+    "statusAccepted": "Accepted",
+    "statusCompleted": "Completed",
+    "createdAt": "Created at",
+    "confirmComplete": "Confirm complete",
+    "confirmed": "Completion confirmed",
+    "demoMarkCompleted": "(Demo) Mark as completed",
+    "backHome": "Back to home"
+  },
+  "PoliceView": {
+    "title": "Emergency location (police view)",
+    "elder": "Elder",
+    "updatedAt": "Location updated at",
+    "noLocation": "No location yet",
+    "notFound": "Emergency event not found",
+    "openMap": "Open map"
   },
   "Volunteer": {
     "title": "Volunteer Site",

@@ -13,6 +13,10 @@
   --font-sans: var(--font-noto-sans-hk);
 }
 
+html {
+  font-size: 20px;
+}
+
 body {
   background:
     radial-gradient(circle at top left, #dff3e8 0%, transparent 42%),
@@ -21,4 +25,12 @@ body {
   color: var(--foreground);
   font-family: var(--font-noto-sans-hk), "Noto Sans TC", sans-serif;
   min-height: 100vh;
+  line-height: 1.45;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
