@@ -5,7 +5,8 @@
 ## 套用 migration
 
 1. 在 [supabase.com](https://supabase.com) 建立專案。
-2. 打開 **SQL Editor**，執行 `migrations/001_init.sql`（開頭會 drop 舊的 ElderSafe 表後重建；可重複執行）。
+2. 打開 **SQL Editor**，執行最新的 `migrations/001_init.sql`（整份一次跑完）。
+   - 若你曾跑過舊版 draft（`device_key` PK、`disabled`、`admins`、`password_hash`），這支腳本會先 drop 那些表／policy 再重建，不要再跑舊 SQL。
 3. 在 **Authentication → Users** 建立管理員帳號，再執行：
 
 ```sql

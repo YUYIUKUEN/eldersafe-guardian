@@ -2,15 +2,28 @@
 -- Run in Supabase SQL Editor (or via supabase db push).
 -- Elders are device-key identified (no Auth). Volunteers/admins use Supabase Auth + profiles.
 --
--- Greenfield init: drops prior ElderSafe public tables so a re-run after a
--- failed/partial apply does not keep an outdated shape (e.g. missing is_disabled).
+-- Replaces the legacy draft schema that used:
+--   elders.device_key PK, elders.disabled, volunteers.password_hash / approved,
+--   public.admins, help_requests.device_key, open "public read/write *" RLS.
+-- Always DROP + CREATE so leftover legacy columns (e.g. disabled vs is_disabled)
+-- cannot survive a CREATE TABLE IF NOT EXISTS skip.
 
 create extension if not exists "pgcrypto";
 
 -- ---------------------------------------------------------------------------
--- Reset (safe for empty projects; wipes ElderSafe app tables only)
+-- Reset: wipe legacy + current ElderSafe objects (app data will be lost)
 -- ---------------------------------------------------------------------------
 
+-- Legacy storage policies from the old open-access draft
+drop policy if exists "public read recordings" on storage.objects;
+drop policy if exists "public write recordings" on storage.objects;
+drop policy if exists "public update recordings" on storage.objects;
+
+-- Current storage policies (recreated below)
+drop policy if exists "recordings_authenticated_read" on storage.objects;
+drop policy if exists "certificates_own_or_admin_read" on storage.objects;
+
+-- Drop dependent tables first (covers both legacy and v2 shapes)
 drop table if exists public.certificates cascade;
 drop table if exists public.points cascade;
 drop table if exists public.activity_logs cascade;
@@ -20,11 +33,10 @@ drop table if exists public.emergencies cascade;
 drop table if exists public.volunteers cascade;
 drop table if exists public.profiles cascade;
 drop table if exists public.elders cascade;
--- Legacy leftover from earlier drafts
-drop table if exists public.admins cascade;
+drop table if exists public.admins cascade; -- legacy only
 
-drop function if exists public.current_profile_role();
-drop function if exists public.set_updated_at();
+drop function if exists public.current_profile_role() cascade;
+drop function if exists public.set_updated_at() cascade;
 
 -- ---------------------------------------------------------------------------
 -- Helpers
@@ -269,14 +281,15 @@ create index if not exists certificates_volunteer_id_idx
   on public.certificates (volunteer_id);
 
 -- ---------------------------------------------------------------------------
--- Storage buckets
+-- Storage buckets (legacy draft marked recordings public — force private)
 -- ---------------------------------------------------------------------------
 
 insert into storage.buckets (id, name, public)
 values
   ('recordings', 'recordings', false),
   ('certificates', 'certificates', false)
-on conflict (id) do nothing;
+on conflict (id) do update
+set public = excluded.public;
 
 -- ---------------------------------------------------------------------------
 -- Row Level Security
