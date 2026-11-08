@@ -4,14 +4,15 @@
   "version": "0.1.0",
   "packageManager": "pnpm@10.33.4",
   "scripts": {
-    "dev:elder": "pnpm --filter @eldersafe/elder dev",
-    "dev:volunteer": "pnpm --filter @eldersafe/volunteer dev",
-    "dev:admin": "pnpm --filter @eldersafe/admin dev",
-    "build": "pnpm -r --filter \"./apps/*\" build",
-    "build:elder": "pnpm --filter @eldersafe/elder build",
-    "build:volunteer": "pnpm --filter @eldersafe/volunteer build",
-    "build:admin": "pnpm --filter @eldersafe/admin build",
-    "lint": "pnpm -r --filter \"./apps/*\" lint"
+    "dev": "node ./scripts/dev.mjs",
+    "dev:elder": "pnpm --filter @eldersafe/elder run dev",
+    "dev:volunteer": "pnpm --filter @eldersafe/volunteer run dev",
+    "dev:admin": "pnpm --filter @eldersafe/admin run dev",
+    "build": "pnpm --filter @eldersafe/elder --filter @eldersafe/volunteer --filter @eldersafe/admin run build",
+    "build:elder": "pnpm --filter @eldersafe/elder run build",
+    "build:volunteer": "pnpm --filter @eldersafe/volunteer run build",
+    "build:admin": "pnpm --filter @eldersafe/admin run build",
+    "lint": "pnpm --filter @eldersafe/elder --filter @eldersafe/volunteer --filter @eldersafe/admin run lint"
   },
   "engines": {
     "node": ">=20"

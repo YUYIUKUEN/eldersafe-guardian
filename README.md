@@ -4,18 +4,17 @@
 
 - 規格：[`PROJECT_SPEC.md`](./PROJECT_SPEC.md)
 - 進度：[`PROGRESS.md`](./PROGRESS.md)
-- 示範流程：[`DEMO.md`](./DEMO.md)
 
 ## 專案結構（pnpm monorepo）
 
 ```text
-apps/elder        長者 Web App（本機 port 3000）
-apps/volunteer    義工網站（本機 port 3001）
-apps/admin        管理員網站（本機 port 3002）
-packages/shared   共用型別、Supabase 連線、積分規則、語言檔、日誌工具
+apps/elder        長者 Web App（本機 port 3001，手機直向外觀）
+apps/volunteer    義工網站（本機 port 3002）
+apps/admin        管理員網站（本機 port 3003）
+packages/shared   共用語言檔（en / zh-HK）與 locale 設定
 ```
 
-三個網站會各自部署成不同網址，但共用同一個 Supabase 後端。
+三個網站互相獨立，各自啟動，沒有共用入口頁。之後會各自部署成不同網址，並共用同一個 Supabase 後端。
 
 ## 環境需求
 
@@ -30,83 +29,35 @@ packages/shared   共用型別、Supabase 連線、積分規則、語言檔、�
 pnpm install
 ```
 
-分別啟動（可開三個終端機）：
+一次啟動三個網站（請在專案根目錄執行）：
 
 ```bash
-pnpm dev:elder       # http://localhost:3000
-pnpm dev:volunteer   # http://localhost:3001
-pnpm dev:admin       # http://localhost:3002
+pnpm install
+pnpm dev
 ```
 
-## 環境變數
+`pnpm dev` 會用 `scripts/dev.mjs` 同時啟動三個 app（Windows / macOS / Linux 都可用）。
 
-每個 app 都有 `.env.local.example`。複製成 `.env.local` 後再填入你自己的值：
+若仍失敗，先確認根目錄 `package.json` 裡有 `"dev": "node ./scripts/dev.mjs"`，然後開三個終端機分別啟動：
 
 ```bash
-cp apps/elder/.env.local.example apps/elder/.env.local
-cp apps/volunteer/.env.local.example apps/volunteer/.env.local
-cp apps/admin/.env.local.example apps/admin/.env.local
+pnpm dev:elder       # http://localhost:3001
+pnpm dev:volunteer   # http://localhost:3002
+pnpm dev:admin       # http://localhost:3003
 ```
 
-**不要 commit `.env.local` 或任何真實金鑰。**
+## 瀏覽器檢查
+
+1. 打開 http://localhost:3001 → 應看到「長者 Web App」標題（手機寬度外觀），右上角可切換語言
+2. 打開 http://localhost:3002 → 應看到「義工網站」標題，右上角可切換語言
+3. 打開 http://localhost:3003 → 應看到「管理員網站」標題，右上角可切換語言
+
+預設語言為 `zh-HK`；切到 `en` 後標題會變成英文。
 
 ## 語言
 
 預設 `zh-HK`，另支援 `en`。文案放在 `packages/shared/messages/`，頁面右上角可切換語言。
 
-## 長者 App 現況（階段 2）
+## 目前階段
 
-`apps/elder` 已可用本機儲存示範完整流程：
-
-1. 首次填寫基本資料（裝置密鑰識別，不用登入）
-2. 紅色「緊急求助」：5 秒倒數／取消；測試模式撥 `NEXT_PUBLIC_EMERGENCY_TEST_PHONE`（不得撥 999）
-3. 藍色「需要人陪伴／協助」：錄音後送出求助單（附位置）
-4. 查看求助單狀態；完成後可「確認完成」
-5. PWA manifest，可加入手機主畫面
-
-## 階段 5：Supabase（可選）／本機 fallback
-
-未填真實 Supabase 金鑰時，三個網站繼續共用專案根目錄 `.data/store.json`。
-
-接上雲端：
-
-1. 建立 Supabase 專案  
-2. 在 SQL Editor 執行 [`supabase/migrations/001_init.sql`](./supabase/migrations/001_init.sql)（說明見 [`supabase/README.md`](./supabase/README.md)）  
-3. 把 URL、anon key、service role key 寫入三個 app 的 `.env.local`  
-4. 重啟 `pnpm dev:*`
-
-啟用後會自動使用：
-
-- Postgres 資料表（長者／義工／管理員／求助／緊急／日誌）
-- Storage bucket `recordings`（錄音）
-- Realtime（義工求助列表、admin 緊急事件自動刷新）
-- 每月排行榜（長者確認完成後才計分）
-
-## 義工網站（階段 3）
-
-```bash
-cp apps/volunteer/.env.local.example apps/volunteer/.env.local
-pnpm dev:volunteer   # http://localhost:3001
-```
-
-示範流程：
-
-1. 長者 App（3000）送出錄音求助  
-2. 義工註冊／登入（3001）  
-3. 若未批核，按「（示範）模擬管理員批核」（`DEMO_MODE=true`）  
-4. 接單 → 查看地圖 → 標記完成  
-5. 回到長者 App 按「確認完成」→ 義工積分 +10  
-
-## 管理員網站（階段 4）
-
-```bash
-cp apps/admin/.env.local.example apps/admin/.env.local
-pnpm dev:admin   # http://localhost:3002
-```
-
-本機預設管理員：
-
-- 電郵：`admin@eldersafe.local`
-- 密碼：`admin123`
-
-功能：用戶管理（審批／停用）、日誌篩選、配對總覽、活躍度、緊急事件地圖、排行榜、下載 Top 3 PDF 證書。
+階段 1：Monorepo 骨架與空白首頁。尚未接入資料庫或登入。

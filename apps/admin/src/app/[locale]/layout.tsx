@@ -41,7 +41,10 @@ export default async function LocaleLayout({
   params,
 }: LocaleLayoutProps) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) notFound();
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
   setRequestLocale(locale);
   const messages = await getMessages();
   const t = await getTranslations("Common");
@@ -59,7 +62,7 @@ export default async function LocaleLayout({
             </Suspense>
           </header>
           <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 pb-10 sm:px-6">
-            <Suspense fallback={null}>{children}</Suspense>
+            {children}
           </main>
         </NextIntlClientProvider>
       </body>

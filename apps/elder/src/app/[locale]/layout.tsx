@@ -61,17 +61,17 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${notoSansHK.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <NextIntlClientProvider messages={messages}>
-          <header className="mx-auto flex w-full max-w-md items-center justify-between gap-4 px-4 py-4">
-            <p className="text-[20px] font-bold tracking-tight text-brand">
-              {t("appName")}
-            </p>
-            <Suspense fallback={null}>
-              <LanguageSwitcher />
-            </Suspense>
-          </header>
-          <main className="mx-auto flex w-full max-w-md flex-1 flex-col px-4 pb-10">
-            <Suspense fallback={null}>{children}</Suspense>
-          </main>
+          <div className="mx-auto flex min-h-full w-full max-w-md flex-1 flex-col bg-white/70 shadow-sm">
+            <header className="flex items-center justify-between gap-4 px-4 py-4">
+              <p className="text-[20px] font-bold tracking-tight text-brand">
+                {t("appName")}
+              </p>
+              <Suspense fallback={null}>
+                <LanguageSwitcher />
+              </Suspense>
+            </header>
+            <main className="flex flex-1 flex-col px-4 pb-10">{children}</main>
+          </div>
         </NextIntlClientProvider>
       </body>
     </html>
