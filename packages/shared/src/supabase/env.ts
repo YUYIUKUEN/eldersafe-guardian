@@ -3,12 +3,25 @@ export type SupabaseAnonConfig = {
   anonKey: string;
 };
 
-function readRequired(name: string): string {
+function readOptional(name: string): string | null {
   const value = process.env[name]?.trim();
+  return value ? value : null;
+}
+
+function readRequired(name: string): string {
+  const value = readOptional(name);
   if (!value) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
   return value;
+}
+
+/** Returns null when public Supabase env is incomplete (useful in proxy gates). */
+export function tryGetSupabaseAnonConfig(): SupabaseAnonConfig | null {
+  const url = readOptional("NEXT_PUBLIC_SUPABASE_URL");
+  const anonKey = readOptional("NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  if (!url || !anonKey) return null;
+  return { url, anonKey };
 }
 
 /** Public anon credentials (safe for browser + server user sessions). */

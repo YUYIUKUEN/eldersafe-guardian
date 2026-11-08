@@ -2,6 +2,7 @@ export { locales, defaultLocale, type AppLocale } from "./i18n/locales";
 
 export {
   getSupabaseAnonConfig,
+  tryGetSupabaseAnonConfig,
   getSupabaseServiceRoleKey,
   getTestEmergencyNumber,
   type SupabaseAnonConfig,

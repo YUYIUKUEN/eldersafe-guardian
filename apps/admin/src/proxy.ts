@@ -27,16 +27,21 @@ export default async function proxy(request: NextRequest) {
     return intlResponse;
   }
 
+  const loginUrl = request.nextUrl.clone();
+  loginUrl.pathname = adminLoginPath();
+  loginUrl.searchParams.set("next", pathname);
+
   const supabase = createSupabaseProxyClient(request, intlResponse);
+  if (!supabase) {
+    return redirectWithCookies(loginUrl, intlResponse);
+  }
+
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   const access = await loadAccessContext(supabase, user?.id);
   if (!canAccessAdminApp(access)) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = adminLoginPath();
-    loginUrl.searchParams.set("next", pathname);
     return redirectWithCookies(loginUrl, intlResponse);
   }
 
