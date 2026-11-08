@@ -12,6 +12,8 @@
 - [x] 建立 `PROJECT_SPEC.md`（完整產品規格：三獨立網站 monorepo）
 - [x] 建立 `PROGRESS.md`（階段 0 至階段 6 進度清單）
 - [x] 確認技術棧與環境需求（Node.js、pnpm、Supabase、Vercel）
+- [x] 建立永遠套用的 Cursor 規則 `.cursor/rules/project.mdc`
+- [x] 確認 Git 已初始化、根目錄 `.gitignore` 排除 `.env.local` 等密鑰檔
 - [ ] 準備各 app 的 `.env.local.example`（不含真實金鑰）— 待後續接上後端時再加
 
 ---
