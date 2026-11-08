@@ -1,8 +1,30 @@
 -- ElderSafe Guardian — shared Supabase PostgreSQL schema
 -- Run in Supabase SQL Editor (or via supabase db push).
 -- Elders are device-key identified (no Auth). Volunteers/admins use Supabase Auth + profiles.
+--
+-- Greenfield init: drops prior ElderSafe public tables so a re-run after a
+-- failed/partial apply does not keep an outdated shape (e.g. missing is_disabled).
 
 create extension if not exists "pgcrypto";
+
+-- ---------------------------------------------------------------------------
+-- Reset (safe for empty projects; wipes ElderSafe app tables only)
+-- ---------------------------------------------------------------------------
+
+drop table if exists public.certificates cascade;
+drop table if exists public.points cascade;
+drop table if exists public.activity_logs cascade;
+drop table if exists public.locations cascade;
+drop table if exists public.help_requests cascade;
+drop table if exists public.emergencies cascade;
+drop table if exists public.volunteers cascade;
+drop table if exists public.profiles cascade;
+drop table if exists public.elders cascade;
+-- Legacy leftover from earlier drafts
+drop table if exists public.admins cascade;
+
+drop function if exists public.current_profile_role();
+drop function if exists public.set_updated_at();
 
 -- ---------------------------------------------------------------------------
 -- Helpers
@@ -22,7 +44,7 @@ $$;
 -- elders
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.elders (
+create table public.elders (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   age integer not null check (age > 0),
@@ -54,7 +76,7 @@ create trigger elders_set_updated_at
 -- profiles (1:1 with auth.users; volunteer | admin)
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.profiles (
+create table public.profiles (
   id uuid primary key references auth.users (id) on delete cascade,
   role text not null check (role in ('volunteer', 'admin')),
   display_name text,
@@ -86,7 +108,7 @@ $$;
 -- volunteers (1:1 extension of volunteer profiles)
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.volunteers (
+create table public.volunteers (
   id uuid primary key references public.profiles (id) on delete cascade,
   name text not null,
   phone text not null,
@@ -111,7 +133,7 @@ create trigger volunteers_set_updated_at
 -- help_requests
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.help_requests (
+create table public.help_requests (
   id uuid primary key default gen_random_uuid(),
   elder_id uuid not null references public.elders (id) on delete cascade,
   audio_path text not null,
@@ -142,7 +164,7 @@ create index if not exists help_requests_created_at_idx
 -- emergencies
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.emergencies (
+create table public.emergencies (
   id uuid primary key default gen_random_uuid(),
   elder_id uuid not null references public.elders (id) on delete cascade,
   status text not null default 'active'
@@ -166,7 +188,7 @@ create index if not exists emergencies_elder_id_idx
 -- locations (realtime trail; must attach to help_request XOR emergency)
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.locations (
+create table public.locations (
   id bigint generated always as identity primary key,
   elder_id uuid not null references public.elders (id) on delete cascade,
   help_request_id uuid references public.help_requests (id) on delete cascade,
@@ -192,7 +214,7 @@ create index if not exists locations_elder_recorded_idx
 -- activity_logs (soft references; elders have no Auth user)
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.activity_logs (
+create table public.activity_logs (
   id uuid primary key default gen_random_uuid(),
   actor_type text not null
     check (actor_type in ('elder', 'volunteer', 'admin', 'system')),
@@ -215,7 +237,7 @@ create index if not exists activity_logs_action_idx
 -- points (one row per confirmed help request)
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.points (
+create table public.points (
   id uuid primary key default gen_random_uuid(),
   volunteer_id uuid not null references public.volunteers (id) on delete cascade,
   help_request_id uuid not null references public.help_requests (id) on delete cascade,
@@ -231,7 +253,7 @@ create index if not exists points_volunteer_created_idx
 -- certificates (monthly Top 3 PDF metadata)
 -- ---------------------------------------------------------------------------
 
-create table if not exists public.certificates (
+create table public.certificates (
   id uuid primary key default gen_random_uuid(),
   volunteer_id uuid not null references public.volunteers (id) on delete cascade,
   year_month text not null
