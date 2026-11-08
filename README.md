@@ -29,19 +29,22 @@ packages/shared   共用語言檔（en / zh-HK）與 locale 設定
 pnpm install
 ```
 
-一次啟動三個網站：
+一次啟動三個網站（請在專案根目錄執行，且必須寫 `pnpm`）：
 
 ```bash
+pnpm install
 pnpm dev
 ```
 
-或分別啟動（可開三個終端機）：
+若 `pnpm dev` 仍失敗，可開三個終端機分別啟動：
 
 ```bash
 pnpm dev:elder       # http://localhost:3001
 pnpm dev:volunteer   # http://localhost:3002
 pnpm dev:admin       # http://localhost:3003
 ```
+
+Windows 注意：不要只打 `dev`，要打完整的 `pnpm dev`。
 
 ## 瀏覽器檢查
 
