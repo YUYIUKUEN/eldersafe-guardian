@@ -18,17 +18,6 @@ begin
 end;
 $$;
 
--- Current authenticated user's role from profiles (null if anon / missing).
-create or replace function public.current_profile_role()
-returns text
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select role from public.profiles where id = auth.uid();
-$$;
-
 -- ---------------------------------------------------------------------------
 -- elders
 -- ---------------------------------------------------------------------------
@@ -80,6 +69,18 @@ drop trigger if exists profiles_set_updated_at on public.profiles;
 create trigger profiles_set_updated_at
   before update on public.profiles
   for each row execute function public.set_updated_at();
+
+-- Current authenticated user's role from profiles (null if anon / missing).
+-- Defined after public.profiles so SQL-language validation succeeds.
+create or replace function public.current_profile_role()
+returns text
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select role from public.profiles where id = auth.uid();
+$$;
 
 -- ---------------------------------------------------------------------------
 -- volunteers (1:1 extension of volunteer profiles)
