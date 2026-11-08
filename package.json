@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "packageManager": "pnpm@10.33.4",
   "scripts": {
+    "dev": "pnpm -r --parallel --filter \"./apps/*\" dev",
     "dev:elder": "pnpm --filter @eldersafe/elder dev",
     "dev:volunteer": "pnpm --filter @eldersafe/volunteer dev",
     "dev:admin": "pnpm --filter @eldersafe/admin dev",

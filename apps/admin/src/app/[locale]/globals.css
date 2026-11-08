@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f3f7f4;
-  --foreground: #13261c;
-  --brand: #1f6b4a;
+  --background: #f7f6f3;
+  --foreground: #1c1a17;
+  --brand: #7a4a1e;
 }
 
 @theme inline {
@@ -15,10 +15,18 @@
 
 body {
   background:
-    radial-gradient(circle at top left, #dff3e8 0%, transparent 42%),
-    radial-gradient(circle at bottom right, #e7eef8 0%, transparent 40%),
+    radial-gradient(circle at top left, #f0e4d4 0%, transparent 45%),
+    radial-gradient(circle at bottom right, #e8ecef 0%, transparent 40%),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-noto-sans-hk), "Noto Sans TC", sans-serif;
   min-height: 100vh;
+  line-height: 1.5;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
 }
