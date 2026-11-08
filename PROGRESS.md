@@ -3,7 +3,7 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 1 完成（Monorepo 骨架與共用語言套件）**
+**目前進度：階段 1 完成；階段 5 部分完成（Supabase schema + 連線／權限基礎）**
 
 ---
 
@@ -14,7 +14,7 @@
 - [x] 確認技術棧與環境需求（Node.js、pnpm、Supabase、Vercel）
 - [x] 建立永遠套用的 Cursor 規則 `.cursor/rules/project.mdc`
 - [x] 確認 Git 已初始化、根目錄 `.gitignore` 排除 `.env.local` 等密鑰檔
-- [ ] 準備各 app 的 `.env.local.example`（不含真實金鑰）— 待後續接上後端時再加
+- [x] 準備各 app 的 `.env.local.example`（不含真實金鑰）
 
 ---
 
@@ -58,14 +58,16 @@
 
 ## 階段 5：獎勵系統、共用後端與即時功能
 
-- [ ] 設計並建立共用 Supabase schema
+- [x] 設計並建立共用 Supabase schema（`supabase/migrations/001_init.sql`）
+- [x] 共用 Supabase 連線工具（browser / server / proxy / service）與 `/health`
+- [x] 共用登入權限基礎（volunteer 需批准、admin 需角色；elder 不登入）
 - [ ] Backend facade／本機 fallback
 - [ ] 每月排行榜（長者確認後計分）
 - [ ] Top 3 義工 PDF 證書
 - [ ] Realtime：義工求助列表、admin 緊急事件自動刷新
 - [ ] Storage：錄音上傳
 - [ ] 共用日誌工具
-- [ ] 各 app `.env.local.example` 與設定說明
+- [x] 各 app `.env.local.example` 與設定說明（見 `docs/AUTH_AND_ENV.md`）
 
 ---
 
