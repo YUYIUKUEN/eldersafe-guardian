@@ -60,4 +60,5 @@ pnpm dev:admin       # http://localhost:3003
 
 ## 目前階段
 
-階段 1：Monorepo 骨架與空白首頁。尚未接入資料庫或登入。
+階段 1 完成；已接上 Supabase schema、連線工具與權限 proxy。  
+Env／權限測試說明：[`docs/AUTH_AND_ENV.md`](./docs/AUTH_AND_ENV.md)

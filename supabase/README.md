@@ -37,3 +37,5 @@ Storage buckets：`recordings`、`certificates`（非公開）。
 Realtime：`help_requests`、`emergencies`、`locations`。
 
 長者寫入走 Next.js API + **service role**（繞過 RLS）。義工／管理員用 Auth session + RLS。
+
+Env、`.env.local`、`/health` 與權限手動測試：見 [`docs/AUTH_AND_ENV.md`](../docs/AUTH_AND_ENV.md)。
