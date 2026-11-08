@@ -29,22 +29,22 @@ packages/shared   共用語言檔（en / zh-HK）與 locale 設定
 pnpm install
 ```
 
-一次啟動三個網站（請在專案根目錄執行，且必須寫 `pnpm`）：
+一次啟動三個網站（請在專案根目錄執行）：
 
 ```bash
 pnpm install
 pnpm dev
 ```
 
-若 `pnpm dev` 仍失敗，可開三個終端機分別啟動：
+`pnpm dev` 會用 `scripts/dev.mjs` 同時啟動三個 app（Windows / macOS / Linux 都可用）。
+
+若仍失敗，先確認根目錄 `package.json` 裡有 `"dev": "node ./scripts/dev.mjs"`，然後開三個終端機分別啟動：
 
 ```bash
 pnpm dev:elder       # http://localhost:3001
 pnpm dev:volunteer   # http://localhost:3002
 pnpm dev:admin       # http://localhost:3003
 ```
-
-Windows 注意：不要只打 `dev`，要打完整的 `pnpm dev`。
 
 ## 瀏覽器檢查
 

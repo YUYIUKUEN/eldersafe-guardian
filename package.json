@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "packageManager": "pnpm@10.33.4",
   "scripts": {
-    "dev": "pnpm --parallel --filter @eldersafe/elder --filter @eldersafe/volunteer --filter @eldersafe/admin run dev",
+    "dev": "node ./scripts/dev.mjs",
     "dev:elder": "pnpm --filter @eldersafe/elder run dev",
     "dev:volunteer": "pnpm --filter @eldersafe/volunteer run dev",
     "dev:admin": "pnpm --filter @eldersafe/admin run dev",
