@@ -1,0 +1,43 @@
+---
+description: ElderSafe Guardian project conventions (always apply)
+alwaysApply: true
+---
+
+# ElderSafe Guardian — Project Rules
+
+## Language
+
+- Explain to the user in Traditional Chinese (Hong Kong) / 繁體中文（香港）.
+- Write code comments in English only.
+
+## Spec and progress
+
+- Before making changes, read `PROJECT_SPEC.md` and `PROGRESS.md`.
+- After completing the requested work, update `PROGRESS.md` to reflect what was done.
+
+## Elder UI (`apps/elder`)
+
+- Body text must be at least 20px.
+- Primary buttons must be at least 72px tall.
+- Colour contrast must meet WCAG AA.
+- Do not hide important actions behind hover-only interactions; everything must work with tap / keyboard.
+
+## Internationalisation
+
+- All user-facing UI copy must come from next-intl message files (en / zh-HK).
+- Do not hard-code interface strings in components or pages.
+
+## Scope
+
+- Only implement what the user asked for in the current request.
+- Do not refactor unrelated code or change other pages “while you are there”.
+
+## Secrets
+
+- Never put API keys, tokens, passwords, or other secrets in source code.
+- Use environment variables only (for example `.env.local`); do not commit real secrets.
+
+## Handoff / testing
+
+- When a feature is finished, give the user short, concrete manual test steps
+  (how to start the app, which URL to open, and what to click / expect).
