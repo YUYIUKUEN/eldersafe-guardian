@@ -62,7 +62,17 @@ Next.js 16 用 `src/proxy.ts`（舊稱 middleware）做路由保護。
 
 登入畫面尚未實作（只有 stub 頁）。
 
-## F. 三個手動測試情境
+## F. 驗收清單（schema + 連線 + 權限）
+
+| # | 項目 | 怎麼驗 | 預期 |
+| --- | --- | --- | --- |
+| 1 | Supabase 資料表 | Dashboard → **Table Editor** | 有 `elders`、`profiles`、`volunteers`、`help_requests`、`emergencies`、`locations`、`activity_logs`、`points`、`certificates` |
+| 2 | `/health` 已連線 | 開 http://localhost:3001/health（以及 3002、3003） | 顯示「已連線資料庫」 |
+| 3 | Admin 未登入被導走 | 無痕開 http://localhost:3003/（admin app，不是 `/admin` 路徑） | **307/導向** `/login` |
+
+本機需在 `cursor/supabase-schema-design-2430` 分支，且三個 app 都有 `.env.local`。
+
+## G. 三個手動測試情境
 
 ### 情境 1 — 未登入進義工首頁會被擋
 
