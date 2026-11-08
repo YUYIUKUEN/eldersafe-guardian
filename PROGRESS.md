@@ -56,7 +56,7 @@
 
 ## 階段 5：獎勵系統、共用後端與即時功能
 
-- [ ] 設計並建立共用 Supabase schema
+- [x] 設計並建立共用 Supabase schema（`supabase/migrations/001_init.sql`）
 - [ ] Backend facade／本機 fallback
 - [ ] 每月排行榜（長者確認後計分）
 - [ ] Top 3 義工 PDF 證書
