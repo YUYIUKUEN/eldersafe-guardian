@@ -230,7 +230,96 @@
   },
   "Volunteer": {
     "title": "義工網站",
-    "subtitle": "接單、陪伴與協助長者"
+    "subtitle": "接單、陪伴與協助長者",
+    "homeApprovedHint": "你的帳號已獲批准。求助列表稍後會在這裡顯示。",
+    "logout": "登出",
+    "loggingOut": "正在登出…"
+  },
+  "VolunteerAuth": {
+    "loginTitle": "義工登入",
+    "loginSubtitle": "使用電郵和密碼登入。",
+    "registerTitle": "義工註冊",
+    "registerSubtitle": "填妥資料後送出。新帳號需管理員審批後才能接單。",
+    "forgotTitle": "忘記密碼",
+    "forgotSubtitle": "輸入註冊電郵，我們會寄重設連結給你。",
+    "resetTitle": "重設密碼",
+    "resetSubtitle": "請輸入新密碼。",
+    "pendingTitle": "等待管理員審批",
+    "pendingBody": "你的註冊已收到。管理員批准後，你才可以查看求助列表和接單。",
+    "pendingHint": "如有疑問，請聯絡管理員。",
+    "email": "電郵",
+    "password": "密碼",
+    "name": "姓名",
+    "phone": "電話",
+    "age": "年齡",
+    "serviceAreas": "可服務地區",
+    "serviceAreasHint": "可用逗號分隔多個地區，例如：深水埗, 油麻地, 旺角",
+    "bio": "簡介",
+    "bioHint": "簡單介紹你自己，方便管理員了解。",
+    "consentLabel": "我已閱讀並同意義工服務條款與私隱說明",
+    "passwordStrength": "密碼強度：{level}",
+    "strength": {
+      "too_short": "太短",
+      "weak": "弱",
+      "fair": "一般",
+      "good": "良好",
+      "strong": "強"
+    },
+    "submitLogin": "登入",
+    "submittingLogin": "正在登入…",
+    "submitRegister": "註冊",
+    "submittingRegister": "正在註冊…",
+    "submitForgot": "寄出重設連結",
+    "submittingForgot": "正在寄出…",
+    "submitReset": "儲存新密碼",
+    "submittingReset": "正在儲存…",
+    "forgotLink": "忘記密碼？",
+    "registerLink": "未有帳號？註冊",
+    "loginLink": "已有帳號？登入",
+    "backToLogin": "返回登入",
+    "forgotSent": "如果此電郵已註冊，你將收到重設密碼電郵。請查收收件匣。",
+    "resetSuccess": "密碼已更新。請用新密碼登入。",
+    "registerSuccess": "註冊成功。請等待管理員審批。",
+    "formError": "請先修正紅色提示再試。",
+    "authFailed": "電郵或密碼不正確。",
+    "registerFailed": "未能註冊。請稍後再試。",
+    "emailTaken": "此電郵已被註冊。請改用其他電郵或直接登入。",
+    "forgotFailed": "未能寄出重設電郵。請稍後再試。",
+    "resetFailed": "未能重設密碼。連結可能已過期，請重新申請。",
+    "resetSessionMissing": "未能確認重設連結。請從電郵重新打開連結。",
+    "logoutFailed": "未能登出。請再試一次。",
+    "errors": {
+      "name": {
+        "required": "請輸入姓名。",
+        "too_long": "姓名太長。請縮短至 80 個字以內。"
+      },
+      "phone": {
+        "required": "請輸入電話號碼。",
+        "phone_invalid": "請輸入 8 位香港電話號碼，例如 91234567。可加 852，但不要加空格或其他符號。"
+      },
+      "email": {
+        "required": "請輸入電郵。",
+        "email_invalid": "請輸入有效電郵地址，例如 name@example.com。"
+      },
+      "password": {
+        "required": "請輸入密碼。",
+        "password_too_short": "密碼最少 8 個字元。",
+        "password_weak": "密碼太弱。請加入大小階字母、數字或符號，並避免過於簡單。"
+      },
+      "age": {
+        "age_invalid": "請輸入 16 至 100 之間的整數年齡。"
+      },
+      "serviceAreas": {
+        "areas_required": "請至少填寫一個可服務地區。",
+        "too_long": "服務地區太多或太長。請精簡至最多 12 個地區，每個不多於 80 字。"
+      },
+      "bio": {
+        "too_long": "簡介太長。請縮短至 1000 個字以內。"
+      },
+      "consent": {
+        "consent_required": "請勾選同意條款，才能完成註冊。"
+      }
+    }
   },
   "Admin": {
     "title": "管理員網站",

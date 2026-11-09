@@ -59,10 +59,14 @@ Next.js 16 用 `src/proxy.ts`（舊稱 middleware）做路由保護。
 ## E. 權限規則（目前）
 
 - **elder**：不登入、不做 Auth 保護  
-- **volunteer**：除 `/login`、`/register`、`/health` 外，需登入且 `profiles.role = volunteer` 且 `volunteers.approval_status = approved`；否則導向 `/login`  
-- **admin**：除 `/login`、`/health` 外，需登入且 `profiles.role = admin`；否則導向 `/login`  
+- **volunteer**：
+  - 公開：`/login`、`/register`、`/forgot-password`、`/reset-password`、`/health`
+  - 已登入但 `approval_status = pending`：只能進入 `/pending`（等待審批頁），不能看求助列表／首頁
+  - 已批准（`approved`）：可進入受保護頁
+  - 否則導向 `/login`
+- **admin**：除 `/login`、`/health` 外，需登入且 `profiles.role = admin`；否則導向 `/login`
 
-登入畫面尚未實作（只有 stub 頁）。
+義工註冊／登入已接上 Supabase Auth（電郵＋密碼）。註冊會建立 `profiles`（`role=volunteer`）與 `volunteers`（`approval_status=pending`），並寫入 `activity_logs`。
 
 ## F. 驗收清單（schema + 連線 + 權限）
 
@@ -84,22 +88,13 @@ Next.js 16 用 `src/proxy.ts`（舊稱 middleware）做路由保護。
 4. 開 http://localhost:3002/health  
 5. **預期**：可進入，顯示「已連線資料庫」（不需登入）
 
-### 情境 2 — 未批准義工不能進受保護頁
+### 情境 2 — 未批准義工只能看到等待審批頁
 
-1. 在 Supabase Auth 建立一個 user  
-2. 插入：
-
-```sql
-insert into public.profiles (id, role, display_name)
-values ('<user-uuid>', 'volunteer', 'Test Volunteer');
-
-insert into public.volunteers (id, name, phone, age, approval_status)
-values ('<user-uuid>', 'Test Volunteer', '90000000', 30, 'pending');
-```
-
-3. （之後有登入 UI 時）用此帳登入後開 `/`  
-4. **預期**：因 `pending`，proxy 導向 `/login`  
-5. 把狀態改成 `approved` 後再進 `/` → **預期**：可進入
+1. 開 http://localhost:3002/register 註冊一個義工帳號  
+2. 註冊成功後會自動登入並導向 `/pending`  
+3. 手動開 http://localhost:3002/  
+4. **預期**：因 `pending`，proxy 導向 `/pending`（看不到求助列表）  
+5. 在 Supabase 把該列 `volunteers.approval_status` 改成 `approved` 後再登入進 `/` → **預期**：可進入
 
 ### 情境 3 — 非 admin 進管理員站會被擋
 
