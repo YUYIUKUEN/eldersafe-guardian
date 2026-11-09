@@ -71,6 +71,9 @@ Next.js 16 用 `src/proxy.ts`（舊稱 middleware）做路由保護。
 請同時套用：
 - `003_volunteer_approval_rls.sql`（`rejected`、approved-only 求助 RLS、`volunteers` Realtime）
 - `004_volunteer_help_feed.sql`（`list_volunteer_help_feed()`、接單前遮罩住址／電話、收緊 locations／錄音讀取）
+- `005_volunteer_help_feed_transcript.sql`（列表可選 `transcript`）
+
+錄音播放：伺服器簽 5 分鐘私有 Storage 連結；首次真正播放會寫 `activity_logs`（`volunteer.help_request.audio_play`）。
 
 ## F. 驗收清單（schema + 連線 + 權限）
 

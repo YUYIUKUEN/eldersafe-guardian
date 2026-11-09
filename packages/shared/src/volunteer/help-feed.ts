@@ -7,6 +7,8 @@ export type VolunteerHelpFeedItem = {
   acceptedAt: string | null;
   completedAt: string | null;
   audioPath: string;
+  /** Optional speech-to-text; null/empty when not available. */
+  transcript: string | null;
   requestLatitude: number | null;
   requestLongitude: number | null;
   volunteerId: string | null;
@@ -32,6 +34,7 @@ type FeedRow = {
   accepted_at: string | null;
   completed_at: string | null;
   audio_path: string;
+  transcript?: string | null;
   request_latitude: number | null;
   request_longitude: number | null;
   volunteer_id: string | null;
@@ -64,6 +67,7 @@ export function mapVolunteerHelpFeedRow(
     acceptedAt: row.accepted_at,
     completedAt: row.completed_at,
     audioPath: row.audio_path,
+    transcript: row.transcript?.trim() ? row.transcript.trim() : null, // optional STT
     requestLatitude: row.request_latitude,
     requestLongitude: row.request_longitude,
     volunteerId: row.volunteer_id,

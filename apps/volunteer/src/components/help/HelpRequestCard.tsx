@@ -126,7 +126,12 @@ export function HelpRequestCard({
         <p className="mb-2 text-sm font-semibold text-slate-800">
           {t("recording")}
         </p>
-        <AudioPlayer helpRequestId={item.id} />
+        <AudioPlayer
+          key={item.id}
+          helpRequestId={item.id}
+          elderId={item.elderId}
+          transcript={item.transcript}
+        />
       </div>
     </article>
   );
