@@ -79,6 +79,16 @@ Next.js 16 用 `src/proxy.ts`（舊稱 middleware）做路由保護。
 接單：`accept_help_request` 只在仍是 `pending` 時成功；失敗回「已被其他義工接單」。放棄需原因並寫 `volunteer.help_request.release`。  
 服務完成：寫 `completed_at`（狀態仍為 `accepted`＝等待長者確認）；長者確認後才 `completed` 並走積分 stub。逾 24 小時可用 `admin_list_overdue_elder_confirmations`／`admin_force_confirm_help_request`。
 
+## H. 階段 3.7 驗收（義工站）
+
+| # | 項目 | 怎麼驗 | 預期 |
+| --- | --- | --- | --- |
+| 1 | 待審批看不到列表 | 新註冊義工開 `/` | 只見 `/pending`；Supabase 改 `approved` 後才見列表 |
+| 2 | Realtime 新單 | 列表開著，長者藍鍵送出 | 義工頁自動出現新單（無需刷新） |
+| 3 | 錄音播放 | 電腦＋手機播卡上錄音 | 可播放（簽名連結 5 分鐘） |
+| 4 | 搶單 | 兩義工同時接同一單 | 只有一個成功；另一個「已被其他義工接單」 |
+| 5 | 私隱 | 查列表／未接單卡 | 無緊急聯絡人／健康備註；未接單無住址電話；看不到別人已接的單 |
+
 ## F. 驗收清單（schema + 連線 + 權限）
 
 | # | 項目 | 怎麼驗 | 預期 |
