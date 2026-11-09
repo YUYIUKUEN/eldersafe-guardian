@@ -14,7 +14,16 @@
     "welcome": "Hello, {name}",
     "homeReady": "Your details are ready. Use the button below if you need to change them.",
     "editProfile": "Edit my details",
-    "checkingDevice": "Checking this phone…"
+    "checkingDevice": "Checking this phone…",
+    "emergencyHelp": "Emergency help (fall, injury)",
+    "needCompany": "Want someone with me (shopping, walking)",
+    "myRecords": "My help records",
+    "emergencyTitle": "Emergency help",
+    "emergencyBody": "This page will later connect the emergency countdown and help flow.",
+    "assistTitle": "Want someone with me",
+    "assistBody": "This page will later connect the voice help request flow.",
+    "recordsTitle": "My help records",
+    "recordsBody": "This page will later show the status of your help requests."
   },
   "Onboarding": {
     "progress": "Step {current} of {total}",
