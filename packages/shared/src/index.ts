@@ -56,3 +56,9 @@ export {
   adminLoginPath,
 } from "./auth/paths";
 export { loadAccessContext } from "./auth/session";
+
+export {
+  awardPointsForConfirmedHelpRequest,
+  type AwardPointsInput,
+  type AwardPointsResult,
+} from "./points/award";

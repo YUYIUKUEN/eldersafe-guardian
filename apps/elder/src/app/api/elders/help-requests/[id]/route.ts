@@ -27,6 +27,11 @@ export async function GET(request: Request, context: RouteContext) {
       return Response.json({ error: "not_found" }, { status: 404 });
     }
 
+    const awaitingElderConfirm =
+      record.status === "accepted" &&
+      record.completedAt != null &&
+      record.elderConfirmedAt == null;
+
     await store.writeActivity({
       actorType: "elder",
       actorId: elder.id,
@@ -40,7 +45,15 @@ export async function GET(request: Request, context: RouteContext) {
       helpRequest: {
         id: record.id,
         status: record.status,
+        volunteerName: record.volunteerName,
         createdAt: record.createdAt,
+        acceptedAt: record.acceptedAt,
+        completedAt: record.completedAt,
+        cancelledAt: record.cancelledAt,
+        elderConfirmedAt: record.elderConfirmedAt,
+        awaitingElderConfirm,
+        canCancel: record.status === "pending",
+        canConfirm: awaitingElderConfirm,
       },
       storeMode,
     });

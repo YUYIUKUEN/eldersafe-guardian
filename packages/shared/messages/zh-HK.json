@@ -23,7 +23,31 @@
     "assistTitle": "想找人陪我",
     "assistBody": "此頁稍後會接上錄音求助功能。",
     "recordsTitle": "我的求助紀錄",
-    "recordsBody": "此頁稍後會顯示你的求助單狀態。"
+    "recordsBody": "查看你的求助單狀態。"
+  },
+  "HelpRecords": {
+    "title": "我的求助紀錄",
+    "autoUpdateHint": "義工接單後，這裡會自動更新。",
+    "empty": "你暫時未有求助單。",
+    "askHelp": "想找人陪我",
+    "createdAt": "送出時間：{when}",
+    "volunteerFallback": "義工",
+    "confirmThanks": "確認完成，多謝義工",
+    "confirming": "正在確認…",
+    "cancelRequest": "取消此求助單",
+    "cancelling": "正在取消…",
+    "openStatus": "查看詳情",
+    "backToRecords": "返回我的紀錄",
+    "loadFailed": "未能載入紀錄。請再試一次。",
+    "cancelFailed": "未能取消。求助單可能已被接單。",
+    "confirmFailed": "未能確認。請再試一次。",
+    "status": {
+      "pending": "待接單",
+      "accepted": "義工 {name} 已接單",
+      "volunteerDone": "義工 {name} 已完成，請確認",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    }
   },
   "Emergency": {
     "holdHint": "請按住 1 秒才會啟動，避免誤觸。",
