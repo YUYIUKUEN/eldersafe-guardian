@@ -7,8 +7,11 @@ import { useRouter } from "@/i18n/navigation";
 import { BigButton } from "@/components/ui/BigButton";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
+import { LocationSharingPanel } from "./LocationSharingPanel";
 
 type HelpRequestStatus = "pending" | "accepted" | "completed" | "cancelled";
+
+const POLL_MS = 12_000;
 
 export function HelpRequestStatusScreen({ id }: { id: string }) {
   const t = useTranslations("VoiceAssist");
@@ -19,6 +22,7 @@ export function HelpRequestStatusScreen({ id }: { id: string }) {
 
   useEffect(() => {
     let cancelled = false;
+    let timer: number | null = null;
 
     async function load() {
       const deviceKey = readDeviceKey();
@@ -45,6 +49,7 @@ export function HelpRequestStatusScreen({ id }: { id: string }) {
         }
         if (!cancelled) {
           setStatus(payload.helpRequest.status);
+          setError(null);
         }
       } catch {
         if (!cancelled) {
@@ -54,10 +59,17 @@ export function HelpRequestStatusScreen({ id }: { id: string }) {
     }
 
     void load();
+    timer = window.setInterval(() => {
+      void load();
+    }, POLL_MS);
+
     return () => {
       cancelled = true;
+      if (timer != null) window.clearInterval(timer);
     };
   }, [id, router, t]);
+
+  const sharingActive = status === "pending" || status === "accepted";
 
   return (
     <Page backHref="/">
@@ -78,11 +90,18 @@ export function HelpRequestStatusScreen({ id }: { id: string }) {
       ) : null}
 
       {status ? (
-        <section className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-          <BigText size="title" tone="assist">
-            {t(`status.${status}`)}
-          </BigText>
-          <BigText tone="muted">{t("statusHint")}</BigText>
+        <section className="flex flex-1 flex-col gap-5">
+          <div className="text-center">
+            <BigText size="title" tone="assist">
+              {t(`status.${status}`)}
+            </BigText>
+            <BigText tone="muted">{t("statusHint")}</BigText>
+          </div>
+
+          {sharingActive || status === "completed" || status === "cancelled" ? (
+            <LocationSharingPanel helpRequestId={id} active={sharingActive} />
+          ) : null}
+
           <BigButton href="/" variant="assist">
             {t("backHome")}
           </BigButton>

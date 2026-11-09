@@ -25,6 +25,22 @@
     "recordsTitle": "My help records",
     "recordsBody": "This page will later show the status of your help requests."
   },
+  "LocationShare": {
+    "sharingTitle": "Sharing your location",
+    "stoppedTitle": "Location sharing stopped",
+    "keepOpen": "Please keep this page open so your location can update.",
+    "stop": "Stop sharing",
+    "resume": "Share location again",
+    "lastUpdated": "Location updated.",
+    "denied": "Location is blocked. Turn on Location in settings, then share again.",
+    "unsupported": "This phone cannot share location.",
+    "unavailable": "Location is unavailable. Move to a place with better signal.",
+    "timeout": "Getting location is too slow. Wait a moment or move outdoors.",
+    "failed": "Could not update location. Check your network and try again.",
+    "inaccurate": "Location is not accurate enough. Move near a window or outdoors.",
+    "stoppedHint": "Sharing stopped. Tap Share location again if you still need help.",
+    "autoStopped": "Your request has ended. Location sharing stopped automatically."
+  },
   "VoiceAssist": {
     "title": "Want someone with me",
     "hint": "Tap once to start talking. Say what help you need.",

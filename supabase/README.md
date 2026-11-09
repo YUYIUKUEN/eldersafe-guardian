@@ -35,7 +35,7 @@ values ('<auth-user-uuid>', 'admin', 'System Admin');
 
 Storage buckets：`voice-recordings`（長者錄音）、`recordings`（舊名保留）、`certificates`（非公開）。  
 若專案已跑過 `001_init.sql`，請再執行 `002_voice_recordings_bucket.sql`。
-Realtime：`help_requests`、`emergencies`、`locations`。
+Realtime：`help_requests`、`emergencies`、`locations`（長者寫入 `locations` 後，義工／管理員端可之後用 Realtime 訂閱更新）。
 
 長者寫入走 Next.js API + **service role**（繞過 RLS）。義工／管理員用 Auth session + RLS。
 
