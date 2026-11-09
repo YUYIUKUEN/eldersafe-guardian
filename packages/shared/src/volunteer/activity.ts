@@ -9,6 +9,7 @@ export const VolunteerActivityAction = {
   audioPlay: "volunteer.help_request.audio_play",
   accept: "volunteer.help_request.accept",
   release: "volunteer.help_request.release",
+  complete: "volunteer.help_request.complete",
 } as const;
 
 export type VolunteerActivityActionName =
