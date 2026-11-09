@@ -50,8 +50,11 @@
     }
   },
   "Emergency": {
-    "holdHint": "Press and hold for 1 second to start. This helps stop accidental taps.",
-    "holding": "Keep holding…",
+    "tapHint": "Tap once. We will ask you again to confirm, to avoid mistakes.",
+    "confirmTitle": "Start emergency help?",
+    "confirmBody": "If you confirm, the next step is a countdown and then dialling.",
+    "confirmYes": "Yes, start countdown",
+    "confirmNo": "No, go back",
     "loading": "Preparing emergency help…",
     "countdownTitle": "Calling {number} in 5 seconds",
     "countdownHint": "Tap Cancel if this was a mistake.",

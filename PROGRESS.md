@@ -45,7 +45,7 @@
 - [x] 送出後大字提示並導向求助狀態頁
 - [x] 求助進行中持續分享位置（`watchPosition`、10 秒節流寫入 `locations`、可停止；結束自動停）
 - [x] `locations` 已在 Realtime publication（義工／管理員接收端之後階段接）
-- [x] 紅色緊急按鈕：首頁按住 1 秒啟動；全紅 5 秒倒數（震動 + speechSynthesis）；取消；建立 `emergencies` + 警方 `/track/{token}`；`tel:` 撥號（`TEST_MODE` 預設測試號）；「請按通話鍵」+ 位置分享 +「我已安全／結束」
+- [x] 紅色緊急按鈕：首頁按一下再確認（避免 iPhone 長按預覽）；全紅 5 秒倒數（震動 + speechSynthesis）；取消；建立 `emergencies` + 警方 `/track/{token}`；`tel:` 撥號（`TEST_MODE` 預設測試號）；「請按通話鍵」+ 位置分享 +「我已安全／結束」
 - [x] 我的求助紀錄：超大狀態卡（待接單／義工已接單／已完成）、可取消未接單、義工完成後「確認完成，多謝義工」（積分 stub）、列表自動更新（輪詢 + Realtime）
 - [ ] PWA、求助確認完成
 
