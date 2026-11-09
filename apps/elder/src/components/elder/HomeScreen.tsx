@@ -7,25 +7,39 @@ import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
 import { ElderSessionGate } from "./ElderSessionGate";
 
+const homePrimaryButtonClassName =
+  "flex-1 min-h-[140px] whitespace-normal px-4 text-[26px] leading-snug";
+
 function HomeContent({ elder }: { elder: ElderPublicProfile }) {
   const t = useTranslations("Elder");
-  const tCommon = useTranslations("Common");
 
   return (
     <Page>
-      <BigText as="p" size="caption" tone="brand">
-        {tCommon("appName")}
+      <BigText as="h1" size="title" tone="brand" className="text-center">
+        {t("welcome", { name: elder.name })}
       </BigText>
-      <section className="flex flex-1 flex-col justify-center gap-4 text-center">
-        <BigText as="h1" size="title" tone="brand">
-          {t("welcome", { name: elder.name })}
-        </BigText>
-        <BigText tone="muted">{t("homeReady")}</BigText>
-        <BigButton href="/profile" variant="assist">
-          {t("editProfile")}
+
+      <section className="flex flex-1 flex-col gap-4 pb-2">
+        <BigButton
+          href="/emergency"
+          variant="emergency"
+          className={homePrimaryButtonClassName}
+        >
+          {t("emergencyHelp")}
         </BigButton>
-        <BigButton href="/design-test" variant="assistSoft">
-          {t("openDesignTest")}
+        <BigButton
+          href="/assist"
+          variant="assist"
+          className={homePrimaryButtonClassName}
+        >
+          {t("needCompany")}
+        </BigButton>
+        <BigButton
+          href="/records"
+          variant="neutral"
+          className="min-h-[88px] whitespace-normal text-[22px] leading-snug"
+        >
+          {t("myRecords")}
         </BigButton>
       </section>
     </Page>

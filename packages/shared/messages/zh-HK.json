@@ -14,7 +14,16 @@
     "welcome": "你好，{name}",
     "homeReady": "你的資料已準備好。有需要時可按下面按鈕修改。",
     "editProfile": "修改我的資料",
-    "checkingDevice": "正在檢查此手機…"
+    "checkingDevice": "正在檢查此手機…",
+    "emergencyHelp": "緊急求助（跌倒、受傷）",
+    "needCompany": "想找人陪我（買餸、行街）",
+    "myRecords": "我的求助紀錄",
+    "emergencyTitle": "緊急求助",
+    "emergencyBody": "此頁稍後會接上緊急倒數與求助功能。",
+    "assistTitle": "想找人陪我",
+    "assistBody": "此頁稍後會接上錄音求助功能。",
+    "recordsTitle": "我的求助紀錄",
+    "recordsBody": "此頁稍後會顯示你的求助單狀態。"
   },
   "Onboarding": {
     "progress": "第 {current} 步，共 {total} 步",
