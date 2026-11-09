@@ -1,5 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
-import { BlankActionPage } from "@/components/elder/BlankActionPage";
+import { EmergencyScreen } from "@/components/elder/EmergencyScreen";
 
 type EmergencyPageProps = {
   params: Promise<{ locale: string }>;
@@ -8,8 +8,5 @@ type EmergencyPageProps = {
 export default async function EmergencyPage({ params }: EmergencyPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-
-  return (
-    <BlankActionPage titleKey="emergencyTitle" bodyKey="emergencyBody" />
-  );
+  return <EmergencyScreen />;
 }

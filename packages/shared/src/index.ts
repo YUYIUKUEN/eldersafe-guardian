@@ -6,6 +6,8 @@ export {
   getSupabaseServiceRoleKey,
   tryGetSupabaseServiceRoleKey,
   getTestEmergencyNumber,
+  isEmergencyTestMode,
+  getEmergencyDialNumber,
   type SupabaseAnonConfig,
 } from "./supabase/env";
 
