@@ -10,7 +10,76 @@
   "Elder": {
     "title": "長者 Web App",
     "subtitle": "以長者為先的安全介面（手機專用）",
-    "openDesignTest": "查看設計系統"
+    "openDesignTest": "查看設計系統",
+    "welcome": "你好，{name}",
+    "homeReady": "你的資料已準備好。有需要時可按下面按鈕修改。",
+    "editProfile": "修改我的資料",
+    "checkingDevice": "正在檢查此手機…"
+  },
+  "Onboarding": {
+    "progress": "第 {current} 步，共 {total} 步",
+    "next": "下一步",
+    "backStep": "返回上一步",
+    "skip": "略過此題",
+    "submit": "確認並開始使用",
+    "submitting": "正在儲存…",
+    "submitFailed": "未能儲存資料。請再試一次。",
+    "reviewTitle": "請確認你的資料",
+    "consentLabel": "我同意系統使用我的資料和位置作安全用途",
+    "healthNotesHint": "可不填。如有長期病或藥物過敏，可在這裡寫下。",
+    "skipped": "（已略過）",
+    "fields": {
+      "name": "你的姓名？",
+      "age": "你的年齡？",
+      "phone": "你的電話？",
+      "address": "你的住址？",
+      "emergencyContactName": "緊急聯絡人姓名？",
+      "emergencyContactPhone": "緊急聯絡人電話？",
+      "healthNotes": "健康備註（可略過）"
+    },
+    "errors": {
+      "name": {
+        "required": "請輸入你的姓名。",
+        "too_long": "姓名太長。請縮短至 80 個字以內。"
+      },
+      "age": {
+        "age_invalid": "請輸入 1 至 130 之間的整數年齡，例如 75。"
+      },
+      "phone": {
+        "required": "請輸入你的電話號碼。",
+        "phone_invalid": "請輸入 8 位香港電話號碼，例如 91234567。可加 852，但不要加空格或其他符號。"
+      },
+      "address": {
+        "required": "請輸入你的住址。",
+        "too_long": "住址太長。請縮短至 300 個字以內。"
+      },
+      "emergencyContactName": {
+        "required": "請輸入緊急聯絡人的姓名。",
+        "too_long": "姓名太長。請縮短至 80 個字以內。"
+      },
+      "emergencyContactPhone": {
+        "required": "請輸入緊急聯絡人的電話號碼。",
+        "phone_invalid": "請輸入 8 位香港電話號碼，例如 91234567。可加 852，但不要加空格或其他符號。"
+      },
+      "healthNotes": {
+        "too_long": "健康備註太長。請縮短至 1000 個字以內，或按「略過此題」。"
+      },
+      "consent": {
+        "consent_required": "請勾選同意，我們才能用你的資料和位置保護你的安全。"
+      },
+      "language": {
+        "language_invalid": "語言設定無效。請重新選擇語言後再試。"
+      }
+    }
+  },
+  "Profile": {
+    "title": "修改我的資料",
+    "subtitle": "改完後請按儲存。",
+    "loading": "正在載入你的資料…",
+    "save": "儲存",
+    "saving": "正在儲存…",
+    "saved": "已儲存。",
+    "saveFailed": "未能儲存。請檢查紅色提示後再試。"
   },
   "DesignTest": {
     "title": "設計系統測試",
