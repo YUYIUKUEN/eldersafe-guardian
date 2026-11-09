@@ -438,5 +438,137 @@
     "emergencyAlertNew": "A new emergency was just reported. Open Emergencies now.",
     "viewEmergencies": "View emergencies",
     "dismissAlert": "Dismiss"
+  },
+  "AdminManagement": {
+    "volunteersTitle": "Volunteer management",
+    "volunteersSubtitle": "Search, filter, approve, and review volunteer accounts.",
+    "eldersTitle": "Elder management",
+    "eldersSubtitle": "Search, filter, disable, and review elder profiles.",
+    "search": "Search",
+    "volunteerSearchPlaceholder": "Name, phone, email, or bio",
+    "elderSearchPlaceholder": "Name, phone, or address",
+    "statusFilter": "Status",
+    "applyFilters": "Apply",
+    "exportCsv": "Export CSV",
+    "loading": "Loading…",
+    "empty": "No records match these filters.",
+    "loadFailed": "Could not load records. Please try again.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "saveFailed": "Could not save. Please check the fields and try again.",
+    "notFound": "Record not found.",
+    "cancel": "Cancel",
+    "confirmAction": "Confirm",
+    "working": "Working…",
+    "saving": "Saving…",
+    "save": "Save changes",
+    "editProfile": "Edit details",
+    "cancelEdit": "Cancel edit",
+    "backToList": "Back to list",
+    "prevPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {page} of {totalPages}",
+    "pageSummary": "Showing {from}–{to} of {total}",
+    "registeredAtLabel": "Registered {date}",
+    "lastActiveLabel": "Last active {date}",
+    "emptyHistory": "No help-request history yet.",
+    "emptyPoints": "No points recorded yet.",
+    "emptyCertificates": "No certificates yet.",
+    "emptyEmergencies": "No emergency events yet.",
+    "emptyLogs": "No related logs yet.",
+    "status": {
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "disabled": "Disabled",
+      "active": "Active"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "disable": "Disable",
+      "reactivate": "Reactivate"
+    },
+    "confirmDialog": {
+      "approve": {
+        "title": "Approve volunteer?",
+        "body": "Approve {name}? They will be able to view and accept help requests."
+      },
+      "reject": {
+        "title": "Reject volunteer?",
+        "body": "Reject {name}? They will not be able to access help-request data."
+      },
+      "disable": {
+        "title": "Disable account?",
+        "body": "Disable {name}? Access will be blocked until reactivated."
+      },
+      "reactivate": {
+        "title": "Reactivate account?",
+        "body": "Reactivate {name}? Access will be restored according to the new status."
+      }
+    },
+    "columns": {
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "serviceAreas": "Service areas",
+      "status": "Status",
+      "registeredAt": "Registered",
+      "completedServices": "Completed services",
+      "actions": "Actions",
+      "age": "Age",
+      "address": "Address",
+      "lastActiveAt": "Last active",
+      "helpRequestCount": "Help requests",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "createdAt": "Created",
+      "completedAt": "Completed",
+      "points": "Points",
+      "helpRequest": "Help request",
+      "yearMonth": "Month",
+      "rank": "Rank",
+      "generatedAt": "Generated",
+      "filePath": "File",
+      "action": "Action",
+      "actorType": "Actor",
+      "metadata": "Details",
+      "startedAt": "Started",
+      "endedAt": "Ended"
+    },
+    "fields": {
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "age": "Age",
+      "serviceAreas": "Service areas",
+      "bio": "Bio",
+      "completedServices": "Completed services",
+      "address": "Address",
+      "emergencyContactName": "Emergency contact name",
+      "emergencyContactPhone": "Emergency contact phone",
+      "healthNotes": "Health notes",
+      "language": "Language",
+      "helpRequestCount": "Help requests"
+    },
+    "sections": {
+      "profile": "Profile",
+      "helpHistory": "Help-request history",
+      "points": "Points (total {total})",
+      "certificates": "Certificates",
+      "emergencies": "Emergency history",
+      "logs": "Related logs"
+    },
+    "helpStatus": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "emergencyStatus": {
+      "active": "Active",
+      "resolved": "Resolved",
+      "cancelled": "Cancelled"
+    }
   }
 }

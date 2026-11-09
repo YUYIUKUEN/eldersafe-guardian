@@ -438,5 +438,137 @@
     "emergencyAlertNew": "剛剛有新緊急事件回報，請立刻查看緊急事件。",
     "viewEmergencies": "查看緊急事件",
     "dismissAlert": "關閉提示"
+  },
+  "AdminManagement": {
+    "volunteersTitle": "義工管理",
+    "volunteersSubtitle": "搜尋、篩選、審批及查看義工帳號。",
+    "eldersTitle": "長者管理",
+    "eldersSubtitle": "搜尋、篩選、停用及查看長者資料。",
+    "search": "搜尋",
+    "volunteerSearchPlaceholder": "姓名、電話、電郵或簡介",
+    "elderSearchPlaceholder": "姓名、電話或住址",
+    "statusFilter": "狀態",
+    "applyFilters": "套用",
+    "exportCsv": "匯出 CSV",
+    "loading": "載入中…",
+    "empty": "沒有符合條件的紀錄。",
+    "loadFailed": "無法載入紀錄，請再試一次。",
+    "actionFailed": "操作失敗，請再試一次。",
+    "saveFailed": "無法儲存，請檢查欄位後再試。",
+    "notFound": "找不到此紀錄。",
+    "cancel": "取消",
+    "confirmAction": "確認",
+    "working": "處理中…",
+    "saving": "儲存中…",
+    "save": "儲存變更",
+    "editProfile": "編輯資料",
+    "cancelEdit": "取消編輯",
+    "backToList": "返回列表",
+    "prevPage": "上一頁",
+    "nextPage": "下一頁",
+    "pageOf": "第 {page}／{totalPages} 頁",
+    "pageSummary": "顯示 {from}–{to}，共 {total} 筆",
+    "registeredAtLabel": "註冊於 {date}",
+    "lastActiveLabel": "最後活動 {date}",
+    "emptyHistory": "尚未有求助紀錄。",
+    "emptyPoints": "尚未有積分紀錄。",
+    "emptyCertificates": "尚未有證書。",
+    "emptyEmergencies": "尚未有緊急事件。",
+    "emptyLogs": "尚未有相關日誌。",
+    "status": {
+      "all": "全部",
+      "pending": "待審批",
+      "approved": "已批准",
+      "rejected": "已拒絕",
+      "disabled": "已停用",
+      "active": "使用中"
+    },
+    "actions": {
+      "approve": "批准",
+      "reject": "拒絕",
+      "disable": "停用",
+      "reactivate": "重新啟用"
+    },
+    "confirmDialog": {
+      "approve": {
+        "title": "批准此義工？",
+        "body": "確定批准 {name}？批准後可查看及接求助單。"
+      },
+      "reject": {
+        "title": "拒絕此義工？",
+        "body": "確定拒絕 {name}？對方將不能查看求助資料。"
+      },
+      "disable": {
+        "title": "停用此帳號？",
+        "body": "確定停用 {name}？停用後需重新啟用才能再使用。"
+      },
+      "reactivate": {
+        "title": "重新啟用此帳號？",
+        "body": "確定重新啟用 {name}？將依新狀態恢復使用權限。"
+      }
+    },
+    "columns": {
+      "name": "姓名",
+      "phone": "電話",
+      "email": "電郵",
+      "serviceAreas": "服務地區",
+      "status": "狀態",
+      "registeredAt": "註冊日期",
+      "completedServices": "完成服務數",
+      "actions": "操作",
+      "age": "年齡",
+      "address": "住址",
+      "lastActiveAt": "最後活動時間",
+      "helpRequestCount": "求助次數",
+      "elder": "長者",
+      "volunteer": "義工",
+      "createdAt": "建立時間",
+      "completedAt": "完成時間",
+      "points": "積分",
+      "helpRequest": "求助單",
+      "yearMonth": "月份",
+      "rank": "名次",
+      "generatedAt": "產生時間",
+      "filePath": "檔案",
+      "action": "動作",
+      "actorType": "執行者",
+      "metadata": "詳情",
+      "startedAt": "開始時間",
+      "endedAt": "結束時間"
+    },
+    "fields": {
+      "name": "姓名",
+      "phone": "電話",
+      "email": "電郵",
+      "age": "年齡",
+      "serviceAreas": "服務地區",
+      "bio": "簡介",
+      "completedServices": "完成服務數",
+      "address": "住址",
+      "emergencyContactName": "緊急聯絡人姓名",
+      "emergencyContactPhone": "緊急聯絡人電話",
+      "healthNotes": "健康備註",
+      "language": "語言",
+      "helpRequestCount": "求助次數"
+    },
+    "sections": {
+      "profile": "基本資料",
+      "helpHistory": "求助／接單紀錄",
+      "points": "積分（合計 {total}）",
+      "certificates": "證書",
+      "emergencies": "歷史緊急事件",
+      "logs": "相關日誌"
+    },
+    "helpStatus": {
+      "pending": "待接單",
+      "accepted": "已接單",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "emergencyStatus": {
+      "active": "進行中",
+      "resolved": "已結束",
+      "cancelled": "已取消"
+    }
   }
 }
