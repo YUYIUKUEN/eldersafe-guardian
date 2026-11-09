@@ -50,8 +50,11 @@
     }
   },
   "Emergency": {
-    "holdHint": "請按住 1 秒才會啟動，避免誤觸。",
-    "holding": "繼續按住…",
+    "tapHint": "按一下後會再問你一次，避免誤觸。",
+    "confirmTitle": "確定要緊急求助？",
+    "confirmBody": "如果確定，下一步會開始倒數並準備撥號。",
+    "confirmYes": "確定，開始倒數",
+    "confirmNo": "不是，返回",
     "loading": "正在準備緊急求助…",
     "countdownTitle": "5 秒後會撥打 {number}",
     "countdownHint": "如果按錯，請立即按「取消」。",
