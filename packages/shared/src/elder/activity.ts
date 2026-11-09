@@ -17,4 +17,6 @@ export const ElderActivityAction = {
   profileUpdate: "elder.profile.update",
   helpRequestCreate: "elder.help_request.create",
   helpRequestView: "elder.help_request.view",
+  locationShare: "elder.location.share",
+  locationShareStop: "elder.location.share_stop",
 } as const;

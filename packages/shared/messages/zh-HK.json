@@ -25,6 +25,22 @@
     "recordsTitle": "我的求助紀錄",
     "recordsBody": "此頁稍後會顯示你的求助單狀態。"
   },
+  "LocationShare": {
+    "sharingTitle": "位置分享中",
+    "stoppedTitle": "已停止分享位置",
+    "keepOpen": "請保持此頁面開啟，位置才會更新。",
+    "stop": "停止分享",
+    "resume": "繼續分享位置",
+    "lastUpdated": "位置已更新。",
+    "denied": "未能使用位置。請在手機設定打開「位置」後再繼續分享。",
+    "unsupported": "這部手機未能提供位置。",
+    "unavailable": "暫時讀不到位置。請到有訊號的地方。",
+    "timeout": "讀取位置太慢。請稍等或移去空曠地方。",
+    "failed": "位置更新失敗。請檢查網絡後再試。",
+    "inaccurate": "現在位置不夠準。請移近窗口或到室外。",
+    "stoppedHint": "已停止分享。有需要可再按「繼續分享位置」。",
+    "autoStopped": "求助已結束，位置分享已自動停止。"
+  },
   "VoiceAssist": {
     "title": "想找人陪我",
     "hint": "按一下開始說話，講你需要甚麼幫助。",
