@@ -96,10 +96,16 @@ export {
 export {
   mapVolunteerHelpFeedRow,
   filterVolunteerHelpFeed,
+  isAwaitingElderConfirm,
+  volunteerDisplayStatus,
+  serviceHoursBetween,
+  buildVolunteerRecordsSummary,
   type VolunteerHelpFeedStatus,
   type VolunteerHelpFeedItem,
   type VolunteerHelpFeedFilter,
   type VolunteerHelpFeedSort,
+  type VolunteerDisplayStatus,
+  type VolunteerRecordsSummary,
 } from "./volunteer/help-feed";
 
 export {

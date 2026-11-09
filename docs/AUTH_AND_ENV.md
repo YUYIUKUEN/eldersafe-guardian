@@ -73,9 +73,11 @@ Next.js 16 用 `src/proxy.ts`（舊稱 middleware）做路由保護。
 - `004_volunteer_help_feed.sql`（`list_volunteer_help_feed()`、接單前遮罩住址／電話、收緊 locations／錄音讀取）
 - `005_volunteer_help_feed_transcript.sql`（列表可選 `transcript`）
 - `006_volunteer_accept_release.sql`（接單／放棄條件更新 RPC）
+- `007_volunteer_complete_records.sql`（服務完成、逾 24h 管理員 helper）
 
 錄音播放：伺服器簽 5 分鐘私有 Storage 連結；首次真正播放會寫 `activity_logs`（`volunteer.help_request.audio_play`）。  
-接單：`accept_help_request` 只在仍是 `pending` 時成功；失敗回「已被其他義工接單」。放棄需原因並寫 `volunteer.help_request.release`。
+接單：`accept_help_request` 只在仍是 `pending` 時成功；失敗回「已被其他義工接單」。放棄需原因並寫 `volunteer.help_request.release`。  
+服務完成：寫 `completed_at`（狀態仍為 `accepted`＝等待長者確認）；長者確認後才 `completed` 並走積分 stub。逾 24 小時可用 `admin_list_overdue_elder_confirmations`／`admin_force_confirm_help_request`。
 
 ## F. 驗收清單（schema + 連線 + 權限）
 

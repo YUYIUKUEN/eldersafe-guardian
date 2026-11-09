@@ -4,6 +4,8 @@ import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
 import { useLocale, useTranslations } from "next-intl";
 import {
   buildMapNavigationUrl,
+  isAwaitingElderConfirm,
+  volunteerDisplayStatus,
   type VolunteerHelpFeedItem,
 } from "@eldersafe/shared";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -137,9 +139,14 @@ export function HelpRequestDetail({
           }
         : null;
 
-  const isMine =
-    item.volunteerId === volunteerId && item.status === "accepted";
+  const displayStatus = volunteerDisplayStatus(item);
+  const isMineActive =
+    item.volunteerId === volunteerId &&
+    item.status === "accepted" &&
+    !item.completedAt;
+  const isAwaiting = isAwaitingElderConfirm(item);
   const isPending = item.status === "pending";
+  const isCompleted = item.status === "completed";
 
   function onAccept() {
     setError(null);
@@ -205,12 +212,46 @@ export function HelpRequestDetail({
     });
   }
 
+  function onComplete() {
+    setError(null);
+    startTransition(async () => {
+      try {
+        const response = await fetch(
+          `/api/volunteers/help-requests/${helpRequestId}/complete`,
+          { method: "POST" },
+        );
+        const payload = (await response.json().catch(() => ({}))) as {
+          error?: string;
+        };
+        if (!response.ok) {
+          setError(
+            payload.error === "not_completable"
+              ? t("completeNotAllowed")
+              : t("completeFailed"),
+          );
+          await reload();
+          return;
+        }
+        await reload();
+        router.refresh();
+      } catch {
+        setError(t("completeFailed"));
+      }
+    });
+  }
+
   return (
     <div className="space-y-6">
       <div className="space-y-2">
         <p className="text-sm font-medium text-brand">
-          {tHelp(`status.${item.status}`)}
+          {tHelp(`status.${displayStatus}`)}
         </p>
+        {isAwaiting ? (
+          <p className="text-sm text-slate-600">{t("awaitingElderHint")}</p>
+        ) : null}
+        {isCompleted ? (
+          <p className="text-sm text-slate-600">{t("completedHint")}</p>
+        ) : null}
         <h1 className="text-3xl font-bold tracking-tight text-slate-900">
           {tHelp("elderLine", { name: item.elderName, age: item.elderAge })}
         </h1>
@@ -286,46 +327,56 @@ export function HelpRequestDetail({
           </button>
         ) : null}
 
-        {isMine ? (
-          showRelease ? (
-            <div className="w-full space-y-3 rounded-2xl border border-slate-200 bg-white p-4">
-              <label className="block text-sm font-semibold text-slate-800">
-                {t("releaseReason")}
-                <textarea
-                  className="mt-1 min-h-24 w-full rounded-xl border border-slate-300 px-3 py-2 text-base"
-                  value={releaseReason}
-                  onChange={(event) => setReleaseReason(event.target.value)}
-                  disabled={pending}
-                />
-              </label>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  disabled={pending}
-                  onClick={onRelease}
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-amber-700 px-4 py-3 text-base font-semibold text-white disabled:opacity-60"
-                >
-                  {pending ? t("releasing") : t("confirmRelease")}
-                </button>
-                <button
-                  type="button"
-                  disabled={pending}
-                  onClick={() => setShowRelease(false)}
-                  className="inline-flex min-h-12 items-center justify-center rounded-xl bg-slate-200 px-4 py-3 text-base font-semibold text-slate-800"
-                >
-                  {t("cancelRelease")}
-                </button>
-              </div>
-            </div>
-          ) : (
+        {isMineActive ? (
+          <>
             <button
               type="button"
-              onClick={() => setShowRelease(true)}
-              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-amber-700 px-4 py-3 text-base font-semibold text-white"
+              disabled={pending}
+              onClick={onComplete}
+              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-700 px-4 py-3 text-base font-semibold text-white disabled:opacity-60"
             >
-              {t("release")}
+              {pending ? t("completing") : t("complete")}
             </button>
-          )
+            {showRelease ? (
+              <div className="w-full space-y-3 rounded-2xl border border-slate-200 bg-white p-4">
+                <label className="block text-sm font-semibold text-slate-800">
+                  {t("releaseReason")}
+                  <textarea
+                    className="mt-1 min-h-24 w-full rounded-xl border border-slate-300 px-3 py-2 text-base"
+                    value={releaseReason}
+                    onChange={(event) => setReleaseReason(event.target.value)}
+                    disabled={pending}
+                  />
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    disabled={pending}
+                    onClick={onRelease}
+                    className="inline-flex min-h-12 items-center justify-center rounded-xl bg-amber-700 px-4 py-3 text-base font-semibold text-white disabled:opacity-60"
+                  >
+                    {pending ? t("releasing") : t("confirmRelease")}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={pending}
+                    onClick={() => setShowRelease(false)}
+                    className="inline-flex min-h-12 items-center justify-center rounded-xl bg-slate-200 px-4 py-3 text-base font-semibold text-slate-800"
+                  >
+                    {t("cancelRelease")}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setShowRelease(true)}
+                className="inline-flex min-h-12 items-center justify-center rounded-xl bg-amber-700 px-4 py-3 text-base font-semibold text-white"
+              >
+                {t("release")}
+              </button>
+            )}
+          </>
         ) : null}
 
         <Link

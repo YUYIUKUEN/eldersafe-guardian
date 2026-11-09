@@ -4,6 +4,7 @@ import { useEffect, useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   formatDistanceMeters,
+  volunteerDisplayStatus,
   type VolunteerHelpFeedItem,
 } from "@eldersafe/shared";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -70,11 +71,13 @@ export function HelpRequestCard({
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [actionError, setActionError] = useState<string | null>(null);
-  const statusLabel = t(`status.${item.status}`);
+  const displayStatus = volunteerDisplayStatus(item);
+  const statusLabel = t(`status.${displayStatus}`);
   const detailHref = `/help-requests/${item.id}`;
   const canAccept = item.status === "pending";
   const isMine =
-    item.volunteerId === volunteerId && item.status === "accepted";
+    item.volunteerId === volunteerId &&
+    (item.status === "accepted" || item.status === "completed");
 
   function onAccept() {
     setActionError(null);

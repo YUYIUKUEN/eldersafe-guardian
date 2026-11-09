@@ -234,6 +234,7 @@
     "homeTitle": "Help requests",
     "homeApprovedHint": "Pending requests and your accepted requests appear below. New requests show up live.",
     "navHome": "Help requests",
+    "navRecords": "My records",
     "navProfile": "Profile",
     "logout": "Log out",
     "loggingOut": "Logging out…"
@@ -280,6 +281,7 @@
     "status": {
       "pending": "Pending",
       "accepted": "Accepted by you",
+      "awaiting_elder": "Waiting for elder confirmation",
       "completed": "Completed"
     }
   },
@@ -289,6 +291,12 @@
     "accepting": "Accepting…",
     "acceptFailed": "Could not accept. Please try again.",
     "alreadyTaken": "Another volunteer already accepted this request",
+    "complete": "Mark service complete",
+    "completing": "Marking complete…",
+    "completeFailed": "Could not mark complete. Please try again.",
+    "completeNotAllowed": "This request cannot be marked complete right now.",
+    "awaitingElderHint": "The elder has been notified to confirm. Points are awarded only after confirmation (scoring arrives in phase 5). If there is no confirmation within 24 hours, an admin can handle it manually.",
+    "completedHint": "The elder confirmed completion. Points will be awarded when the rewards system is enabled.",
     "openDetail": "Open details / map",
     "viewMap": "View map",
     "openMaps": "Navigate in Maps app",
@@ -309,6 +317,20 @@
     "legendLive": "Live location",
     "legendAddress": "Address",
     "legendVolunteer": "You"
+  },
+  "VolunteerRecords": {
+    "title": "My records",
+    "subtitle": "See your service count, total hours, and request history.",
+    "loading": "Loading records…",
+    "loadFailed": "Could not load records. Please try again later.",
+    "serviceCount": "Services completed",
+    "totalHours": "Total hours",
+    "hoursHint": "Counted from accept to mark-complete, for elder-confirmed requests only.",
+    "historyTitle": "History",
+    "empty": "No service records yet.",
+    "rowHours": "Service hours: {hours}",
+    "rowHoursUnknown": "Service hours: —",
+    "awaitingNote": "Waiting for elder confirmation"
   },
   "VolunteerStatus": {
     "pendingTitle": "Waiting for admin approval",

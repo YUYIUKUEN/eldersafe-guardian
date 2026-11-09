@@ -40,6 +40,7 @@ Storage buckets：`voice-recordings`（長者錄音）、`recordings`（舊名�
 - `004_volunteer_help_feed.sql`（義工求助列表 RPC、遮罩長者敏感欄位、收緊 help/locations/storage RLS）
 - `005_volunteer_help_feed_transcript.sql`（列表 RPC 加可選 `transcript`）
 - `006_volunteer_accept_release.sql`（`accept_help_request`／`release_help_request` 條件更新、詳情 RPC）
+- `007_volunteer_complete_records.sql`（`complete_help_request`、逾 24h 管理員確認 helper、feed 加 `elder_confirmed_at`）
 
 Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`。  
 義工列表請呼叫 `list_volunteer_help_feed()`（不會回傳緊急聯絡人／健康備註；住址／電話僅在已接單後回傳）。

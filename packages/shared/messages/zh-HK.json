@@ -234,6 +234,7 @@
     "homeTitle": "求助列表",
     "homeApprovedHint": "以下顯示待接單與你的求助單。新求助會即時出現。",
     "navHome": "求助列表",
+    "navRecords": "我的紀錄",
     "navProfile": "個人資料",
     "logout": "登出",
     "loggingOut": "正在登出…"
@@ -280,6 +281,7 @@
     "status": {
       "pending": "待接單",
       "accepted": "我已接單",
+      "awaiting_elder": "等待長者確認",
       "completed": "已完成"
     }
   },
@@ -289,6 +291,12 @@
     "accepting": "正在接單…",
     "acceptFailed": "未能接單。請再試一次。",
     "alreadyTaken": "已被其他義工接單",
+    "complete": "服務完成",
+    "completing": "正在標記完成…",
+    "completeFailed": "未能標記完成。請再試一次。",
+    "completeNotAllowed": "此單目前不能標記完成。",
+    "awaitingElderHint": "已通知長者確認。長者確認後才會正式完成並計算積分（積分規則稍後接上）。若 24 小時內未確認，管理員可手動處理。",
+    "completedHint": "長者已確認完成。積分會在獎勵系統啟用後發放。",
     "openDetail": "查看詳情／地圖",
     "viewMap": "查看地圖",
     "openMaps": "用地圖 App 導航",
@@ -309,6 +317,20 @@
     "legendLive": "即時位置",
     "legendAddress": "住址",
     "legendVolunteer": "我"
+  },
+  "VolunteerRecords": {
+    "title": "我的紀錄",
+    "subtitle": "查看你的服務次數、總時數與歷史求助單。",
+    "loading": "正在載入紀錄…",
+    "loadFailed": "未能載入紀錄。請稍後再試。",
+    "serviceCount": "服務次數",
+    "totalHours": "總時數",
+    "hoursHint": "以接單至標記服務完成計算；只計長者已確認的單。",
+    "historyTitle": "歷史單據",
+    "empty": "暫時未有服務紀錄。",
+    "rowHours": "服務時數：{hours}",
+    "rowHoursUnknown": "服務時數：—",
+    "awaitingNote": "等待長者確認"
   },
   "VolunteerStatus": {
     "pendingTitle": "等待管理員審批",
