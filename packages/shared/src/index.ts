@@ -103,6 +103,11 @@ export {
 } from "./volunteer/help-feed";
 
 export {
+  buildMapNavigationUrl,
+  type MapNavigationTarget,
+} from "./geo/navigation";
+
+export {
   haversineDistanceMeters,
   formatDistanceMeters,
 } from "./geo/haversine";

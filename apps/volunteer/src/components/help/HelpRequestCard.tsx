@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   formatDistanceMeters,
   type VolunteerHelpFeedItem,
 } from "@eldersafe/shared";
+import { Link, useRouter } from "@/i18n/navigation";
 import { reverseGeocodeAreaName } from "@/lib/geo/reverse-geocode";
 import { AudioPlayer } from "./AudioPlayer";
 
@@ -13,6 +14,8 @@ type HelpRequestCardProps = {
   item: VolunteerHelpFeedItem;
   distanceMeters: number | null;
   highlight?: boolean;
+  volunteerId: string;
+  onChanged?: () => void;
 };
 
 function formatCreatedAt(iso: string, locale: string): string {
@@ -58,10 +61,49 @@ export function HelpRequestCard({
   item,
   distanceMeters,
   highlight = false,
+  volunteerId,
+  onChanged,
 }: HelpRequestCardProps) {
   const t = useTranslations("VolunteerHelp");
+  const tDetail = useTranslations("VolunteerHelpDetail");
   const locale = useLocale();
+  const router = useRouter();
+  const [pending, startTransition] = useTransition();
+  const [actionError, setActionError] = useState<string | null>(null);
   const statusLabel = t(`status.${item.status}`);
+  const detailHref = `/help-requests/${item.id}`;
+  const canAccept = item.status === "pending";
+  const isMine =
+    item.volunteerId === volunteerId && item.status === "accepted";
+
+  function onAccept() {
+    setActionError(null);
+    startTransition(async () => {
+      try {
+        const response = await fetch(
+          `/api/volunteers/help-requests/${item.id}/accept`,
+          { method: "POST" },
+        );
+        const payload = (await response.json().catch(() => ({}))) as {
+          error?: string;
+        };
+        if (response.status === 409 || payload.error === "already_taken") {
+          setActionError(tDetail("alreadyTaken"));
+          onChanged?.();
+          return;
+        }
+        if (!response.ok) {
+          setActionError(tDetail("acceptFailed"));
+          return;
+        }
+        onChanged?.();
+        router.push(detailHref);
+        router.refresh();
+      } catch {
+        setActionError(tDetail("acceptFailed"));
+      }
+    });
+  }
 
   return (
     <article
@@ -132,6 +174,33 @@ export function HelpRequestCard({
           elderId={item.elderId}
           transcript={item.transcript}
         />
+      </div>
+
+      {actionError ? (
+        <p className="mt-3 text-sm font-medium text-red-700" role="alert">
+          {actionError}
+        </p>
+      ) : null}
+
+      <div className="mt-4 flex flex-wrap gap-2">
+        {canAccept ? (
+          <button
+            type="button"
+            disabled={pending}
+            onClick={onAccept}
+            className="inline-flex min-h-11 items-center justify-center rounded-xl bg-emerald-700 px-4 py-2 text-sm font-semibold text-white disabled:opacity-60"
+          >
+            {pending ? tDetail("accepting") : tDetail("accept")}
+          </button>
+        ) : null}
+        <Link
+          href={detailHref}
+          className="inline-flex min-h-11 items-center justify-center rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white"
+        >
+          {isMine || item.status !== "pending"
+            ? tDetail("openDetail")
+            : tDetail("viewMap")}
+        </Link>
       </div>
     </article>
   );
