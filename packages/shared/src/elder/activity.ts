@@ -22,4 +22,8 @@ export const ElderActivityAction = {
   helpRequestConfirm: "elder.help_request.confirm",
   locationShare: "elder.location.share",
   locationShareStop: "elder.location.share_stop",
+  emergencyCreate: "elder.emergency.create",
+  emergencyEnd: "elder.emergency.end",
+  emergencyView: "elder.emergency.view",
+  emergencyTrackView: "public.emergency.track_view",
 } as const;

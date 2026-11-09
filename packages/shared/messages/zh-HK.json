@@ -19,7 +19,7 @@
     "needCompany": "想找人陪我（買餸、行街）",
     "myRecords": "我的求助紀錄",
     "emergencyTitle": "緊急求助",
-    "emergencyBody": "此頁稍後會接上緊急倒數與求助功能。",
+    "emergencyBody": "緊急倒數與求助功能。",
     "assistTitle": "想找人陪我",
     "assistBody": "此頁稍後會接上錄音求助功能。",
     "recordsTitle": "我的求助紀錄",
@@ -46,6 +46,44 @@
       "accepted": "義工 {name} 已接單",
       "volunteerDone": "義工 {name} 已完成，請確認",
       "completed": "已完成",
+      "cancelled": "已取消"
+    }
+  },
+  "Emergency": {
+    "holdHint": "請按住 1 秒才會啟動，避免誤觸。",
+    "holding": "繼續按住…",
+    "loading": "正在準備緊急求助…",
+    "countdownTitle": "5 秒後會撥打 {number}",
+    "countdownHint": "如果按錯，請立即按「取消」。",
+    "cancel": "取消",
+    "activeTitle": "求助已發出",
+    "endedTitle": "緊急求助已結束",
+    "pressCall": "請按手機上的「通話」鍵",
+    "dialHint": "手機應顯示 {number}。如果沒有，請自行撥打此號碼。",
+    "imSafe": "我已安全／結束",
+    "ending": "正在結束…",
+    "backHome": "返回首頁",
+    "loadFailed": "未能打開緊急求助。請再試一次。",
+    "createFailed": "未能開始緊急求助。請再試一次。",
+    "endFailed": "未能結束緊急求助。請再試一次。",
+    "speechStart": "緊急求助。五秒後會撥打 {number}。如果按錯，請按取消。",
+    "speechCountdown": "{seconds}",
+    "speechCalling": "正在撥號。請按手機上的通話鍵。",
+    "speechEnded": "緊急求助已結束。你已標記為安全。"
+  },
+  "PoliceTrack": {
+    "title": "緊急位置",
+    "loading": "載入中…",
+    "notFound": "此緊急連結無效或已失效。",
+    "name": "姓名",
+    "age": "年齡：{age}",
+    "address": "住址",
+    "healthNotes": "健康備註",
+    "noHealthNotes": "沒有",
+    "waitingLocation": "正在等待即時位置…",
+    "status": {
+      "active": "緊急事件進行中",
+      "resolved": "已標記安全",
       "cancelled": "已取消"
     }
   },

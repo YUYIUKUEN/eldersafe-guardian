@@ -4,6 +4,7 @@ import {
   tryGetSupabaseServiceRoleKey,
 } from "@eldersafe/shared";
 import { getHelpRequestForElder } from "./help-requests";
+import { isMemoryEmergencyActiveForElder } from "./emergencies";
 import { LOCATION_WRITE_INTERVAL_MS } from "./location-constants";
 
 export { LOCATION_WRITE_INTERVAL_MS } from "./location-constants";
@@ -100,7 +101,11 @@ async function assertParentActive(
   }
 
   if (!hasSupabaseConfig()) {
-    // Emergency create flow is not built yet; memory mode only supports help requests.
+    if (
+      isMemoryEmergencyActiveForElder(input.elderId, input.emergencyId!)
+    ) {
+      return { ok: true };
+    }
     return { ok: false, error: "not_found" };
   }
 
@@ -116,6 +121,25 @@ async function assertParentActive(
   if (!data) return { ok: false, error: "not_found" };
   if (data.status !== "active") return { ok: false, error: "inactive_parent" };
   return { ok: true };
+}
+
+export function getMemoryLocationsForEmergency(
+  emergencyId: string,
+): Array<{
+  latitude: number;
+  longitude: number;
+  accuracyM: number | null;
+  recordedAt: string;
+}> {
+  const state = getMemoryLocationState();
+  return state.points
+    .filter((point) => point.emergencyId === emergencyId)
+    .map((point) => ({
+      latitude: point.latitude,
+      longitude: point.longitude,
+      accuracyM: point.accuracyM,
+      recordedAt: point.recordedAt,
+    }));
 }
 
 async function insertWithMemory(
