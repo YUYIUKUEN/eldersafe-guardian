@@ -70,6 +70,22 @@ select {
   font: inherit;
 }
 
+@keyframes elder-recording-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.06);
+    filter: brightness(1.08);
+  }
+}
+
+.elder-recording-pulse {
+  animation: elder-recording-pulse 1.2s ease-in-out infinite;
+}
+
 /* Mobile-portrait shell: phone-width column on larger screens. */
 .elder-shell {
   width: 100%;

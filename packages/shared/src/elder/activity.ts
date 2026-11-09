@@ -15,4 +15,6 @@ export const ElderActivityAction = {
   sessionFail: "elder.session.fail",
   profileView: "elder.profile.view",
   profileUpdate: "elder.profile.update",
+  helpRequestCreate: "elder.help_request.create",
+  helpRequestView: "elder.help_request.view",
 } as const;
