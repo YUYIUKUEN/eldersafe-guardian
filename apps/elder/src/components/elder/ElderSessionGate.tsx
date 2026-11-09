@@ -8,7 +8,6 @@ import {
   clearDeviceKey,
   readDeviceKey,
 } from "@/lib/elder/device-storage";
-import { usePathname, useRouter } from "@/i18n/navigation";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
 
@@ -23,22 +22,20 @@ export function ElderSessionGate({
   requireSession = true,
 }: ElderSessionGateProps) {
   const t = useTranslations("Elder");
-  const router = useRouter();
-  const pathname = usePathname();
   const [elder, setElder] = useState<ElderPublicProfile | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
+    let active = true;
 
     async function run() {
       const key = readDeviceKey();
       if (!key) {
-        if (requireSession && pathname !== "/onboarding") {
-          router.replace("/onboarding");
+        if (requireSession) {
+          window.location.replace("/onboarding");
           return;
         }
-        if (!cancelled) {
+        if (active) {
           setElder(null);
           setReady(true);
         }
@@ -47,11 +44,11 @@ export function ElderSessionGate({
 
       try {
         const session = await fetchElderSession(key);
-        if (cancelled) return;
+        if (!active) return;
         if (!session) {
           clearDeviceKey();
           if (requireSession) {
-            router.replace("/onboarding");
+            window.location.replace("/onboarding");
             return;
           }
           setElder(null);
@@ -59,25 +56,24 @@ export function ElderSessionGate({
           return;
         }
 
-        if (pathname === "/onboarding") {
-          router.replace("/");
-          return;
-        }
-
         setElder(session.elder);
         setReady(true);
       } catch {
-        if (!cancelled) {
-          setReady(true);
+        if (!active) return;
+        if (requireSession) {
+          window.location.replace("/onboarding");
+          return;
         }
+        setElder(null);
+        setReady(true);
       }
     }
 
     void run();
     return () => {
-      cancelled = true;
+      active = false;
     };
-  }, [pathname, requireSession, router]);
+  }, [requireSession]);
 
   if (!ready || !elder) {
     return (

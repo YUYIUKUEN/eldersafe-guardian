@@ -6,12 +6,14 @@ import { BigButton } from "@/components/ui/BigButton";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
 import { ElderSessionGate } from "./ElderSessionGate";
+import { HoldToActivateButton } from "./HoldToActivateButton";
 
 const homePrimaryButtonClassName =
   "flex-1 min-h-[140px] whitespace-normal px-4 text-[26px] leading-snug";
 
 function HomeContent({ elder }: { elder: ElderPublicProfile }) {
   const t = useTranslations("Elder");
+  const tEmergency = useTranslations("Emergency");
 
   return (
     <Page>
@@ -20,13 +22,14 @@ function HomeContent({ elder }: { elder: ElderPublicProfile }) {
       </BigText>
 
       <section className="flex flex-1 flex-col gap-4 pb-2">
-        <BigButton
+        <HoldToActivateButton
           href="/emergency"
-          variant="emergency"
           className={homePrimaryButtonClassName}
+          hint={tEmergency("holdHint")}
+          holdingLabel={tEmergency("holding")}
         >
           {t("emergencyHelp")}
-        </BigButton>
+        </HoldToActivateButton>
         <BigButton
           href="/assist"
           variant="assist"

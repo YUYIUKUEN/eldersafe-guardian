@@ -25,10 +25,12 @@ cp apps/admin/.env.local.example apps/admin/.env.local
 `apps/elder/.env.local` 還需要：
 
 ```bash
+TEST_MODE=true
 TEST_EMERGENCY_NUMBER=+85290000000
 ```
 
-（測試用緊急電話；正式不可撥 999，用這個變數代替。）
+- `TEST_MODE` 預設為測試模式（未設定或非 `false` 都是測試）。只有明確設 `TEST_MODE=false` 才會撥 `999`。
+- 測試模式下撥打 `TEST_EMERGENCY_NUMBER`（不可設成 999）。
 
 改完 env 後重啟 `pnpm dev`。
 
