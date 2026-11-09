@@ -37,8 +37,10 @@ Storage buckets：`voice-recordings`（長者錄音）、`recordings`（舊名�
 若專案已跑過 `001_init.sql`，請再執行：
 - `002_voice_recordings_bucket.sql`
 - `003_volunteer_approval_rls.sql`（`rejected` 狀態、非 approved 不可讀求助資料、`volunteers` Realtime）
+- `004_volunteer_help_feed.sql`（義工求助列表 RPC、遮罩長者敏感欄位、收緊 help/locations/storage RLS）
 
-Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`。
+Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`。  
+義工列表請呼叫 `list_volunteer_help_feed()`（不會回傳緊急聯絡人／健康備註；住址／電話僅在已接單後回傳）。
 
 長者寫入走 Next.js API + **service role**（繞過 RLS）。義工／管理員用 Auth session + RLS。
 

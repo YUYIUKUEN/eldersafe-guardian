@@ -94,6 +94,20 @@ export {
 } from "./volunteer/validation";
 
 export {
+  mapVolunteerHelpFeedRow,
+  filterVolunteerHelpFeed,
+  type VolunteerHelpFeedStatus,
+  type VolunteerHelpFeedItem,
+  type VolunteerHelpFeedFilter,
+  type VolunteerHelpFeedSort,
+} from "./volunteer/help-feed";
+
+export {
+  haversineDistanceMeters,
+  formatDistanceMeters,
+} from "./geo/haversine";
+
+export {
   awardPointsForConfirmedHelpRequest,
   type AwardPointsInput,
   type AwardPointsResult,
