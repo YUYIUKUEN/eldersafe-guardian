@@ -1,5 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
-import { BlankActionPage } from "@/components/elder/BlankActionPage";
+import { HelpRecordsScreen } from "@/components/elder/HelpRecordsScreen";
 
 type RecordsPageProps = {
   params: Promise<{ locale: string }>;
@@ -8,6 +8,5 @@ type RecordsPageProps = {
 export default async function RecordsPage({ params }: RecordsPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-
-  return <BlankActionPage titleKey="recordsTitle" bodyKey="recordsBody" />;
+  return <HelpRecordsScreen />;
 }

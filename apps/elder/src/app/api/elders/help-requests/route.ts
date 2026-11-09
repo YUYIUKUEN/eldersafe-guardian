@@ -1,5 +1,8 @@
 import { ElderActivityAction } from "@eldersafe/shared";
-import { createHelpRequest } from "@/lib/elder/help-requests";
+import {
+  createHelpRequest,
+  listHelpRequestsForElder,
+} from "@/lib/elder/help-requests";
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
 
@@ -7,6 +10,42 @@ function parseOptionalNumber(value: FormDataEntryValue | null): number | null {
   if (typeof value !== "string" || !value.trim()) return null;
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
+}
+
+export async function GET(request: Request) {
+  const elder = await resolveElderFromRequest(request);
+  const store = getElderStore();
+
+  if (!elder) {
+    await store.writeActivity({
+      actorType: "system",
+      action: ElderActivityAction.sessionFail,
+      metadata: { reason: "help_request_list_unauthorized" },
+    });
+    return Response.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  try {
+    const { items, storeMode } = await listHelpRequestsForElder(elder.id);
+
+    await store.writeActivity({
+      actorType: "elder",
+      actorId: elder.id,
+      action: ElderActivityAction.helpRequestList,
+      targetType: "help_request",
+      metadata: { storeMode, count: items.length },
+    });
+
+    return Response.json({
+      helpRequests: items,
+      elderId: elder.id,
+      storeMode,
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "help_request_list_failed";
+    return Response.json({ error: message }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {

@@ -23,7 +23,31 @@
     "assistTitle": "Want someone with me",
     "assistBody": "This page will later connect the voice help request flow.",
     "recordsTitle": "My help records",
-    "recordsBody": "This page will later show the status of your help requests."
+    "recordsBody": "See the status of your help requests."
+  },
+  "HelpRecords": {
+    "title": "My help records",
+    "autoUpdateHint": "This list updates by itself when a volunteer accepts.",
+    "empty": "You have no help requests yet.",
+    "askHelp": "Ask for company",
+    "createdAt": "Sent: {when}",
+    "volunteerFallback": "Volunteer",
+    "confirmThanks": "Confirm complete, thank the volunteer",
+    "confirming": "Confirming…",
+    "cancelRequest": "Cancel this request",
+    "cancelling": "Cancelling…",
+    "openStatus": "Open details",
+    "backToRecords": "Back to my records",
+    "loadFailed": "Could not load your records. Please try again.",
+    "cancelFailed": "Could not cancel. The request may already be accepted.",
+    "confirmFailed": "Could not confirm. Please try again.",
+    "status": {
+      "pending": "Waiting for a volunteer",
+      "accepted": "Volunteer {name} has accepted",
+      "volunteerDone": "Volunteer {name} finished — please confirm",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
   },
   "LocationShare": {
     "sharingTitle": "Sharing your location",
