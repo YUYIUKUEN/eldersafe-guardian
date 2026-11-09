@@ -4,9 +4,35 @@ export {
   getSupabaseAnonConfig,
   tryGetSupabaseAnonConfig,
   getSupabaseServiceRoleKey,
+  tryGetSupabaseServiceRoleKey,
   getTestEmergencyNumber,
   type SupabaseAnonConfig,
 } from "./supabase/env";
+
+export { ELDER_CONSENT_VERSION } from "./elder/consent";
+export { generateDeviceKey, hashDeviceKey } from "./elder/device-key";
+export {
+  ElderActivityAction,
+  type ActivityActorType,
+  type ActivityLogInput,
+} from "./elder/activity";
+export type {
+  ElderEmergencyContact,
+  ElderProfileInput,
+  ElderPublicProfile,
+  ElderRegisterPayload,
+} from "./elder/types";
+export {
+  decodeEmergencyContact,
+  encodeEmergencyContact,
+  isValidHkPhone,
+  normalizeHkPhone,
+  validateElderProfileInput,
+  validateElderRegisterPayload,
+  type ElderField,
+  type ElderProfileInputLoose,
+  type ElderValidationIssue,
+} from "./elder/validation";
 export { createSupabaseBrowserClient } from "./supabase/browser";
 export {
   createSupabaseServerClient,
