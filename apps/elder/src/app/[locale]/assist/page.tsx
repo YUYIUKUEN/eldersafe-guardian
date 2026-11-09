@@ -1,5 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
-import { BlankActionPage } from "@/components/elder/BlankActionPage";
+import { VoiceAssistScreen } from "@/components/elder/VoiceAssistScreen";
 
 type AssistPageProps = {
   params: Promise<{ locale: string }>;
@@ -8,6 +8,5 @@ type AssistPageProps = {
 export default async function AssistPage({ params }: AssistPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
-
-  return <BlankActionPage titleKey="assistTitle" bodyKey="assistBody" />;
+  return <VoiceAssistScreen />;
 }
