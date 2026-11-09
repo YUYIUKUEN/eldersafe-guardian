@@ -4,6 +4,8 @@ import {
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
+const SIGNED_URL_TTL_SECONDS = 60 * 5;
+
 type RouteContext = {
   params: Promise<{ id: string }>;
 };
@@ -56,7 +58,7 @@ export async function GET(_request: Request, context: RouteContext) {
 
   const { data: signed, error: signError } = await supabase.storage
     .from("voice-recordings")
-    .createSignedUrl(requestRow.audio_path, 60 * 10);
+    .createSignedUrl(requestRow.audio_path, SIGNED_URL_TTL_SECONDS);
 
   if (signError || !signed?.signedUrl) {
     return Response.json(
@@ -65,5 +67,8 @@ export async function GET(_request: Request, context: RouteContext) {
     );
   }
 
-  return Response.json({ url: signed.signedUrl });
+  return Response.json({
+    url: signed.signedUrl,
+    expiresInSeconds: SIGNED_URL_TTL_SECONDS,
+  });
 }
