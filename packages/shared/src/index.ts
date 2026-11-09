@@ -48,14 +48,43 @@ export type {
   VolunteerApprovalStatus,
   AccessContext,
 } from "./auth/types";
-export { canAccessVolunteerApp, canAccessAdminApp } from "./auth/access";
+export {
+  canAccessVolunteerApp,
+  canAccessAdminApp,
+  isPendingVolunteer,
+} from "./auth/access";
 export {
   isVolunteerPublicPath,
+  isVolunteerPendingPath,
   isAdminPublicPath,
   volunteerLoginPath,
+  volunteerPendingPath,
   adminLoginPath,
 } from "./auth/paths";
 export { loadAccessContext } from "./auth/session";
+
+export type {
+  VolunteerRegisterInput,
+  VolunteerRegisterInputLoose,
+  PasswordStrength,
+} from "./volunteer/types";
+export {
+  VolunteerActivityAction,
+  type VolunteerActivityActionName,
+} from "./volunteer/activity";
+export {
+  scorePasswordStrength,
+  isPasswordAcceptable,
+  VOLUNTEER_PASSWORD_MIN_LENGTH,
+} from "./volunteer/password";
+export {
+  validateVolunteerRegisterInput,
+  validateLoginInput,
+  validateForgotPasswordInput,
+  validateResetPasswordInput,
+  type VolunteerField,
+  type VolunteerValidationIssue,
+} from "./volunteer/validation";
 
 export {
   awardPointsForConfirmedHelpRequest,

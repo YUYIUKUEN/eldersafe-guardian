@@ -14,10 +14,23 @@ function firstSegment(pathname: string): string | null {
   return parts[0] ?? null;
 }
 
+const VOLUNTEER_AUTH_PUBLIC = new Set([
+  "login",
+  "register",
+  "forgot-password",
+  "reset-password",
+  "health",
+]);
+
 /** Paths that stay public on the volunteer app (no auth / approval). */
 export function isVolunteerPublicPath(pathname: string): boolean {
   const segment = firstSegment(pathname);
-  return segment === "login" || segment === "register" || segment === "health";
+  return segment !== null && VOLUNTEER_AUTH_PUBLIC.has(segment);
+}
+
+/** Pending volunteers may only stay on this path (plus health). */
+export function isVolunteerPendingPath(pathname: string): boolean {
+  return firstSegment(pathname) === "pending";
 }
 
 /** Paths that stay public on the admin app. */
@@ -28,6 +41,10 @@ export function isAdminPublicPath(pathname: string): boolean {
 
 export function volunteerLoginPath(): string {
   return "/login";
+}
+
+export function volunteerPendingPath(): string {
+  return "/pending";
 }
 
 export function adminLoginPath(): string {

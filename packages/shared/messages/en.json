@@ -227,7 +227,96 @@
   },
   "Volunteer": {
     "title": "Volunteer Site",
-    "subtitle": "Accept requests and assist elders"
+    "subtitle": "Accept requests and assist elders",
+    "homeApprovedHint": "Your account is approved. The help-request list will appear here later.",
+    "logout": "Log out",
+    "loggingOut": "Logging out…"
+  },
+  "VolunteerAuth": {
+    "loginTitle": "Volunteer login",
+    "loginSubtitle": "Sign in with your email and password.",
+    "registerTitle": "Volunteer registration",
+    "registerSubtitle": "Fill in your details to register. New accounts need admin approval before accepting requests.",
+    "forgotTitle": "Forgot password",
+    "forgotSubtitle": "Enter your registered email and we will send a reset link.",
+    "resetTitle": "Reset password",
+    "resetSubtitle": "Enter a new password.",
+    "pendingTitle": "Waiting for admin approval",
+    "pendingBody": "Your registration was received. After an admin approves you, you can view help requests and accept them.",
+    "pendingHint": "Contact an admin if you have questions.",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full name",
+    "phone": "Phone",
+    "age": "Age",
+    "serviceAreas": "Service areas",
+    "serviceAreasHint": "Separate areas with commas, for example: Sham Shui Po, Yau Ma Tei, Mong Kok",
+    "bio": "About you",
+    "bioHint": "A short introduction helps admins review your application.",
+    "consentLabel": "I have read and agree to the volunteer terms and privacy notice",
+    "passwordStrength": "Password strength: {level}",
+    "strength": {
+      "too_short": "Too short",
+      "weak": "Weak",
+      "fair": "Fair",
+      "good": "Good",
+      "strong": "Strong"
+    },
+    "submitLogin": "Log in",
+    "submittingLogin": "Logging in…",
+    "submitRegister": "Register",
+    "submittingRegister": "Registering…",
+    "submitForgot": "Send reset link",
+    "submittingForgot": "Sending…",
+    "submitReset": "Save new password",
+    "submittingReset": "Saving…",
+    "forgotLink": "Forgot password?",
+    "registerLink": "No account? Register",
+    "loginLink": "Already have an account? Log in",
+    "backToLogin": "Back to login",
+    "forgotSent": "If this email is registered, you will receive a password reset email. Please check your inbox.",
+    "resetSuccess": "Password updated. Please log in with your new password.",
+    "registerSuccess": "Registration successful. Please wait for admin approval.",
+    "formError": "Please fix the red messages and try again.",
+    "authFailed": "Incorrect email or password.",
+    "registerFailed": "Could not register. Please try again later.",
+    "emailTaken": "This email is already registered. Use another email or log in.",
+    "forgotFailed": "Could not send the reset email. Please try again later.",
+    "resetFailed": "Could not reset the password. The link may have expired — please request a new one.",
+    "resetSessionMissing": "Could not confirm the reset link. Please open the link from your email again.",
+    "logoutFailed": "Could not log out. Please try again.",
+    "errors": {
+      "name": {
+        "required": "Please enter your name.",
+        "too_long": "That name is too long. Please keep it within 80 characters."
+      },
+      "phone": {
+        "required": "Please enter your phone number.",
+        "phone_invalid": "Please enter an 8-digit Hong Kong phone number, for example 91234567. You may include 852, but do not add spaces or other symbols."
+      },
+      "email": {
+        "required": "Please enter your email.",
+        "email_invalid": "Please enter a valid email address, for example name@example.com."
+      },
+      "password": {
+        "required": "Please enter a password.",
+        "password_too_short": "Password must be at least 8 characters.",
+        "password_weak": "Password is too weak. Add upper and lower case letters, numbers, or symbols, and avoid simple passwords."
+      },
+      "age": {
+        "age_invalid": "Please enter a whole-number age from 16 to 100."
+      },
+      "serviceAreas": {
+        "areas_required": "Please enter at least one service area.",
+        "too_long": "Too many or too-long service areas. Use up to 12 areas, each within 80 characters."
+      },
+      "bio": {
+        "too_long": "That introduction is too long. Please keep it within 1000 characters."
+      },
+      "consent": {
+        "consent_required": "Please tick the consent box to finish registration."
+      }
+    }
   },
   "Admin": {
     "title": "Admin Site",
