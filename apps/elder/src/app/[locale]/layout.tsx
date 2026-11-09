@@ -1,10 +1,8 @@
-import type { Metadata } from "next";
-import { Suspense } from "react";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_HK } from "next/font/google";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { routing } from "@/i18n/routing";
 import "./globals.css";
 
@@ -44,6 +42,12 @@ export async function generateMetadata({
   };
 }
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
+
 export default async function LocaleLayout({
   children,
   params,
@@ -55,22 +59,13 @@ export default async function LocaleLayout({
 
   setRequestLocale(locale);
   const messages = await getMessages();
-  const t = await getTranslations("Common");
 
   return (
     <html lang={locale} className={`${notoSansHK.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col font-sans">
         <NextIntlClientProvider messages={messages}>
-          <div className="mx-auto flex min-h-full w-full max-w-md flex-1 flex-col bg-white/70 shadow-sm">
-            <header className="flex items-center justify-between gap-4 px-4 py-4">
-              <p className="text-[20px] font-bold tracking-tight text-brand">
-                {t("appName")}
-              </p>
-              <Suspense fallback={null}>
-                <LanguageSwitcher />
-              </Suspense>
-            </header>
-            <main className="flex flex-1 flex-col px-4 pb-10">{children}</main>
+          <div className="elder-shell flex min-h-full flex-1 flex-col">
+            {children}
           </div>
         </NextIntlClientProvider>
       </body>

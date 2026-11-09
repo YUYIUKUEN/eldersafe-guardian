@@ -1,15 +1,50 @@
 @import "tailwindcss";
 
+/*
+  Elder design tokens — mobile portrait only.
+  Emergency red and assist blue are tuned so white or dark text
+  on the paired surfaces meets WCAG AA (≥ 4.5:1 for normal text).
+*/
 :root {
-  --background: #f3f7f4;
-  --foreground: #13261c;
-  --brand: #1f6b4a;
+  --background: #eef3f8;
+  --foreground: #111827;
+  --surface: #ffffff;
+  --muted: #334155;
+  --border: #94a3b8;
+
+  --brand: #0f3d68;
+
+  --emergency: #b71c1c;
+  --emergency-fg: #ffffff;
+  --emergency-soft: #ffebef;
+  --emergency-soft-fg: #111827;
+
+  --assist: #0d47a1;
+  --assist-fg: #ffffff;
+  --assist-soft: #e3f2fd;
+  --assist-soft-fg: #111827;
+
+  --neutral: #1b4332;
+  --neutral-fg: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
   --color-brand: var(--brand);
+  --color-emergency: var(--emergency);
+  --color-emergency-fg: var(--emergency-fg);
+  --color-emergency-soft: var(--emergency-soft);
+  --color-emergency-soft-fg: var(--emergency-soft-fg);
+  --color-assist: var(--assist);
+  --color-assist-fg: var(--assist-fg);
+  --color-assist-soft: var(--assist-soft);
+  --color-assist-soft-fg: var(--assist-soft-fg);
+  --color-neutral: var(--neutral);
+  --color-neutral-fg: var(--neutral-fg);
   --font-sans: var(--font-noto-sans-hk);
 }
 
@@ -19,8 +54,8 @@ html {
 
 body {
   background:
-    radial-gradient(circle at top left, #dff3e8 0%, transparent 42%),
-    radial-gradient(circle at bottom right, #e7eef8 0%, transparent 40%),
+    linear-gradient(180deg, #d9e7f5 0%, transparent 38%),
+    linear-gradient(160deg, transparent 45%, #f7ecec 100%),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-noto-sans-hk), "Noto Sans TC", sans-serif;
@@ -33,4 +68,14 @@ input,
 textarea,
 select {
   font: inherit;
+}
+
+/* Mobile-portrait shell: phone-width column on larger screens. */
+.elder-shell {
+  width: 100%;
+  max-width: 28rem;
+  min-height: 100vh;
+  margin-inline: auto;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--border) 35%, transparent);
 }

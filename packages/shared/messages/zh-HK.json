@@ -3,11 +3,36 @@
     "appName": "ElderSafe Guardian",
     "language": "語言",
     "english": "English",
-    "chineseHK": "繁體中文（香港）"
+    "chineseHK": "繁體中文（香港）",
+    "chineseHKShort": "繁體中文",
+    "back": "返回"
   },
   "Elder": {
     "title": "長者 Web App",
-    "subtitle": "以長者為先的安全介面（手機專用）"
+    "subtitle": "以長者為先的安全介面（手機專用）",
+    "openDesignTest": "查看設計系統"
+  },
+  "DesignTest": {
+    "title": "設計系統測試",
+    "subtitle": "檢查大按鈕、大字體、顏色對比與頁面外框",
+    "sectionButtons": "大按鈕",
+    "sectionText": "大字體",
+    "sectionColors": "顏色對比",
+    "sectionPage": "頁面外框",
+    "emergency": "緊急求助",
+    "assist": "需要人陪伴／協助",
+    "neutral": "一般按鈕",
+    "emergencySoft": "淺紅底深色字",
+    "assistSoft": "淺藍底深色字",
+    "titleSample": "標題文字（最少 28px）",
+    "bodySample": "正文文字（最少 20px）。畫面保持簡潔，每個畫面只有一個主要動作。",
+    "captionSample": "強調說明文字",
+    "colorEmergencyWhite": "白字配緊急紅",
+    "colorAssistWhite": "白字配一般藍",
+    "colorEmergencyDark": "深色字配淺紅底",
+    "colorAssistDark": "深色字配淺藍底",
+    "colorNote": "紅色（緊急）與藍色（一般）均通過 WCAG AA 對比。",
+    "pageNote": "本頁頂部已顯示大返回按鈕與語言切換大按鈕。"
   },
   "Volunteer": {
     "title": "義工網站",

@@ -3,11 +3,36 @@
     "appName": "ElderSafe Guardian",
     "language": "Language",
     "english": "English",
-    "chineseHK": "Traditional Chinese (Hong Kong)"
+    "chineseHK": "Traditional Chinese (Hong Kong)",
+    "chineseHKShort": "Chinese",
+    "back": "Back"
   },
   "Elder": {
     "title": "Elder Web App",
-    "subtitle": "Elder-first safety interface (mobile only)"
+    "subtitle": "Elder-first safety interface (mobile only)",
+    "openDesignTest": "View design system"
+  },
+  "DesignTest": {
+    "title": "Design system test",
+    "subtitle": "Review big buttons, big text, colour contrast, and page frame",
+    "sectionButtons": "Big buttons",
+    "sectionText": "Big text",
+    "sectionColors": "Colour contrast",
+    "sectionPage": "Page frame",
+    "emergency": "Emergency help",
+    "assist": "Need company or help",
+    "neutral": "General button",
+    "emergencySoft": "Light red with dark text",
+    "assistSoft": "Light blue with dark text",
+    "titleSample": "Title text (28px minimum)",
+    "bodySample": "Body text (20px minimum). Keep screens simple, with one main action per screen.",
+    "captionSample": "Emphasis caption text",
+    "colorEmergencyWhite": "White text on emergency red",
+    "colorAssistWhite": "White text on assist blue",
+    "colorEmergencyDark": "Dark text on light red",
+    "colorAssistDark": "Dark text on light blue",
+    "colorNote": "Emergency red and assist blue both meet WCAG AA contrast.",
+    "pageNote": "This page already shows the large back button and language switcher."
   },
   "Volunteer": {
     "title": "Volunteer Site",

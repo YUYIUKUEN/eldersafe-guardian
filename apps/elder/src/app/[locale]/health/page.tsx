@@ -2,6 +2,7 @@ import { createSupabaseServiceClient } from "@eldersafe/shared";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
+import { Page } from "@/components/ui/Page";
 
 type HealthPageProps = {
   params: Promise<{ locale: string }>;
@@ -42,10 +43,14 @@ export default async function HealthPage({ params }: HealthPageProps) {
   setRequestLocale(locale);
 
   return (
-    <section className="flex flex-1 flex-col justify-center gap-2 py-16">
-      <Suspense fallback={<p className="text-base text-slate-700">Checking…</p>}>
-        <HealthStatus />
-      </Suspense>
-    </section>
+    <Page backHref="/">
+      <section className="flex flex-1 flex-col justify-center gap-2 py-8">
+        <Suspense
+          fallback={<p className="text-base text-slate-700">Checking…</p>}
+        >
+          <HealthStatus />
+        </Suspense>
+      </section>
+    </Page>
   );
 }
