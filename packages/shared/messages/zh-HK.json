@@ -283,6 +283,33 @@
       "completed": "已完成"
     }
   },
+  "VolunteerHelpDetail": {
+    "title": "求助詳情",
+    "accept": "接單",
+    "accepting": "正在接單…",
+    "acceptFailed": "未能接單。請再試一次。",
+    "alreadyTaken": "已被其他義工接單",
+    "openDetail": "查看詳情／地圖",
+    "viewMap": "查看地圖",
+    "openMaps": "用地圖 App 導航",
+    "navUnavailable": "暫時未有可用位置作導航。",
+    "release": "放棄接單",
+    "releaseReason": "放棄原因（必填）",
+    "confirmRelease": "確認放棄，交回待接單",
+    "cancelRelease": "取消",
+    "releasing": "正在放棄…",
+    "releaseFailed": "未能放棄接單。請再試一次。",
+    "reasonRequired": "請填寫至少兩個字的放棄原因。",
+    "backToList": "返回列表",
+    "mapLabel": "求助位置地圖",
+    "mapEmpty": "暫時未有位置可顯示。",
+    "markerLive": "長者即時位置",
+    "markerAddress": "長者住址",
+    "markerVolunteer": "你的位置",
+    "legendLive": "即時位置",
+    "legendAddress": "住址",
+    "legendVolunteer": "我"
+  },
   "VolunteerStatus": {
     "pendingTitle": "等待管理員審批",
     "pendingBody": "你的註冊已收到。管理員批准後，你才可以查看求助列表和接單。",

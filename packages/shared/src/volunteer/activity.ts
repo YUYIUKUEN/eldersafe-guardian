@@ -7,6 +7,8 @@ export const VolunteerActivityAction = {
   profileUpdate: "volunteer.profile.update",
   passwordChange: "volunteer.password.change",
   audioPlay: "volunteer.help_request.audio_play",
+  accept: "volunteer.help_request.accept",
+  release: "volunteer.help_request.release",
 } as const;
 
 export type VolunteerActivityActionName =

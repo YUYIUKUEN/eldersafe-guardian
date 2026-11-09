@@ -283,6 +283,33 @@
       "completed": "Completed"
     }
   },
+  "VolunteerHelpDetail": {
+    "title": "Request details",
+    "accept": "Accept request",
+    "accepting": "Accepting…",
+    "acceptFailed": "Could not accept. Please try again.",
+    "alreadyTaken": "Another volunteer already accepted this request",
+    "openDetail": "Open details / map",
+    "viewMap": "View map",
+    "openMaps": "Navigate in Maps app",
+    "navUnavailable": "No location is available for navigation yet.",
+    "release": "Release request",
+    "releaseReason": "Reason for releasing (required)",
+    "confirmRelease": "Confirm release back to pending",
+    "cancelRelease": "Cancel",
+    "releasing": "Releasing…",
+    "releaseFailed": "Could not release the request. Please try again.",
+    "reasonRequired": "Please enter a release reason (at least 2 characters).",
+    "backToList": "Back to list",
+    "mapLabel": "Help request map",
+    "mapEmpty": "No locations to show yet.",
+    "markerLive": "Elder live location",
+    "markerAddress": "Elder address",
+    "markerVolunteer": "Your location",
+    "legendLive": "Live location",
+    "legendAddress": "Address",
+    "legendVolunteer": "You"
+  },
   "VolunteerStatus": {
     "pendingTitle": "Waiting for admin approval",
     "pendingBody": "Your registration was received. After an admin approves you, you can view help requests and accept them.",

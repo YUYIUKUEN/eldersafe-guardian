@@ -271,6 +271,10 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
                   item={item}
                   distanceMeters={distanceMeters}
                   highlight={highlightId === item.id}
+                  volunteerId={volunteerId}
+                  onChanged={() => {
+                    void loadFeed();
+                  }}
                 />
               </li>
             );
