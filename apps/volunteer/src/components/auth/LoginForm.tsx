@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import {
   loadAccessContext,
   validateLoginInput,
+  volunteerDestinationForAccess,
   VolunteerActivityAction,
 } from "@eldersafe/shared";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -68,18 +69,21 @@ export function LoginForm({ nextPath }: LoginFormProps) {
         });
 
         const access = await loadAccessContext(supabase, data.user.id);
-        if (access.approvalStatus === "pending") {
-          router.replace("/pending");
-        } else if (access.approvalStatus === "approved") {
+        const destination = volunteerDestinationForAccess(access);
+        if (destination === "/login") {
+          setFormError(t("authFailed"));
+          await supabase.auth.signOut();
+          return;
+        }
+
+        if (destination === "/") {
           const safeNext =
             nextPath && nextPath.startsWith("/") && !nextPath.startsWith("//")
               ? nextPath
               : "/";
           router.replace(safeNext);
         } else {
-          setFormError(t("authFailed"));
-          await supabase.auth.signOut();
-          return;
+          router.replace(destination);
         }
         router.refresh();
       } catch {

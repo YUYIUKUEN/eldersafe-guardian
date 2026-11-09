@@ -1,6 +1,8 @@
 import { isValidHkPhone, normalizeHkPhone } from "../elder/validation";
 import { isPasswordAcceptable, VOLUNTEER_PASSWORD_MIN_LENGTH } from "./password";
 import type {
+  VolunteerProfileInput,
+  VolunteerProfileInputLoose,
   VolunteerRegisterInput,
   VolunteerRegisterInputLoose,
 } from "./types";
@@ -149,6 +151,73 @@ export function validateVolunteerRegisterInput(
       serviceAreas: areas,
       bio: bioRaw,
       consent: true,
+    },
+    issues: [],
+  };
+}
+
+export function validateVolunteerProfileInput(
+  input: VolunteerProfileInputLoose,
+): { value?: VolunteerProfileInput; issues: VolunteerValidationIssue[] } {
+  const issues: VolunteerValidationIssue[] = [];
+
+  const nameRaw = trimString(input.name);
+  let name: string | undefined;
+  if (!nameRaw) {
+    issues.push({ field: "name", code: "required" });
+  } else if (nameRaw.length > NAME_MAX) {
+    issues.push({ field: "name", code: "too_long" });
+  } else {
+    name = nameRaw;
+  }
+
+  const phoneRaw = trimString(input.phone);
+  let phone: string | undefined;
+  if (!phoneRaw) {
+    issues.push({ field: "phone", code: "required" });
+  } else if (!isValidHkPhone(phoneRaw)) {
+    issues.push({ field: "phone", code: "phone_invalid" });
+  } else {
+    phone = normalizeHkPhone(phoneRaw);
+  }
+
+  const ageRaw = input.age;
+  const age =
+    typeof ageRaw === "number"
+      ? ageRaw
+      : typeof ageRaw === "string" && ageRaw.trim()
+        ? Number(ageRaw)
+        : NaN;
+  if (!Number.isInteger(age) || age < 16 || age > 100) {
+    issues.push({ field: "age", code: "age_invalid" });
+  }
+
+  const areas = parseServiceAreas(input.serviceAreas) ?? [];
+  if (areas.length === 0) {
+    issues.push({ field: "serviceAreas", code: "areas_required" });
+  } else if (
+    areas.length > AREA_COUNT_MAX ||
+    areas.some((area) => area.length > AREA_MAX)
+  ) {
+    issues.push({ field: "serviceAreas", code: "too_long" });
+  }
+
+  const bioRaw = trimString(input.bio) ?? "";
+  if (bioRaw.length > BIO_MAX) {
+    issues.push({ field: "bio", code: "too_long" });
+  }
+
+  if (issues.length > 0 || !name || !phone) {
+    return { issues };
+  }
+
+  return {
+    value: {
+      name,
+      phone,
+      age,
+      serviceAreas: areas,
+      bio: bioRaw,
     },
     issues: [],
   };

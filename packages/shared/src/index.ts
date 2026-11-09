@@ -52,13 +52,17 @@ export {
   canAccessVolunteerApp,
   canAccessAdminApp,
   isPendingVolunteer,
+  isBlockedVolunteer,
+  volunteerDestinationForAccess,
 } from "./auth/access";
 export {
   isVolunteerPublicPath,
   isVolunteerPendingPath,
+  isVolunteerBlockedPath,
   isAdminPublicPath,
   volunteerLoginPath,
   volunteerPendingPath,
+  volunteerBlockedPath,
   adminLoginPath,
 } from "./auth/paths";
 export { loadAccessContext } from "./auth/session";
@@ -66,6 +70,8 @@ export { loadAccessContext } from "./auth/session";
 export type {
   VolunteerRegisterInput,
   VolunteerRegisterInputLoose,
+  VolunteerProfileInput,
+  VolunteerProfileInputLoose,
   PasswordStrength,
 } from "./volunteer/types";
 export {
@@ -79,6 +85,7 @@ export {
 } from "./volunteer/password";
 export {
   validateVolunteerRegisterInput,
+  validateVolunteerProfileInput,
   validateLoginInput,
   validateForgotPasswordInput,
   validateResetPasswordInput,

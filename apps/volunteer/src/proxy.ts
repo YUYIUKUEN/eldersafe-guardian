@@ -1,10 +1,13 @@
 import {
   canAccessVolunteerApp,
   createSupabaseProxyClient,
+  isBlockedVolunteer,
   isPendingVolunteer,
+  isVolunteerBlockedPath,
   isVolunteerPendingPath,
   isVolunteerPublicPath,
   loadAccessContext,
+  volunteerBlockedPath,
   volunteerLoginPath,
   volunteerPendingPath,
 } from "@eldersafe/shared";
@@ -81,10 +84,16 @@ export default async function proxy(request: NextRequest) {
         intlResponse,
       );
     }
+    if (isBlockedVolunteer(access) && firstIsAuthForm(pathname)) {
+      return redirectWithCookies(
+        localizedPath(request, volunteerBlockedPath()),
+        intlResponse,
+      );
+    }
     return intlResponse;
   }
 
-  if (!supabase) {
+  if (!supabase || !user) {
     return redirectWithCookies(
       localizedPath(request, volunteerLoginPath()),
       intlResponse,
@@ -101,13 +110,23 @@ export default async function proxy(request: NextRequest) {
     );
   }
 
+  if (isBlockedVolunteer(access)) {
+    if (isVolunteerBlockedPath(pathname)) {
+      return intlResponse;
+    }
+    return redirectWithCookies(
+      localizedPath(request, volunteerBlockedPath()),
+      intlResponse,
+    );
+  }
+
   if (!canAccessVolunteerApp(access)) {
     const loginUrl = localizedPath(request, volunteerLoginPath());
     loginUrl.searchParams.set("next", pathnameWithoutLocale(pathname));
     return redirectWithCookies(loginUrl, intlResponse);
   }
 
-  if (isVolunteerPendingPath(pathname)) {
+  if (isVolunteerPendingPath(pathname) || isVolunteerBlockedPath(pathname)) {
     return redirectWithCookies(localizedPath(request, "/"), intlResponse);
   }
 
