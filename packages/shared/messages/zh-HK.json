@@ -357,6 +357,86 @@
   },
   "Admin": {
     "title": "管理員網站",
-    "subtitle": "用戶、求助與緊急事件管理"
+    "subtitle": "用戶、求助與緊急事件管理",
+    "brandShort": "管理後台",
+    "logout": "登出",
+    "loggingOut": "正在登出…",
+    "comingSoon": "此功能會在之後階段提供。",
+    "nav": {
+      "dashboard": "儀表板",
+      "elders": "長者管理",
+      "volunteers": "義工管理",
+      "matches": "配對總覽",
+      "emergencies": "緊急事件",
+      "logs": "日誌",
+      "activity": "活躍度",
+      "leaderboard": "排行榜與證書"
+    },
+    "sections": {
+      "eldersTitle": "長者管理",
+      "eldersBody": "查看長者完整資料、停用帳號。",
+      "volunteersTitle": "義工管理",
+      "volunteersBody": "審批義工申請、查看資料或停用。",
+      "matchesTitle": "配對總覽",
+      "matchesBody": "查看所有求助單及長者與義工配對詳情。",
+      "emergenciesTitle": "緊急事件",
+      "emergenciesBody": "監察緊急事件與即時地圖。",
+      "logsTitle": "日誌",
+      "logsBody": "篩選誰在何時做了什麼。",
+      "activityTitle": "活躍度",
+      "activityBody": "查看義工與長者活躍程度。",
+      "leaderboardTitle": "排行榜與證書",
+      "leaderboardBody": "管理每月排行榜及 Top 3 PDF 證書。"
+    }
+  },
+  "AdminAuth": {
+    "loginTitle": "管理員登入",
+    "loginSubtitle": "請使用管理員帳號登入。此處不開放註冊。",
+    "email": "電郵",
+    "password": "密碼",
+    "submitLogin": "登入",
+    "submittingLogin": "正在登入…",
+    "formError": "請修正紅色提示後再試。",
+    "authFailed": "電郵或密碼不正確。",
+    "noPermission": "此帳號沒有管理員權限。",
+    "logoutFailed": "無法登出，請再試一次。",
+    "noRegisterHint": "管理員帳號由系統負責人建立，不設公開註冊。",
+    "errors": {
+      "email": {
+        "required": "請輸入電郵。",
+        "email_invalid": "請輸入有效電郵，例如 name@example.com。"
+      },
+      "password": {
+        "required": "請輸入密碼。"
+      }
+    }
+  },
+  "AdminUnauthorized": {
+    "title": "沒有權限",
+    "body": "此帳號已登入，但不是管理員，因此不能使用管理後台。",
+    "backToLogin": "返回登入",
+    "logout": "登出"
+  },
+  "AdminDashboard": {
+    "title": "儀表板",
+    "subtitle": "長者、義工、求助單與緊急事件總覽。",
+    "loadFailed": "無法載入儀表板數字，請重新整理。",
+    "stats": {
+      "eldersTotal": "長者總數",
+      "volunteersApproved": "已批准義工數",
+      "volunteersPending": "待審批義工數",
+      "helpToday": "今日新求助單",
+      "helpPending": "待接單數",
+      "emergenciesActive": "進行中的緊急事件數",
+      "completedMonth": "本月已完成服務數"
+    },
+    "chartTitle": "最近 7 天求助單數量",
+    "chartEmpty": "最近 7 天沒有求助單。",
+    "chartCount": "{count}",
+    "emergencyAlert": "有新緊急事件",
+    "emergencyAlertActive": "現有 {count} 宗進行中的緊急事件 — 請打開緊急事件頁。",
+    "emergencyAlertNew": "剛剛有新緊急事件回報，請立刻查看緊急事件。",
+    "viewEmergencies": "查看緊急事件",
+    "dismissAlert": "關閉提示"
   }
 }

@@ -39,3 +39,10 @@ export function volunteerDestinationForAccess(ctx: AccessContext): string {
   if (isBlockedVolunteer(ctx)) return "/account-status";
   return "/login";
 }
+
+/** Path destination after admin-site login. */
+export function adminDestinationForAccess(ctx: AccessContext): string {
+  if (canAccessAdminApp(ctx)) return "/";
+  if (ctx.userId) return "/unauthorized";
+  return "/login";
+}

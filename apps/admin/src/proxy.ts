@@ -1,8 +1,10 @@
 import {
   adminLoginPath,
+  adminUnauthorizedPath,
   canAccessAdminApp,
   createSupabaseProxyClient,
   isAdminPublicPath,
+  isAdminUnauthorizedPath,
   loadAccessContext,
 } from "@eldersafe/shared";
 import createIntlMiddleware from "next-intl/middleware";
@@ -19,30 +21,81 @@ function redirectWithCookies(url: URL, from: NextResponse) {
   return redirect;
 }
 
+function pathnameWithoutLocale(pathname: string): string {
+  const parts = pathname.split("/").filter(Boolean);
+  if ((routing.locales as readonly string[]).includes(parts[0] ?? "")) {
+    const rest = parts.slice(1).join("/");
+    return rest ? `/${rest}` : "/";
+  }
+  return pathname || "/";
+}
+
+function localizedPath(request: NextRequest, path: string) {
+  const url = request.nextUrl.clone();
+  const parts = request.nextUrl.pathname.split("/").filter(Boolean);
+  const maybeLocale = parts[0];
+  const hasLocale = (routing.locales as readonly string[]).includes(
+    maybeLocale ?? "",
+  );
+  url.pathname = hasLocale ? `/${maybeLocale}${path}` : path;
+  url.search = "";
+  return url;
+}
+
+function firstIsLogin(pathname: string): boolean {
+  const parts = pathname.split("/").filter(Boolean);
+  const segment = (routing.locales as readonly string[]).includes(parts[0] ?? "")
+    ? parts[1]
+    : parts[0];
+  return segment === "login";
+}
+
 export default async function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const intlResponse = handleI18n(request);
 
+  const supabase = createSupabaseProxyClient(request, intlResponse);
+  const {
+    data: { user },
+  } = supabase
+    ? await supabase.auth.getUser()
+    : { data: { user: null } };
+
+  const access = supabase
+    ? await loadAccessContext(supabase, user?.id)
+    : { userId: null, role: null, approvalStatus: null };
+
   if (isAdminPublicPath(pathname)) {
+    if (canAccessAdminApp(access) && firstIsLogin(pathname)) {
+      return redirectWithCookies(localizedPath(request, "/"), intlResponse);
+    }
     return intlResponse;
   }
 
-  const loginUrl = request.nextUrl.clone();
-  loginUrl.pathname = adminLoginPath();
-  loginUrl.searchParams.set("next", pathname);
+  if (isAdminUnauthorizedPath(pathname)) {
+    if (canAccessAdminApp(access)) {
+      return redirectWithCookies(localizedPath(request, "/"), intlResponse);
+    }
+    if (!user) {
+      return redirectWithCookies(
+        localizedPath(request, adminLoginPath()),
+        intlResponse,
+      );
+    }
+    return intlResponse;
+  }
 
-  const supabase = createSupabaseProxyClient(request, intlResponse);
-  if (!supabase) {
+  if (!supabase || !user) {
+    const loginUrl = localizedPath(request, adminLoginPath());
+    loginUrl.searchParams.set("next", pathnameWithoutLocale(pathname));
     return redirectWithCookies(loginUrl, intlResponse);
   }
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const access = await loadAccessContext(supabase, user?.id);
   if (!canAccessAdminApp(access)) {
-    return redirectWithCookies(loginUrl, intlResponse);
+    return redirectWithCookies(
+      localizedPath(request, adminUnauthorizedPath()),
+      intlResponse,
+    );
   }
 
   return intlResponse;

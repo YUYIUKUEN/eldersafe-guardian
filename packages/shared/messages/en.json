@@ -357,6 +357,86 @@
   },
   "Admin": {
     "title": "Admin Site",
-    "subtitle": "Manage users, requests, and emergencies"
+    "subtitle": "Manage users, requests, and emergencies",
+    "brandShort": "Admin",
+    "logout": "Log out",
+    "loggingOut": "Logging out…",
+    "comingSoon": "This section will be available in a later stage.",
+    "nav": {
+      "dashboard": "Dashboard",
+      "elders": "Elders",
+      "volunteers": "Volunteers",
+      "matches": "Matching overview",
+      "emergencies": "Emergencies",
+      "logs": "Activity logs",
+      "activity": "Engagement",
+      "leaderboard": "Leaderboard & certificates"
+    },
+    "sections": {
+      "eldersTitle": "Elder management",
+      "eldersBody": "View elder profiles, disable accounts, and review details.",
+      "volunteersTitle": "Volunteer management",
+      "volunteersBody": "Review applications, approve or disable volunteers.",
+      "matchesTitle": "Matching overview",
+      "matchesBody": "Browse all help requests and elder–volunteer pairings.",
+      "emergenciesTitle": "Emergencies",
+      "emergenciesBody": "Monitor emergency events and live maps.",
+      "logsTitle": "Activity logs",
+      "logsBody": "Filter who did what and when.",
+      "activityTitle": "Engagement",
+      "activityBody": "See elder and volunteer activity levels.",
+      "leaderboardTitle": "Leaderboard & certificates",
+      "leaderboardBody": "Manage monthly rankings and Top 3 PDF certificates."
+    }
+  },
+  "AdminAuth": {
+    "loginTitle": "Admin login",
+    "loginSubtitle": "Sign in with an administrator account. Registration is not available here.",
+    "email": "Email",
+    "password": "Password",
+    "submitLogin": "Log in",
+    "submittingLogin": "Logging in…",
+    "formError": "Please fix the red messages and try again.",
+    "authFailed": "Incorrect email or password.",
+    "noPermission": "This account does not have admin access.",
+    "logoutFailed": "Could not log out. Please try again.",
+    "noRegisterHint": "Admin accounts are created by the system operator. There is no public registration.",
+    "errors": {
+      "email": {
+        "required": "Please enter your email.",
+        "email_invalid": "Please enter a valid email address, for example name@example.com."
+      },
+      "password": {
+        "required": "Please enter a password."
+      }
+    }
+  },
+  "AdminUnauthorized": {
+    "title": "No permission",
+    "body": "This account is signed in, but it is not an administrator. You cannot use the admin site.",
+    "backToLogin": "Back to login",
+    "logout": "Log out"
+  },
+  "AdminDashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of elders, volunteers, help requests, and emergencies.",
+    "loadFailed": "Could not load dashboard figures. Please refresh.",
+    "stats": {
+      "eldersTotal": "Total elders",
+      "volunteersApproved": "Approved volunteers",
+      "volunteersPending": "Pending volunteers",
+      "helpToday": "New help requests today",
+      "helpPending": "Waiting for acceptance",
+      "emergenciesActive": "Active emergencies",
+      "completedMonth": "Completed services this month"
+    },
+    "chartTitle": "Help requests — last 7 days",
+    "chartEmpty": "No help requests in the last 7 days.",
+    "chartCount": "{count}",
+    "emergencyAlert": "New emergency event",
+    "emergencyAlertActive": "There are {count} active emergencies — open the Emergencies page.",
+    "emergencyAlertNew": "A new emergency was just reported. Open Emergencies now.",
+    "viewEmergencies": "View emergencies",
+    "dismissAlert": "Dismiss"
   }
 }

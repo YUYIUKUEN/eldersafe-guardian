@@ -44,6 +44,11 @@ export function isAdminPublicPath(pathname: string): boolean {
   return segment === "login" || segment === "health";
 }
 
+/** Signed-in non-admins land here (no portal access). */
+export function isAdminUnauthorizedPath(pathname: string): boolean {
+  return firstSegment(pathname) === "unauthorized";
+}
+
 export function volunteerLoginPath(): string {
   return "/login";
 }
@@ -58,4 +63,8 @@ export function volunteerBlockedPath(): string {
 
 export function adminLoginPath(): string {
   return "/login";
+}
+
+export function adminUnauthorizedPath(): string {
+  return "/unauthorized";
 }

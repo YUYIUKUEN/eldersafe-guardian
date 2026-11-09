@@ -54,18 +54,26 @@ export {
   isPendingVolunteer,
   isBlockedVolunteer,
   volunteerDestinationForAccess,
+  adminDestinationForAccess,
 } from "./auth/access";
 export {
   isVolunteerPublicPath,
   isVolunteerPendingPath,
   isVolunteerBlockedPath,
   isAdminPublicPath,
+  isAdminUnauthorizedPath,
   volunteerLoginPath,
   volunteerPendingPath,
   volunteerBlockedPath,
   adminLoginPath,
+  adminUnauthorizedPath,
 } from "./auth/paths";
 export { loadAccessContext } from "./auth/session";
+
+export {
+  AdminActivityAction,
+  type AdminActivityActionName,
+} from "./admin/activity";
 
 export type {
   VolunteerRegisterInput,
