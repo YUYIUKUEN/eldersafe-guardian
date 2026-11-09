@@ -10,7 +10,76 @@
   "Elder": {
     "title": "Elder Web App",
     "subtitle": "Elder-first safety interface (mobile only)",
-    "openDesignTest": "View design system"
+    "openDesignTest": "View design system",
+    "welcome": "Hello, {name}",
+    "homeReady": "Your details are ready. Use the button below if you need to change them.",
+    "editProfile": "Edit my details",
+    "checkingDevice": "Checking this phone…"
+  },
+  "Onboarding": {
+    "progress": "Step {current} of {total}",
+    "next": "Next",
+    "backStep": "Previous step",
+    "skip": "Skip this question",
+    "submit": "Confirm and start",
+    "submitting": "Saving…",
+    "submitFailed": "Could not save your details. Please try again.",
+    "reviewTitle": "Please confirm your details",
+    "consentLabel": "I agree that the system may use my details and location for safety purposes",
+    "healthNotesHint": "Optional. You can write long-term conditions or medicine allergies here.",
+    "skipped": "(Skipped)",
+    "fields": {
+      "name": "What is your name?",
+      "age": "What is your age?",
+      "phone": "What is your phone number?",
+      "address": "What is your address?",
+      "emergencyContactName": "Emergency contact name?",
+      "emergencyContactPhone": "Emergency contact phone?",
+      "healthNotes": "Health notes (optional)"
+    },
+    "errors": {
+      "name": {
+        "required": "Please enter your name.",
+        "too_long": "That name is too long. Please keep it within 80 characters."
+      },
+      "age": {
+        "age_invalid": "Please enter a whole-number age from 1 to 130, for example 75."
+      },
+      "phone": {
+        "required": "Please enter your phone number.",
+        "phone_invalid": "Please enter an 8-digit Hong Kong phone number, for example 91234567. You may include 852, but do not add spaces or other symbols."
+      },
+      "address": {
+        "required": "Please enter your address.",
+        "too_long": "That address is too long. Please keep it within 300 characters."
+      },
+      "emergencyContactName": {
+        "required": "Please enter the emergency contact name.",
+        "too_long": "That name is too long. Please keep it within 80 characters."
+      },
+      "emergencyContactPhone": {
+        "required": "Please enter the emergency contact phone number.",
+        "phone_invalid": "Please enter an 8-digit Hong Kong phone number, for example 91234567. You may include 852, but do not add spaces or other symbols."
+      },
+      "healthNotes": {
+        "too_long": "Those health notes are too long. Please keep them within 1000 characters, or tap Skip this question."
+      },
+      "consent": {
+        "consent_required": "Please tick the consent box so we can use your details and location to keep you safe."
+      },
+      "language": {
+        "language_invalid": "The language setting is invalid. Please choose a language and try again."
+      }
+    }
+  },
+  "Profile": {
+    "title": "Edit my details",
+    "subtitle": "Tap Save when you finish.",
+    "loading": "Loading your details…",
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved.",
+    "saveFailed": "Could not save. Please check the red messages and try again."
   },
   "DesignTest": {
     "title": "Design system test",

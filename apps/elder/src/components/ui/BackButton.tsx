@@ -1,4 +1,6 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { BigButton } from "@/components/ui/BigButton";
 
 type BackButtonProps = {
@@ -7,8 +9,8 @@ type BackButtonProps = {
   className?: string;
 };
 
-export async function BackButton({ href, label, className }: BackButtonProps) {
-  const t = await getTranslations("Common");
+export function BackButton({ href, label, className }: BackButtonProps) {
+  const t = useTranslations("Common");
 
   return (
     <BigButton href={href} variant="neutral" className={className}>

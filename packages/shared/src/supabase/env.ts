@@ -37,6 +37,11 @@ export function getSupabaseServiceRoleKey(): string {
   return readRequired("SUPABASE_SERVICE_ROLE_KEY");
 }
 
+/** Returns null when service-role env is incomplete (enables local fallbacks). */
+export function tryGetSupabaseServiceRoleKey(): string | null {
+  return readOptional("SUPABASE_SERVICE_ROLE_KEY");
+}
+
 export function getTestEmergencyNumber(): string {
   return readRequired("TEST_EMERGENCY_NUMBER");
 }
