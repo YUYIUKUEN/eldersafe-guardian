@@ -33,6 +33,11 @@ export function isVolunteerPendingPath(pathname: string): boolean {
   return firstSegment(pathname) === "pending";
 }
 
+/** Rejected / disabled volunteers may only stay on this path (plus health). */
+export function isVolunteerBlockedPath(pathname: string): boolean {
+  return firstSegment(pathname) === "account-status";
+}
+
 /** Paths that stay public on the admin app. */
 export function isAdminPublicPath(pathname: string): boolean {
   const segment = firstSegment(pathname);
@@ -45,6 +50,10 @@ export function volunteerLoginPath(): string {
 
 export function volunteerPendingPath(): string {
   return "/pending";
+}
+
+export function volunteerBlockedPath(): string {
+  return "/account-status";
 }
 
 export function adminLoginPath(): string {

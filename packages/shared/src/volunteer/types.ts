@@ -20,4 +20,20 @@ export type VolunteerRegisterInputLoose = {
   consent?: unknown;
 };
 
+export type VolunteerProfileInput = {
+  name: string;
+  phone: string;
+  age: number;
+  serviceAreas: string[];
+  bio: string;
+};
+
+export type VolunteerProfileInputLoose = {
+  name?: unknown;
+  phone?: unknown;
+  age?: unknown;
+  serviceAreas?: unknown;
+  bio?: unknown;
+};
+
 export type PasswordStrength = "too_short" | "weak" | "fair" | "good" | "strong";
