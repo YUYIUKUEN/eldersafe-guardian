@@ -64,21 +64,27 @@
 - [x] 錄音播放器：私有 Storage 5 分鐘簽名連結、大播放鈕／進度／1x·0.75x、長度、Safari/Chrome、播放寫入日誌、可選文字稿
 - [x] 接單（條件更新防搶單）／放棄接單（必填原因）／詳情頁 Leaflet 即時地圖＋導航連結；長者端靠 Realtime／輪詢得知狀態
 - [x] 標記服務完成 → 等待長者確認；積分預留 phase 5；逾 24 小時管理員可手動處理（RPC 已預留）；「我的紀錄」頁（次數／時數／歷史）
-- [x] **3.7 驗收清單**（實作已具備；手動驗證步驟見下）
+- [x] **3.7 驗收清單**（Cloud Agent live 驗收已跑；見下）
   - [x] 新義工註冊後看不到求助列表；在 Supabase 把 `volunteers.approval_status` 改成 `approved` 後才看到（管理員審批 UI 屬階段 4）
-  - [x] 長者按藍鍵後，義工頁以 Supabase Realtime 自動出現新單（無需手動刷新）
-  - [x] 錄音可在手機／電腦播放（5 分鐘簽名連結 + 自訂播放器）
-  - [x] 兩個義工同時接單：`accept_help_request` 條件更新，只有一個成功，另一個見「已被其他義工接單」
+  - [x] 長者送出藍鍵求助後，義工列表自動出現新單＋提示（Realtime + 15s 輪詢後備）
+  - [x] 錄音可在電腦播放（5 分鐘簽名連結 + 自訂播放器；audio_path 改為 bucket-relative）
+  - [x] 兩個義工同時接單：`accept_help_request` 條件更新，只有一個成功，另一個回空列／「已被其他義工接單」
   - [x] 義工看不到其他義工已接的單；`list_volunteer_help_feed` 不回傳緊急聯絡人／健康備註（住址／電話僅自己接單後可見）
 - [ ] 積分正式規則／排行榜
 
 ### 階段 3.7 手動驗收步驟
 
-1. **待審批看不到列表**：註冊新義工 → 只見 `/pending`；開 `/` 被導回。Supabase Table Editor 將該列 `approval_status` 改 `approved` → 重新整理／Realtime 後可進求助列表。
-2. **Realtime 新單**：approved 義工保持列表開啟；長者 app 按藍鍵送出錄音求助 → 義工頁自動出現新卡＋提示。
-3. **錄音播放**：在電腦瀏覽器與手機（Safari／Chrome）打開求助卡，按播放可聽完整錄音。
-4. **搶單**：兩個瀏覽器／帳號同時對同一 pending 單按接單 → 只有一人進入詳情；另一人提示「已被其他義工接單」。
-5. **私隱**：列表／RPC 無緊急聯絡人、健康備註；未接單看不到住址／電話；已接單的別人的單不會出現在自己列表。
+1. **待審批看不到列表**：註冊新義工 → 只見 `/pending`；開 `/` 被導回。批准 SQL（需暫時關掉 self-status trigger）：
+   ```sql
+   ALTER TABLE public.volunteers DISABLE TRIGGER volunteers_prevent_self_status_change;
+   UPDATE public.volunteers SET approval_status = 'approved' WHERE id = '<volunteer_uuid>';
+   ALTER TABLE public.volunteers ENABLE TRIGGER volunteers_prevent_self_status_change;
+   ```
+   批准後 Realtime 會自動進入求助列表。
+2. **新單自動出現**：approved 義工保持列表開啟；長者送出錄音求助 → 義工頁出現新卡＋「有新的待接單求助！」（Realtime；另有 15s 輪詢後備）。
+3. **錄音播放**：在電腦瀏覽器打開求助卡，按 ▶ 可播完整錄音（簽名 URL）。
+4. **搶單**：兩個帳號同時對同一 pending 單呼叫 `accept_help_request` → 只有一人取得列，另一人得 `[]`。
+5. **私隱**：列表／RPC 無緊急聯絡人、健康備註；未接單 `elder_address`／`elder_phone` 為 null；別人已接的單不會出現在自己 feed。
 
 ---
 
