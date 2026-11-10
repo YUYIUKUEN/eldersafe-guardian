@@ -15,7 +15,14 @@ export async function GET(request: Request) {
   }
 
   try {
-    const payload = await loadMonthLeaderboard(auth.ctx.service, yearMonth, 10);
+    // Prefer the admin user session so get_monthly_leaderboard's role gate
+    // passes even before migration 013 (service_role allow) is applied.
+    let payload: Awaited<ReturnType<typeof loadMonthLeaderboard>>;
+    try {
+      payload = await loadMonthLeaderboard(auth.ctx.supabase, yearMonth, 10);
+    } catch {
+      payload = await loadMonthLeaderboard(auth.ctx.service, yearMonth, 10);
+    }
     return Response.json(payload);
   } catch (error) {
     const message =

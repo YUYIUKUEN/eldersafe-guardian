@@ -13,7 +13,11 @@ export async function POST(_request: Request, context: RouteContext) {
   const { id } = await context.params;
 
   try {
-    const certificate = await regenerateCertificatePdf(auth.ctx.service, id);
+    const certificate = await regenerateCertificatePdf(
+      auth.ctx.supabase,
+      auth.ctx.service,
+      id,
+    );
 
     await auth.ctx.service.from("activity_logs").insert({
       actor_type: "admin",

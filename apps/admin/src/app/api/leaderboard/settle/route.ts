@@ -25,11 +25,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    const result = await settleMonthLeaderboard(auth.ctx.service, {
-      yearMonth,
-      adminId: auth.ctx.user.id,
-      podiumVolunteerIds: body.podiumVolunteerIds,
-    });
+    const result = await settleMonthLeaderboard(
+      auth.ctx.supabase,
+      auth.ctx.service,
+      {
+        yearMonth,
+        adminId: auth.ctx.user.id,
+        podiumVolunteerIds: body.podiumVolunteerIds,
+      },
+    );
 
     await auth.ctx.service.from("activity_logs").insert({
       actor_type: "admin",

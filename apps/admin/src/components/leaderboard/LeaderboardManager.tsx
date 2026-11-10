@@ -225,15 +225,18 @@ export function LeaderboardManager() {
         ) : null}
       </div>
 
-      <RankingTable ranking={data?.ranking ?? []} t={t} />
-
-      <CertificatesTable
-        certificates={data?.certificates ?? []}
-        pending={pending}
-        onDownload={downloadCert}
-        onRegenerate={regenerateCert}
-        t={t}
-      />
+      {data ? (
+        <>
+          <RankingTable ranking={data.ranking} t={t} />
+          <CertificatesTable
+            certificates={data.certificates}
+            pending={pending}
+            onDownload={downloadCert}
+            onRegenerate={regenerateCert}
+            t={t}
+          />
+        </>
+      ) : null}
     </div>
   );
 }

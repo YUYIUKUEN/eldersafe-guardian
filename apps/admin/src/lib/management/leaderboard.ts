@@ -159,6 +159,7 @@ async function uploadCertificatePdf(
 }
 
 export async function settleMonthLeaderboard(
+  reader: SupabaseClient,
   service: SupabaseClient,
   input: {
     yearMonth: string;
@@ -169,7 +170,13 @@ export async function settleMonthLeaderboard(
   settlement: SettlementRecord;
   certificates: CertificateRow[];
 }> {
-  const snapshot = await loadMonthLeaderboard(service, input.yearMonth, 50);
+  // Ranking RPC checks the caller JWT; prefer the admin user session.
+  let snapshot: MonthLeaderboardPayload;
+  try {
+    snapshot = await loadMonthLeaderboard(reader, input.yearMonth, 50);
+  } catch {
+    snapshot = await loadMonthLeaderboard(service, input.yearMonth, 50);
+  }
   if (snapshot.settled) {
     throw new Error("MONTH_ALREADY_SETTLED");
   }
@@ -262,6 +269,7 @@ export async function settleMonthLeaderboard(
 }
 
 export async function regenerateCertificatePdf(
+  reader: SupabaseClient,
   service: SupabaseClient,
   certificateId: string,
 ): Promise<CertificateRow> {
@@ -285,23 +293,16 @@ export async function regenerateCertificatePdf(
     : volunteer?.name ?? "Volunteer";
 
   // Look up monthly points / completed for the certificate holder.
-  const { data: rankRows, error: rankError } = await service.rpc(
-    "get_monthly_leaderboard",
-    {
-      p_year_month: data.year_month,
-      p_limit: 100,
-    },
-  );
-  if (rankError) throw new Error(rankError.message);
-  const ranking = mapMonthlyLeaderboardRows(
-    (rankRows ?? []) as Array<{
-      volunteer_id: string;
-      full_name: string;
-      points: number;
-      completed_count: number;
-      rank: number | string;
-    }>,
-  );
+  let ranking: RankedVolunteer[];
+  try {
+    ranking = (
+      await loadMonthLeaderboard(reader, data.year_month as string, 100)
+    ).ranking;
+  } catch {
+    ranking = (
+      await loadMonthLeaderboard(service, data.year_month as string, 100)
+    ).ranking;
+  }
   const stats = ranking.find((row) => row.volunteerId === data.volunteer_id);
 
   const filePath = await uploadCertificatePdf(service, {
