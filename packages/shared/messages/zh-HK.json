@@ -41,6 +41,13 @@
     "loadFailed": "未能載入紀錄。請再試一次。",
     "cancelFailed": "未能取消。求助單可能已被接單。",
     "confirmFailed": "未能確認。請再試一次。",
+    "alreadyConfirmed": "這張求助單已經確認過，不會再加分。",
+    "ratingLabel": "為義工評分",
+    "ratingHint": "請為義工評分（可略過）",
+    "ratingOptional": "不評分亦可直接確認完成。",
+    "skipRating": "清除評分（略過）",
+    "starLabel": "{count} 星",
+    "confirmSuccess": "已確認完成，多謝你。",
     "status": {
       "pending": "待接單",
       "accepted": "義工 {name} 已接單",

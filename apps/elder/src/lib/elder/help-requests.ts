@@ -1,9 +1,11 @@
 import { randomUUID } from "node:crypto";
 import {
-  awardPointsForConfirmedHelpRequest,
+  confirmHelpRequestWithPoints,
   createSupabaseServiceClient,
+  normalizeElderRating,
   tryGetSupabaseAnonConfig,
   tryGetSupabaseServiceRoleKey,
+  type AwardPointsResult,
 } from "@eldersafe/shared";
 import type {
   HelpRequestListItem,
@@ -167,15 +169,18 @@ export async function cancelHelpRequestForElder(input: {
 export async function confirmHelpRequestForElder(input: {
   id: string;
   elderId: string;
+  rating?: number | null;
 }): Promise<{
   record: HelpRequestRecord;
   storeMode: "supabase" | "memory";
-  points: Awaited<ReturnType<typeof awardPointsForConfirmedHelpRequest>>;
+  points: AwardPointsResult;
+  activityLogged: boolean;
 }> {
+  const rating = normalizeElderRating(input.rating);
   if (hasSupabaseConfig()) {
-    return confirmWithSupabase(input);
+    return confirmWithSupabase({ ...input, rating });
   }
-  return confirmWithMemory(input);
+  return confirmWithMemory({ ...input, rating });
 }
 
 /**
@@ -410,10 +415,12 @@ async function cancelWithSupabase(input: {
 async function confirmWithMemory(input: {
   id: string;
   elderId: string;
+  rating: number | null;
 }): Promise<{
   record: HelpRequestRecord;
   storeMode: "memory";
-  points: Awaited<ReturnType<typeof awardPointsForConfirmedHelpRequest>>;
+  points: AwardPointsResult;
+  activityLogged: boolean;
 }> {
   const state = getMemoryHelpState();
   const current = state.requests.get(input.id);
@@ -427,77 +434,81 @@ async function confirmWithMemory(input: {
   ) {
     throw new Error("HELP_REQUEST_NOT_CONFIRMABLE");
   }
-  if (!current.volunteerId) {
+  if (!current.volunteerId || !current.acceptedAt) {
     throw new Error("HELP_REQUEST_MISSING_VOLUNTEER");
   }
 
-  const now = new Date().toISOString();
-  const next: HelpRequestRecord = {
-    ...current,
-    status: "completed",
-    elderConfirmedAt: now,
-  };
-  state.requests.set(input.id, next);
-
-  const points = await awardPointsForConfirmedHelpRequest({
-    helpRequestId: next.id,
-    volunteerId: current.volunteerId,
+  let next: HelpRequestRecord | null = null;
+  const result = await confirmHelpRequestWithPoints({
+    helpRequestId: current.id,
     elderId: input.elderId,
+    volunteerId: current.volunteerId,
+    acceptedAt: current.acceptedAt,
+    completedAt: current.completedAt,
+    rating: input.rating,
+    applyLocalConfirm: () => {
+      next = {
+        ...current,
+        status: "completed",
+        elderConfirmedAt: new Date().toISOString(),
+      };
+      state.requests.set(input.id, next);
+    },
   });
+
+  if (!next) {
+    throw new Error("HELP_REQUEST_CONFIRM_FAILED");
+  }
+
   notifyMemoryListeners();
-  return { record: next, storeMode: "memory", points };
+  return {
+    record: next,
+    storeMode: "memory",
+    points: result.points,
+    activityLogged: result.activityLogged,
+  };
 }
 
 async function confirmWithSupabase(input: {
   id: string;
   elderId: string;
+  rating: number | null;
 }): Promise<{
   record: HelpRequestRecord;
   storeMode: "supabase";
-  points: Awaited<ReturnType<typeof awardPointsForConfirmedHelpRequest>>;
+  points: AwardPointsResult;
+  activityLogged: boolean;
 }> {
-  const supabase = createSupabaseServiceClient();
   const existing = await getOneWithSupabase(input.id, input.elderId);
   if (!existing) throw new Error("HELP_REQUEST_NOT_FOUND");
   if (
     existing.status !== "accepted" ||
     existing.completedAt == null ||
     existing.elderConfirmedAt != null ||
-    !existing.volunteerId
+    !existing.volunteerId ||
+    !existing.acceptedAt
   ) {
     throw new Error("HELP_REQUEST_NOT_CONFIRMABLE");
   }
 
-  const now = new Date().toISOString();
-  const { data, error } = await supabase
-    .from("help_requests")
-    .update({
-      status: "completed",
-      elder_confirmed_at: now,
-    })
-    .eq("id", input.id)
-    .eq("elder_id", input.elderId)
-    .eq("status", "accepted")
-    .is("elder_confirmed_at", null)
-    .not("completed_at", "is", null)
-    .select(
-      "id, elder_id, audio_path, status, latitude, longitude, volunteer_id, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at",
-    )
-    .maybeSingle();
-
-  if (error) throw new Error(error.message);
-  if (!data) throw new Error("HELP_REQUEST_NOT_CONFIRMABLE");
-
-  const points = await awardPointsForConfirmedHelpRequest({
-    helpRequestId: data.id as string,
-    volunteerId: existing.volunteerId,
+  const result = await confirmHelpRequestWithPoints({
+    helpRequestId: existing.id,
     elderId: input.elderId,
+    volunteerId: existing.volunteerId,
+    acceptedAt: existing.acceptedAt,
+    completedAt: existing.completedAt,
+    rating: input.rating,
   });
 
   return {
-    record: mapRow(data, existing.volunteerName),
+    record: {
+      ...existing,
+      status: "completed",
+      elderConfirmedAt: result.elderConfirmedAt,
+    },
     storeMode: "supabase",
-    points,
+    points: result.points,
+    activityLogged: result.activityLogged,
   };
 }
 
