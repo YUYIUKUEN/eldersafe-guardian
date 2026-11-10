@@ -14,9 +14,13 @@
     "build:admin": "pnpm --filter @eldersafe/admin run build",
     "lint": "pnpm --filter @eldersafe/elder --filter @eldersafe/volunteer --filter @eldersafe/admin run lint",
     "seed:admin-demo": "node --env-file=apps/admin/.env.local ./scripts/seed-admin-demo.mjs",
-    "acceptance:admin-4.9": "node --env-file-if-exists=apps/admin/.env.local ./scripts/acceptance-admin-4.9.mjs"
+    "acceptance:admin-4.9": "node --env-file-if-exists=apps/admin/.env.local ./scripts/acceptance-admin-4.9.mjs",
+    "apply:supabase-migrations": "node --env-file-if-exists=apps/admin/.env.local ./scripts/apply-supabase-migrations.mjs"
   },
   "engines": {
     "node": ">=20"
+  },
+  "devDependencies": {
+    "pg": "^8.23.1"
   }
 }
