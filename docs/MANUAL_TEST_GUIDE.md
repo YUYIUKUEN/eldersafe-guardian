@@ -124,9 +124,11 @@ pnpm --filter @eldersafe/admin run dev      # http://localhost:3003
 - **012 之後義工播不到錄音**：錄音 API 須用 service role 簽 URL（本分支已做）；請重啟／重新部署義工 app。
 - **拉取後 RLS 異常**：再跑 `pnpm apply:supabase-migrations`。
 - **緊急竟然撥 999**：設 `TEST_MODE=true`（只有明確設 `false` 才會撥 999）。
-- **手機用 ngrok 開 3001 白屏／Unauthorized／Blocked cross-origin**：
-  1. 確認已合併含 `allowedDevOrigins`（ngrok 網域）嘅設定。
-  2. **必須重啟** `pnpm --filter @eldersafe/elder run dev`（改 `next.config` 唔會熱更新）。
-  3. 再開 `ngrok http 3001`，用新嘅 `https://….ngrok-free.app` 連結。
-  4. 若仍被擋，喺 `apps/elder/next.config.ts` 嘅 `allowedDevOrigins` 加上你個**完整 hostname**（唔好加 `https://`），例如 `'abcd-12.ngrok-free.app'`，再重啟。
-  5. 免費 ngrok 首次開啟可能有警告頁，用手機瀏覽器撳 Visit Site。
+- **手機用 ngrok 開 3001 停喺「正在檢查此手機…」／白屏／Unauthorized**：
+  1. 呢句係長者 app 自己嘅 loading 文案；若 JS（`/_next`）被擋，畫面會永遠停喺呢度。
+  2. 確認已合併含 `allowedDevOrigins`（要包 `*.ngrok-free.dev`）嘅設定。
+  3. **必須重啟** `pnpm --filter @eldersafe/elder run dev`（改 `next.config` 唔會熱更新）。
+  4. 再開 `ngrok http 3001`，用新嘅 `https://….ngrok-free.dev` 連結。
+  5. 若仍被擋，喺 `apps/elder/next.config.ts` 嘅 `allowedDevOrigins` 加上你個**完整 hostname**（唔好加 `https://`），例如 `'diver-thickness.ngrok-free.dev'`，再重啟。
+  6. 免費 ngrok 首次開啟可能有警告頁，用手機瀏覽器撳 Visit Site。
+  7. 修好之後若仍見「正在檢查…」，可撳「開始輸入我的資料」進入登記。
