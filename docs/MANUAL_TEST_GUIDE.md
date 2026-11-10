@@ -124,3 +124,9 @@ pnpm --filter @eldersafe/admin run dev      # http://localhost:3003
 - **012 之後義工播不到錄音**：錄音 API 須用 service role 簽 URL（本分支已做）；請重啟／重新部署義工 app。
 - **拉取後 RLS 異常**：再跑 `pnpm apply:supabase-migrations`。
 - **緊急竟然撥 999**：設 `TEST_MODE=true`（只有明確設 `false` 才會撥 999）。
+- **手機用 ngrok 開 3001 白屏／Unauthorized／Blocked cross-origin**：
+  1. 確認已合併含 `allowedDevOrigins`（ngrok 網域）嘅設定。
+  2. **必須重啟** `pnpm --filter @eldersafe/elder run dev`（改 `next.config` 唔會熱更新）。
+  3. 再開 `ngrok http 3001`，用新嘅 `https://….ngrok-free.app` 連結。
+  4. 若仍被擋，喺 `apps/elder/next.config.ts` 嘅 `allowedDevOrigins` 加上你個**完整 hostname**（唔好加 `https://`），例如 `'abcd-12.ngrok-free.app'`，再重啟。
+  5. 免費 ngrok 首次開啟可能有警告頁，用手機瀏覽器撳 Visit Site。
