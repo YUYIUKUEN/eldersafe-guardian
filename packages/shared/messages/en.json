@@ -357,6 +357,427 @@
   },
   "Admin": {
     "title": "Admin Site",
-    "subtitle": "Manage users, requests, and emergencies"
+    "subtitle": "Manage users, requests, and emergencies",
+    "brandShort": "Admin",
+    "logout": "Log out",
+    "loggingOut": "Logging out…",
+    "comingSoon": "This section will be available in a later stage.",
+    "nav": {
+      "dashboard": "Dashboard",
+      "elders": "Elders",
+      "volunteers": "Volunteers",
+      "matches": "Matching overview",
+      "emergencies": "Emergencies",
+      "logs": "Activity logs",
+      "activity": "Engagement",
+      "leaderboard": "Leaderboard & certificates"
+    },
+    "sections": {
+      "eldersTitle": "Elder management",
+      "eldersBody": "View elder profiles, disable accounts, and review details.",
+      "volunteersTitle": "Volunteer management",
+      "volunteersBody": "Review applications, approve or disable volunteers.",
+      "matchesTitle": "Matching overview",
+      "matchesBody": "Browse all help requests and elder–volunteer pairings.",
+      "emergenciesTitle": "Emergencies",
+      "emergenciesBody": "Monitor emergency events and live maps.",
+      "logsTitle": "Activity logs",
+      "logsBody": "Filter who did what and when.",
+      "activityTitle": "Engagement",
+      "activityBody": "See elder and volunteer activity levels.",
+      "leaderboardTitle": "Leaderboard & certificates",
+      "leaderboardBody": "Manage monthly rankings and Top 3 PDF certificates."
+    }
+  },
+  "AdminAuth": {
+    "loginTitle": "Admin login",
+    "loginSubtitle": "Sign in with an administrator account. Registration is not available here.",
+    "email": "Email",
+    "password": "Password",
+    "submitLogin": "Log in",
+    "submittingLogin": "Logging in…",
+    "formError": "Please fix the red messages and try again.",
+    "authFailed": "Incorrect email or password.",
+    "noPermission": "This account does not have admin access.",
+    "logoutFailed": "Could not log out. Please try again.",
+    "noRegisterHint": "Admin accounts are created by the system operator. There is no public registration.",
+    "errors": {
+      "email": {
+        "required": "Please enter your email.",
+        "email_invalid": "Please enter a valid email address, for example name@example.com."
+      },
+      "password": {
+        "required": "Please enter a password."
+      }
+    }
+  },
+  "AdminUnauthorized": {
+    "title": "No permission",
+    "body": "This account is signed in, but it is not an administrator. You cannot use the admin site.",
+    "backToLogin": "Back to login",
+    "logout": "Log out"
+  },
+  "AdminDashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview of elders, volunteers, help requests, and emergencies.",
+    "loadFailed": "Could not load dashboard figures. Please refresh.",
+    "stats": {
+      "eldersTotal": "Total elders",
+      "volunteersApproved": "Approved volunteers",
+      "volunteersPending": "Pending volunteers",
+      "helpToday": "New help requests today",
+      "helpPending": "Waiting for acceptance",
+      "emergenciesActive": "Active emergencies",
+      "completedMonth": "Completed services this month"
+    },
+    "chartTitle": "Help requests — last 7 days",
+    "chartEmpty": "No help requests in the last 7 days.",
+    "chartCount": "{count}",
+    "emergencyAlert": "New emergency event",
+    "emergencyAlertActive": "There are {count} active emergencies — open the Emergencies page.",
+    "emergencyAlertNew": "A new emergency was just reported. Open Emergencies now.",
+    "viewEmergencies": "View emergencies",
+    "dismissAlert": "Dismiss"
+  },
+  "AdminManagement": {
+    "volunteersTitle": "Volunteer management",
+    "volunteersSubtitle": "Search, filter, approve, and review volunteer accounts.",
+    "eldersTitle": "Elder management",
+    "eldersSubtitle": "Search, filter, disable, and review elder profiles.",
+    "search": "Search",
+    "volunteerSearchPlaceholder": "Name, phone, email, or bio",
+    "elderSearchPlaceholder": "Name, phone, or address",
+    "statusFilter": "Status",
+    "applyFilters": "Apply",
+    "exportCsv": "Export CSV",
+    "loading": "Loading…",
+    "empty": "No records match these filters.",
+    "loadFailed": "Could not load records. Please try again.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "saveFailed": "Could not save. Please check the fields and try again.",
+    "notFound": "Record not found.",
+    "cancel": "Cancel",
+    "confirmAction": "Confirm",
+    "reasonRequired": "Please enter a reason (at least 2 characters).",
+    "selectRequired": "Please select an option.",
+    "working": "Working…",
+    "saving": "Saving…",
+    "save": "Save changes",
+    "editProfile": "Edit details",
+    "cancelEdit": "Cancel edit",
+    "backToList": "Back to list",
+    "prevPage": "Previous",
+    "nextPage": "Next",
+    "pageOf": "Page {page} of {totalPages}",
+    "pageSummary": "Showing {from}–{to} of {total}",
+    "registeredAtLabel": "Registered {date}",
+    "lastActiveLabel": "Last active {date}",
+    "emptyHistory": "No help-request history yet.",
+    "emptyPoints": "No points recorded yet.",
+    "emptyCertificates": "No certificates yet.",
+    "emptyEmergencies": "No emergency events yet.",
+    "emptyLogs": "No related logs yet.",
+    "status": {
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "disabled": "Disabled",
+      "active": "Active"
+    },
+    "actions": {
+      "approve": "Approve",
+      "reject": "Reject",
+      "disable": "Disable",
+      "reactivate": "Reactivate"
+    },
+    "confirmDialog": {
+      "approve": {
+        "title": "Approve volunteer?",
+        "body": "Approve {name}? They will be able to view and accept help requests."
+      },
+      "reject": {
+        "title": "Reject volunteer?",
+        "body": "Reject {name}? They will not be able to access help-request data."
+      },
+      "disable": {
+        "title": "Disable account?",
+        "body": "Disable {name}? Access will be blocked until reactivated."
+      },
+      "reactivate": {
+        "title": "Reactivate account?",
+        "body": "Reactivate {name}? Access will be restored according to the new status."
+      }
+    },
+    "columns": {
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "serviceAreas": "Service areas",
+      "status": "Status",
+      "registeredAt": "Registered",
+      "completedServices": "Completed services",
+      "actions": "Actions",
+      "age": "Age",
+      "address": "Address",
+      "lastActiveAt": "Last active",
+      "helpRequestCount": "Help requests",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "createdAt": "Created",
+      "completedAt": "Completed",
+      "points": "Points",
+      "helpRequest": "Help request",
+      "yearMonth": "Month",
+      "rank": "Rank",
+      "generatedAt": "Generated",
+      "filePath": "File",
+      "action": "Action",
+      "actorType": "Actor",
+      "metadata": "Details",
+      "startedAt": "Started",
+      "endedAt": "Ended"
+    },
+    "fields": {
+      "name": "Name",
+      "phone": "Phone",
+      "email": "Email",
+      "age": "Age",
+      "serviceAreas": "Service areas",
+      "bio": "Bio",
+      "completedServices": "Completed services",
+      "address": "Address",
+      "emergencyContactName": "Emergency contact name",
+      "emergencyContactPhone": "Emergency contact phone",
+      "healthNotes": "Health notes",
+      "language": "Language",
+      "helpRequestCount": "Help requests"
+    },
+    "sections": {
+      "profile": "Profile",
+      "helpHistory": "Help-request history",
+      "points": "Points (total {total})",
+      "certificates": "Certificates",
+      "emergencies": "Emergency history",
+      "logs": "Related logs"
+    },
+    "helpStatus": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "emergencyStatus": {
+      "active": "Active",
+      "resolved": "Resolved",
+      "cancelled": "Cancelled"
+    }
+  },
+  "AdminMatches": {
+    "title": "Matching overview",
+    "subtitle": "Browse all help requests, open details, cancel or reassign.",
+    "loadFailed": "Could not load help requests. Please try again.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "notFound": "Help request not found.",
+    "backToList": "Back to matching overview",
+    "detailTitle": "Help request {id}",
+    "audioUnsupported": "Your browser cannot play this audio.",
+    "audioMissing": "Audio is not available for this request.",
+    "mapEmpty": "No location trail yet.",
+    "confirmedYes": "Yes — {when}",
+    "confirmedNo": "Not confirmed yet",
+    "reasonLabel": "Reason",
+    "reasonPlaceholder": "Explain why this action is needed.",
+    "selectVolunteer": "Assign volunteer",
+    "selectVolunteerPlaceholder": "Select an approved volunteer",
+    "filters": {
+      "status": "Status",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "any": "Any"
+    },
+    "status": {
+      "all": "All",
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "columns": {
+      "id": "Request ID",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "status": "Status",
+      "createdAt": "Created",
+      "acceptedAt": "Accepted",
+      "completedAt": "Completed",
+      "waitDuration": "Wait time",
+      "handleDuration": "Handle time"
+    },
+    "fields": {
+      "elderPhone": "Elder phone",
+      "elderAddress": "Elder address",
+      "elderConfirmed": "Elder confirmed"
+    },
+    "sections": {
+      "summary": "Summary",
+      "audio": "Voice recording",
+      "trail": "Location trail",
+      "timeline": "Timeline",
+      "logs": "Related logs"
+    },
+    "timeline": {
+      "created": "Created",
+      "accepted": "Accepted by volunteer",
+      "completed": "Marked completed",
+      "cancelled": "Cancelled",
+      "elderConfirmed": "Elder confirmed"
+    },
+    "actions": {
+      "cancel": "Cancel request",
+      "reassign": "Reassign volunteer"
+    },
+    "confirmCancel": {
+      "title": "Cancel this help request?",
+      "body": "Cancel request {id}? Please enter a reason. This is written to the activity log."
+    },
+    "confirmReassign": {
+      "title": "Reassign volunteer?",
+      "body": "Reassign request {id} to another approved volunteer? Please enter a reason."
+    },
+    "duration": {
+      "days": "d",
+      "hours": "h",
+      "minutes": "m"
+    }
+  },
+  "AdminEmergencies": {
+    "title": "Emergencies",
+    "subtitle": "Monitor emergency events. Active cases stay at the top.",
+    "loadFailed": "Could not load emergencies. Please try again.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "notFound": "Emergency not found.",
+    "backToList": "Back to emergencies",
+    "detailTitle": "Emergency {id}",
+    "activeOnTopHint": "Active emergencies are listed first.",
+    "liveUpdating": "Live location updating…",
+    "mapEmpty": "No location yet.",
+    "policeLinkHint": "Share this police tracking link when needed.",
+    "noteLabel": "Resolution note",
+    "notePlaceholder": "Describe how the emergency was handled.",
+    "filters": {
+      "status": "Status"
+    },
+    "status": {
+      "all": "All",
+      "active": "Active",
+      "resolved": "Resolved",
+      "cancelled": "Cancelled"
+    },
+    "columns": {
+      "id": "Event ID",
+      "elder": "Elder",
+      "status": "Status",
+      "startedAt": "Started",
+      "endedAt": "Ended"
+    },
+    "fields": {
+      "name": "Name",
+      "age": "Age",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "sections": {
+      "elder": "Elder details",
+      "policeLink": "Police tracking link",
+      "map": "Live location map",
+      "logs": "Related logs"
+    },
+    "actions": {
+      "resolve": "Mark resolved"
+    },
+    "confirmResolve": {
+      "title": "Mark emergency as resolved?",
+      "body": "Mark emergency {id} as handled? Please add a short note for the log."
+    }
+  },
+  "AdminLogs": {
+    "title": "Activity logs",
+    "subtitle": "Who did what and when. Logs are append-only and cannot be edited or deleted.",
+    "appendOnlyHint": "Database policy: activity_logs only allows insert. Updates and deletes are blocked.",
+    "loadFailed": "Could not load logs. Please try again.",
+    "keywordPlaceholder": "Action, actor id, or target id",
+    "filters": {
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "actorType": "Actor type",
+      "actionCategory": "Action category",
+      "keyword": "Keyword"
+    },
+    "actorType": {
+      "all": "All",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "admin": "Admin",
+      "system": "System"
+    },
+    "category": {
+      "all": "All",
+      "elder": "Elder actions",
+      "volunteer": "Volunteer actions",
+      "admin": "Admin actions",
+      "help": "Help requests",
+      "emergency": "Emergencies",
+      "auth": "Auth",
+      "other": "Other"
+    },
+    "columns": {
+      "time": "Time",
+      "actor": "Actor",
+      "action": "Action",
+      "target": "Target",
+      "detail": "Details"
+    }
+  },
+  "AdminEngagement": {
+    "title": "Engagement",
+    "subtitle": "Monthly activity levels for volunteers and elders, with a 30-day trend.",
+    "loadFailed": "Could not load engagement data. Please try again.",
+    "rulesTitle": "Activity level rules",
+    "rulesNote": "Metrics use Hong Kong calendar month. Volunteer trend counts accept events; elder trend counts help requests over the last 30 days.",
+    "volunteerRulesTitle": "Volunteers",
+    "elderRulesTitle": "Elders",
+    "volunteerRules": {
+      "high": "High: ≥ 4 completed services this month, or (≥ 6 accepts and completion rate ≥ 75%).",
+      "medium": "Medium: ≥ 2 accepts this month, or ≥ 1 completed service.",
+      "low": "Low: everyone else."
+    },
+    "elderRules": {
+      "high": "High: ≥ 3 help requests this month.",
+      "medium": "Medium: 1–2 help requests this month.",
+      "low": "Low: 0 help requests this month."
+    },
+    "volunteersTitle": "Volunteer engagement",
+    "eldersTitle": "Elder engagement",
+    "minutesValue": "{count} min",
+    "trendLabel": "30-day trend for {name}",
+    "level": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "columns": {
+      "name": "Name",
+      "acceptedCount": "Accepts (month)",
+      "completedCount": "Completed (month)",
+      "completionRate": "Completion rate",
+      "avgResponse": "Avg response",
+      "lastActiveAt": "Last active",
+      "level": "Level",
+      "trend": "30-day trend",
+      "helpCount": "Help requests (month)"
+    }
   }
 }

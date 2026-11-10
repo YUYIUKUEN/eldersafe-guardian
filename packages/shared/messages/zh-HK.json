@@ -357,6 +357,427 @@
   },
   "Admin": {
     "title": "管理員網站",
-    "subtitle": "用戶、求助與緊急事件管理"
+    "subtitle": "用戶、求助與緊急事件管理",
+    "brandShort": "管理後台",
+    "logout": "登出",
+    "loggingOut": "正在登出…",
+    "comingSoon": "此功能會在之後階段提供。",
+    "nav": {
+      "dashboard": "儀表板",
+      "elders": "長者管理",
+      "volunteers": "義工管理",
+      "matches": "配對總覽",
+      "emergencies": "緊急事件",
+      "logs": "日誌",
+      "activity": "活躍度",
+      "leaderboard": "排行榜與證書"
+    },
+    "sections": {
+      "eldersTitle": "長者管理",
+      "eldersBody": "查看長者完整資料、停用帳號。",
+      "volunteersTitle": "義工管理",
+      "volunteersBody": "審批義工申請、查看資料或停用。",
+      "matchesTitle": "配對總覽",
+      "matchesBody": "查看所有求助單及長者與義工配對詳情。",
+      "emergenciesTitle": "緊急事件",
+      "emergenciesBody": "監察緊急事件與即時地圖。",
+      "logsTitle": "日誌",
+      "logsBody": "篩選誰在何時做了什麼。",
+      "activityTitle": "活躍度",
+      "activityBody": "查看義工與長者活躍程度。",
+      "leaderboardTitle": "排行榜與證書",
+      "leaderboardBody": "管理每月排行榜及 Top 3 PDF 證書。"
+    }
+  },
+  "AdminAuth": {
+    "loginTitle": "管理員登入",
+    "loginSubtitle": "請使用管理員帳號登入。此處不開放註冊。",
+    "email": "電郵",
+    "password": "密碼",
+    "submitLogin": "登入",
+    "submittingLogin": "正在登入…",
+    "formError": "請修正紅色提示後再試。",
+    "authFailed": "電郵或密碼不正確。",
+    "noPermission": "此帳號沒有管理員權限。",
+    "logoutFailed": "無法登出，請再試一次。",
+    "noRegisterHint": "管理員帳號由系統負責人建立，不設公開註冊。",
+    "errors": {
+      "email": {
+        "required": "請輸入電郵。",
+        "email_invalid": "請輸入有效電郵，例如 name@example.com。"
+      },
+      "password": {
+        "required": "請輸入密碼。"
+      }
+    }
+  },
+  "AdminUnauthorized": {
+    "title": "沒有權限",
+    "body": "此帳號已登入，但不是管理員，因此不能使用管理後台。",
+    "backToLogin": "返回登入",
+    "logout": "登出"
+  },
+  "AdminDashboard": {
+    "title": "儀表板",
+    "subtitle": "長者、義工、求助單與緊急事件總覽。",
+    "loadFailed": "無法載入儀表板數字，請重新整理。",
+    "stats": {
+      "eldersTotal": "長者總數",
+      "volunteersApproved": "已批准義工數",
+      "volunteersPending": "待審批義工數",
+      "helpToday": "今日新求助單",
+      "helpPending": "待接單數",
+      "emergenciesActive": "進行中的緊急事件數",
+      "completedMonth": "本月已完成服務數"
+    },
+    "chartTitle": "最近 7 天求助單數量",
+    "chartEmpty": "最近 7 天沒有求助單。",
+    "chartCount": "{count}",
+    "emergencyAlert": "有新緊急事件",
+    "emergencyAlertActive": "現有 {count} 宗進行中的緊急事件 — 請打開緊急事件頁。",
+    "emergencyAlertNew": "剛剛有新緊急事件回報，請立刻查看緊急事件。",
+    "viewEmergencies": "查看緊急事件",
+    "dismissAlert": "關閉提示"
+  },
+  "AdminManagement": {
+    "volunteersTitle": "義工管理",
+    "volunteersSubtitle": "搜尋、篩選、審批及查看義工帳號。",
+    "eldersTitle": "長者管理",
+    "eldersSubtitle": "搜尋、篩選、停用及查看長者資料。",
+    "search": "搜尋",
+    "volunteerSearchPlaceholder": "姓名、電話、電郵或簡介",
+    "elderSearchPlaceholder": "姓名、電話或住址",
+    "statusFilter": "狀態",
+    "applyFilters": "套用",
+    "exportCsv": "匯出 CSV",
+    "loading": "載入中…",
+    "empty": "沒有符合條件的紀錄。",
+    "loadFailed": "無法載入紀錄，請再試一次。",
+    "actionFailed": "操作失敗，請再試一次。",
+    "saveFailed": "無法儲存，請檢查欄位後再試。",
+    "notFound": "找不到此紀錄。",
+    "cancel": "取消",
+    "confirmAction": "確認",
+    "reasonRequired": "請輸入原因（至少 2 個字）。",
+    "selectRequired": "請先選擇一個選項。",
+    "working": "處理中…",
+    "saving": "儲存中…",
+    "save": "儲存變更",
+    "editProfile": "編輯資料",
+    "cancelEdit": "取消編輯",
+    "backToList": "返回列表",
+    "prevPage": "上一頁",
+    "nextPage": "下一頁",
+    "pageOf": "第 {page}／{totalPages} 頁",
+    "pageSummary": "顯示 {from}–{to}，共 {total} 筆",
+    "registeredAtLabel": "註冊於 {date}",
+    "lastActiveLabel": "最後活動 {date}",
+    "emptyHistory": "尚未有求助紀錄。",
+    "emptyPoints": "尚未有積分紀錄。",
+    "emptyCertificates": "尚未有證書。",
+    "emptyEmergencies": "尚未有緊急事件。",
+    "emptyLogs": "尚未有相關日誌。",
+    "status": {
+      "all": "全部",
+      "pending": "待審批",
+      "approved": "已批准",
+      "rejected": "已拒絕",
+      "disabled": "已停用",
+      "active": "使用中"
+    },
+    "actions": {
+      "approve": "批准",
+      "reject": "拒絕",
+      "disable": "停用",
+      "reactivate": "重新啟用"
+    },
+    "confirmDialog": {
+      "approve": {
+        "title": "批准此義工？",
+        "body": "確定批准 {name}？批准後可查看及接求助單。"
+      },
+      "reject": {
+        "title": "拒絕此義工？",
+        "body": "確定拒絕 {name}？對方將不能查看求助資料。"
+      },
+      "disable": {
+        "title": "停用此帳號？",
+        "body": "確定停用 {name}？停用後需重新啟用才能再使用。"
+      },
+      "reactivate": {
+        "title": "重新啟用此帳號？",
+        "body": "確定重新啟用 {name}？將依新狀態恢復使用權限。"
+      }
+    },
+    "columns": {
+      "name": "姓名",
+      "phone": "電話",
+      "email": "電郵",
+      "serviceAreas": "服務地區",
+      "status": "狀態",
+      "registeredAt": "註冊日期",
+      "completedServices": "完成服務數",
+      "actions": "操作",
+      "age": "年齡",
+      "address": "住址",
+      "lastActiveAt": "最後活動時間",
+      "helpRequestCount": "求助次數",
+      "elder": "長者",
+      "volunteer": "義工",
+      "createdAt": "建立時間",
+      "completedAt": "完成時間",
+      "points": "積分",
+      "helpRequest": "求助單",
+      "yearMonth": "月份",
+      "rank": "名次",
+      "generatedAt": "產生時間",
+      "filePath": "檔案",
+      "action": "動作",
+      "actorType": "執行者",
+      "metadata": "詳情",
+      "startedAt": "開始時間",
+      "endedAt": "結束時間"
+    },
+    "fields": {
+      "name": "姓名",
+      "phone": "電話",
+      "email": "電郵",
+      "age": "年齡",
+      "serviceAreas": "服務地區",
+      "bio": "簡介",
+      "completedServices": "完成服務數",
+      "address": "住址",
+      "emergencyContactName": "緊急聯絡人姓名",
+      "emergencyContactPhone": "緊急聯絡人電話",
+      "healthNotes": "健康備註",
+      "language": "語言",
+      "helpRequestCount": "求助次數"
+    },
+    "sections": {
+      "profile": "基本資料",
+      "helpHistory": "求助／接單紀錄",
+      "points": "積分（合計 {total}）",
+      "certificates": "證書",
+      "emergencies": "歷史緊急事件",
+      "logs": "相關日誌"
+    },
+    "helpStatus": {
+      "pending": "待接單",
+      "accepted": "已接單",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "emergencyStatus": {
+      "active": "進行中",
+      "resolved": "已結束",
+      "cancelled": "已取消"
+    }
+  },
+  "AdminMatches": {
+    "title": "配對總覽",
+    "subtitle": "查看所有求助單、詳情，以及手動取消或重新指派。",
+    "loadFailed": "無法載入求助單，請再試一次。",
+    "actionFailed": "操作失敗，請再試一次。",
+    "notFound": "找不到此求助單。",
+    "backToList": "返回配對總覽",
+    "detailTitle": "求助單 {id}",
+    "audioUnsupported": "此瀏覽器無法播放錄音。",
+    "audioMissing": "此求助單沒有可用錄音。",
+    "mapEmpty": "尚未有位置軌跡。",
+    "confirmedYes": "已確認 — {when}",
+    "confirmedNo": "尚未確認",
+    "reasonLabel": "原因",
+    "reasonPlaceholder": "請說明需要此操作的原因。",
+    "selectVolunteer": "指派義工",
+    "selectVolunteerPlaceholder": "選擇已批准義工",
+    "filters": {
+      "status": "狀態",
+      "dateFrom": "開始日期",
+      "dateTo": "結束日期",
+      "elder": "長者",
+      "volunteer": "義工",
+      "any": "全部"
+    },
+    "status": {
+      "all": "全部",
+      "pending": "待接單",
+      "accepted": "已接單",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "columns": {
+      "id": "單號",
+      "elder": "長者",
+      "volunteer": "義工",
+      "status": "狀態",
+      "createdAt": "建立時間",
+      "acceptedAt": "接單時間",
+      "completedAt": "完成時間",
+      "waitDuration": "等待時長",
+      "handleDuration": "處理時長"
+    },
+    "fields": {
+      "elderPhone": "長者電話",
+      "elderAddress": "長者住址",
+      "elderConfirmed": "長者是否確認"
+    },
+    "sections": {
+      "summary": "摘要",
+      "audio": "錄音播放",
+      "trail": "位置軌跡地圖",
+      "timeline": "時間線",
+      "logs": "相關日誌"
+    },
+    "timeline": {
+      "created": "建立求助單",
+      "accepted": "義工接單",
+      "completed": "標記完成",
+      "cancelled": "取消",
+      "elderConfirmed": "長者確認完成"
+    },
+    "actions": {
+      "cancel": "取消求助單",
+      "reassign": "重新指派"
+    },
+    "confirmCancel": {
+      "title": "取消此求助單？",
+      "body": "確定取消求助單 {id}？請填寫原因，系統會寫入日誌。"
+    },
+    "confirmReassign": {
+      "title": "重新指派義工？",
+      "body": "將求助單 {id} 指派給另一位已批准義工？請填寫原因。"
+    },
+    "duration": {
+      "days": "日",
+      "hours": "小時",
+      "minutes": "分"
+    }
+  },
+  "AdminEmergencies": {
+    "title": "緊急事件",
+    "subtitle": "監察緊急事件；進行中的會置頂顯示。",
+    "loadFailed": "無法載入緊急事件，請再試一次。",
+    "actionFailed": "操作失敗，請再試一次。",
+    "notFound": "找不到此緊急事件。",
+    "backToList": "返回緊急事件",
+    "detailTitle": "緊急事件 {id}",
+    "activeOnTopHint": "進行中的事件會排在最前。",
+    "liveUpdating": "即時位置更新中…",
+    "mapEmpty": "尚未有位置。",
+    "policeLinkHint": "需要時可分享此警方查看連結。",
+    "noteLabel": "處理備註",
+    "notePlaceholder": "請簡述如何處理此緊急事件。",
+    "filters": {
+      "status": "狀態"
+    },
+    "status": {
+      "all": "全部",
+      "active": "進行中",
+      "resolved": "已處理",
+      "cancelled": "已取消"
+    },
+    "columns": {
+      "id": "事件編號",
+      "elder": "長者",
+      "status": "狀態",
+      "startedAt": "開始時間",
+      "endedAt": "結束時間"
+    },
+    "fields": {
+      "name": "姓名",
+      "age": "年齡",
+      "phone": "電話",
+      "address": "住址"
+    },
+    "sections": {
+      "elder": "長者資料",
+      "policeLink": "警方查看連結",
+      "map": "即時位置地圖",
+      "logs": "相關日誌"
+    },
+    "actions": {
+      "resolve": "標記已處理"
+    },
+    "confirmResolve": {
+      "title": "標記此緊急事件為已處理？",
+      "body": "確定將緊急事件 {id} 標記為已處理？請填寫備註以便記入日誌。"
+    }
+  },
+  "AdminLogs": {
+    "title": "日誌",
+    "subtitle": "誰在何時做了什麼。日誌只可新增，不可編輯或刪除。",
+    "appendOnlyHint": "資料庫設定：activity_logs 只允許新增；更新與刪除會被拒絕。",
+    "loadFailed": "無法載入日誌，請再試一次。",
+    "keywordPlaceholder": "動作、操作者 ID 或對象 ID",
+    "filters": {
+      "dateFrom": "開始日期",
+      "dateTo": "結束日期",
+      "actorType": "操作者類型",
+      "actionCategory": "動作類別",
+      "keyword": "關鍵字"
+    },
+    "actorType": {
+      "all": "全部",
+      "elder": "長者",
+      "volunteer": "義工",
+      "admin": "管理員",
+      "system": "系統"
+    },
+    "category": {
+      "all": "全部",
+      "elder": "長者動作",
+      "volunteer": "義工動作",
+      "admin": "管理員動作",
+      "help": "求助單",
+      "emergency": "緊急事件",
+      "auth": "登入／帳號",
+      "other": "其他"
+    },
+    "columns": {
+      "time": "時間",
+      "actor": "操作者",
+      "action": "動作",
+      "target": "對象",
+      "detail": "詳情"
+    }
+  },
+  "AdminEngagement": {
+    "title": "活躍度",
+    "subtitle": "義工與長者本月活躍程度，附最近 30 天趨勢。",
+    "loadFailed": "無法載入活躍度，請再試一次。",
+    "rulesTitle": "活躍度分級規則",
+    "rulesNote": "統計以香港曆法本月為準。義工趨勢計算接單次數；長者趨勢計算最近 30 天求助次數。",
+    "volunteerRulesTitle": "義工",
+    "elderRulesTitle": "長者",
+    "volunteerRules": {
+      "high": "高：本月完成服務 ≥ 4，或（本月接單 ≥ 6 且完成率 ≥ 75%）。",
+      "medium": "中：本月接單 ≥ 2，或本月完成 ≥ 1。",
+      "low": "低：其餘。"
+    },
+    "elderRules": {
+      "high": "高：本月求助次數 ≥ 3。",
+      "medium": "中：本月求助 1–2 次。",
+      "low": "低：本月求助 0 次。"
+    },
+    "volunteersTitle": "義工活躍度",
+    "eldersTitle": "長者活躍度",
+    "minutesValue": "{count} 分鐘",
+    "trendLabel": "{name} 最近 30 天趨勢",
+    "level": {
+      "high": "高",
+      "medium": "中",
+      "low": "低"
+    },
+    "columns": {
+      "name": "姓名",
+      "acceptedCount": "本月接單數",
+      "completedCount": "本月完成數",
+      "completionRate": "完成率",
+      "avgResponse": "平均回應時間",
+      "lastActiveAt": "最後活動時間",
+      "level": "活躍度",
+      "trend": "近 30 天趨勢",
+      "helpCount": "本月求助次數"
+    }
   }
 }

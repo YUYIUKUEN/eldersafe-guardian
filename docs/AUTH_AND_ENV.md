@@ -65,7 +65,10 @@ Next.js 16 用 `src/proxy.ts`（舊稱 middleware）做路由保護。
   - `rejected` / `disabled`：只能進入 `/account-status`
   - `approved`：可進入 `/`、`/profile` 等受保護頁（求助列表資料受 RLS 限制，只有 approved 可讀）
   - 否則導向 `/login`
-- **admin**：除 `/login`、`/health` 外，需登入且 `profiles.role = admin`；否則導向 `/login`
+- **admin**：
+  - 公開：`/login`、`/health`（不開放註冊）
+  - 已登入但非 admin：導向 `/unauthorized`（顯示沒有權限，可登出）
+  - `profiles.role = admin`：可進入儀表板與左側導覽各頁
 
 義工註冊／登入已接上 Supabase Auth（電郵＋密碼）。註冊會建立 `profiles`（`role=volunteer`）與 `volunteers`（`approval_status=pending`），並寫入 `activity_logs`。  
 請同時套用 migration `003_volunteer_approval_rls.sql`（`rejected` 狀態、approved-only 求助 RLS、`volunteers` Realtime）。
@@ -100,6 +103,6 @@ Next.js 16 用 `src/proxy.ts`（舊稱 middleware）做路由保護。
 
 1. 開無痕視窗 → http://localhost:3003/  
 2. **預期**：導向 http://localhost:3003/login  
-3. 用情境 2 的 volunteer session（若已登入）開 admin `/`  
-4. **預期**：仍導向 `/login`（角色不是 admin）  
-5. 僅當 `profiles.role = 'admin'` 的帳號才能進受保護頁
+3. 用義工帳號在 admin `/login` 登入  
+4. **預期**：導向 `/unauthorized`，顯示「沒有權限」  
+5. 僅當 `profiles.role = 'admin'` 的帳號才能進儀表板與側欄各頁
