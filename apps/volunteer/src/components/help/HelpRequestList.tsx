@@ -57,8 +57,25 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
   const knownIdsRef = useRef<Set<string>>(new Set());
   const readyRef = useRef(false);
 
+  const announceNewPending = useCallback(
+    (previousIds: Set<string>, next: VolunteerHelpFeedItem[]) => {
+      if (!readyRef.current) return;
+      const fresh = next.find(
+        (item) => item.status === "pending" && !previousIds.has(item.id),
+      );
+      if (!fresh) return;
+      setBanner(t("newRequestBanner"));
+      setHighlightId(fresh.id);
+      setFilter("pending");
+      if (soundEnabled) playSoftChime();
+      window.setTimeout(() => setHighlightId(null), 8000);
+    },
+    [soundEnabled, t],
+  );
+
   const loadFeed = useCallback(async () => {
     try {
+      const previousIds = new Set(knownIdsRef.current);
       const response = await fetch("/api/volunteers/help-requests", {
         cache: "no-store",
       });
@@ -74,19 +91,29 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
       setItems(next);
       setError(null);
       knownIdsRef.current = new Set(next.map((item) => item.id));
+      if (readyRef.current) {
+        announceNewPending(previousIds, next);
+      }
       readyRef.current = true;
     } catch {
       setError(t("loadFailed"));
     } finally {
       setLoading(false);
     }
-  }, [t]);
+  }, [announceNewPending, t]);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
       void loadFeed();
     }, 0);
-    return () => window.clearTimeout(timer);
+    // Polling fallback: Realtime can miss under heavy feeds / flaky WS.
+    const poll = window.setInterval(() => {
+      void loadFeed();
+    }, 15_000);
+    return () => {
+      window.clearTimeout(timer);
+      window.clearInterval(poll);
+    };
   }, [loadFeed]);
 
   useEffect(() => {
@@ -96,25 +123,8 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
       .on(
         "postgres_changes",
         { event: "*", schema: "public", table: "help_requests" },
-        (payload) => {
-          const row = payload.new as { id?: string; status?: string } | null;
-          const id = row?.id;
-          const wasKnown = id ? knownIdsRef.current.has(id) : true;
-          const shouldAnnounce =
-            payload.eventType === "INSERT" &&
-            Boolean(id) &&
-            row?.status === "pending" &&
-            readyRef.current &&
-            !wasKnown;
-
-          void loadFeed().then(() => {
-            if (!shouldAnnounce || !id) return;
-            setBanner(t("newRequestBanner"));
-            setHighlightId(id);
-            setFilter("pending");
-            if (soundEnabled) playSoftChime();
-            window.setTimeout(() => setHighlightId(null), 8000);
-          });
+        () => {
+          void loadFeed();
         },
       )
       .on(
@@ -129,7 +139,7 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
     return () => {
       void supabase.removeChannel(channel);
     };
-  }, [volunteerId, loadFeed, soundEnabled, t]);
+  }, [volunteerId, loadFeed]);
 
   const visible = useMemo(() => {
     const filtered = filterVolunteerHelpFeed(items, filter, volunteerId);

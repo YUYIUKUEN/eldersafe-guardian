@@ -287,7 +287,8 @@ async function createWithSupabase(
     throw new Error(uploadError.message);
   }
 
-  const audioPath = `${VOICE_BUCKET}/${objectPath}`;
+  // Store object key only (bucket is always voice-recordings).
+  const audioPath = objectPath;
 
   const { data, error } = await supabase
     .from("help_requests")

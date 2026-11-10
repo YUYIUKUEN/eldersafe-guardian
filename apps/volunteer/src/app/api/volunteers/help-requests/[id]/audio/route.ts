@@ -56,9 +56,16 @@ export async function GET(_request: Request, context: RouteContext) {
     return Response.json({ error: "not_found" }, { status: 404 });
   }
 
+  // Older rows stored "voice-recordings/<object>"; createSignedUrl expects the
+  // object key relative to the bucket only.
+  const objectPath = requestRow.audio_path.replace(
+    /^voice-recordings\//,
+    "",
+  );
+
   const { data: signed, error: signError } = await supabase.storage
     .from("voice-recordings")
-    .createSignedUrl(requestRow.audio_path, SIGNED_URL_TTL_SECONDS);
+    .createSignedUrl(objectPath, SIGNED_URL_TTL_SECONDS);
 
   if (signError || !signed?.signedUrl) {
     return Response.json(
