@@ -12,6 +12,9 @@ export const AdminActivityAction = {
   helpCancel: "admin.help.cancel",
   helpReassign: "admin.help.reassign",
   emergencyResolve: "admin.emergency.resolve",
+  leaderboardSettle: "admin.leaderboard.settle",
+  certificateRegenerate: "admin.certificate.regenerate",
+  certificateDownload: "admin.certificate.download",
 } as const;
 
 export type AdminActivityActionName =

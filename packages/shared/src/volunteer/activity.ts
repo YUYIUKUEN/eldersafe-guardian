@@ -8,6 +8,8 @@ export const VolunteerActivityAction = {
   passwordChange: "volunteer.password.change",
   leaderboardPrivacyUpdate: "volunteer.leaderboard.privacy_update",
   leaderboardView: "volunteer.leaderboard.view",
+  certificateList: "volunteer.certificate.list",
+  certificateDownload: "volunteer.certificate.download",
 } as const;
 
 export type VolunteerActivityActionName =

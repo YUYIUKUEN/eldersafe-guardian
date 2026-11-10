@@ -47,8 +47,11 @@ Storage buckets：`voice-recordings`（長者錄音）、`recordings`（舊名�
 - `004_activity_logs_append_only.sql`
 - `005_points_system.sql`（評分欄、確認加分 RPC、積分視圖／函式）
 - `006_volunteer_leaderboard.sql`（排行榜匿名欄、`get_volunteer_leaderboard`、approved 可讀 points、points Realtime）
+- `007_leaderboard_settlements.sql`（每月結算鎖定表、`get_monthly_leaderboard`）
 
 Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`、`points`。
+
+證書 PDF：`packages/shared` 以 `pdf-lib` + Noto Sans TC 產生，存入私有 bucket `certificates`。機構名稱可用環境變數 `CERTIFICATE_ORG_NAME`。
 
 長者寫入走 Next.js API + **service role**（繞過 RLS）。義工／管理員用 Auth session + RLS。
 
