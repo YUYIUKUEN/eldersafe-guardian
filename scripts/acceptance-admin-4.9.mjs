@@ -471,6 +471,24 @@ async function main() {
   if (failed.length) {
     console.error("Failed / blocked checks:");
     for (const row of failed) console.error(` - ${row.id}: ${row.detail}`);
+    const migrationHints = [];
+    if (failed.some((row) => row.id === "live.rls.pending-cannot-read-help")) {
+      migrationHints.push(
+        "Apply supabase/migrations/003_volunteer_approval_rls.sql (pending volunteers must not read help_requests)",
+      );
+    }
+    if (failed.some((row) => row.id === "live.logs.append-only-update")) {
+      migrationHints.push(
+        "Apply supabase/migrations/004_activity_logs_append_only.sql (block activity_logs updates)",
+      );
+    }
+    if (migrationHints.length) {
+      console.error("\nRemote schema likely missing migrations:");
+      for (const hint of migrationHints) console.error(` - ${hint}`);
+      console.error(
+        "Then re-run: pnpm apply:supabase-migrations  (needs SUPABASE_DB_PASSWORD) or paste SQL in Supabase SQL Editor.",
+      );
+    }
     // Env-only live DB failures should not fail CI for static gate; exit 2.
     if (
       failed.length === 1 &&
