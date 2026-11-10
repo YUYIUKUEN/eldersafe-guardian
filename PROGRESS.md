@@ -49,7 +49,7 @@
 - [x] 紅色緊急按鈕：首頁按一下再確認（避免 iPhone 長按預覽）；全紅 5 秒倒數（震動 + speechSynthesis）；取消；建立 `emergencies` + 警方 `/track/{token}`；`tel:` 撥號（`TEST_MODE` 預設測試號）；「請按通話鍵」+ 位置分享 +「我已安全／結束」
 - [x] 我的求助紀錄：超大狀態卡（待接單／義工已接單／已完成）、可取消未接單、義工完成後「確認完成，多謝義工」、列表自動更新（輪詢 + Realtime）
 - [x] 求助確認完成：1–5 星評分（可略過）+ 伺服器交易標記完成／加分／寫日誌（同一單不重複加分）
-- [ ] PWA
+- [x] PWA（`manifest.webmanifest` + icons；可加主畫面）
 
 ---
 
@@ -107,22 +107,24 @@
   - [x] 5 位義工假資料：排序正確；同分（C/D）並列 rank=3 待管理員決定
   - [x] 證書 PDF 中文正常（Noto Sans TC TTF；無方塊字）
   - [x] 結算後該月不可再結算（`leaderboard_settlements` PK）
-- [ ] Realtime：義工求助列表自動刷新；admin 儀表板提示與緊急詳情即時地圖已接
-- [ ] Storage：錄音上傳
+- [x] Realtime：義工求助列表自動刷新；admin 儀表板提示與緊急詳情即時地圖已接
+- [x] Storage：錄音上傳（`voice-recordings` 私有；signed URL 經 service role）
 - [ ] 共用日誌工具
 - [x] 各 app `.env.local.example` 與設定說明（見 `docs/AUTH_AND_ENV.md`）
+- [x] 安全加固 migration `012`（C0 role 鎖死、C1/C3 資料範圍、C2 storage、H2 禁直接 UPDATE、H4 activity_logs 身份校驗）
+- [x] 驗收腳本 `pnpm acceptance:security-012`
 
 ---
 
 ## 階段 6：測試、各自部署與畢業專題收尾
 
-- [ ] 長者介面規則檢查（大字、大掣、少文字、無英文縮寫）
-- [ ] 確認無寫死文字（UI 文案走 en / zh-HK）
-- [ ] HTTPS／localhost 錄音與定位說明
-- [ ] 確認金鑰未進入 git（只追蹤 `.env*.example`）
+- [x] 長者介面規則檢查（大字、大掣、少文字、無英文縮寫；首頁兩大掣＋紀錄文字連結）
+- [x] 確認無寫死文字（UI 文案走 en / zh-HK；health／map aria 已收進語言檔）
+- [x] HTTPS／localhost 錄音與定位說明（見 `docs/MANUAL_TEST_GUIDE.md`）
+- [x] 確認金鑰未進入 git（只追蹤 `.env*.example`）
 - [ ] 三個網站各自部署到 Vercel
-- [ ] 撰寫／整理專題文件與示範流程
-- [ ] 最終驗收對照 `PROJECT_SPEC.md`
+- [x] 撰寫／整理專題文件與示範流程（`docs/MANUAL_TEST_GUIDE.md`）
+- [x] 最終驗收對照 `PROJECT_SPEC.md`（整合檢查後已修 C0→其餘；自動化 33/33 + 9/9）
 
 ---
 
@@ -132,8 +134,8 @@
 |------|------|------|
 | 0 | 專案規格與文件起步 | 已完成 |
 | 1 | Monorepo 骨架與共用套件 | 已完成 |
-| 2 | 長者 Web App | 進行中（註冊 + 首頁 + 錄音 + 即時位置 + 確認完成／評分） |
-| 3 | 義工網站 | 進行中（含求助列表／接單／完成／紀錄；缺最終文件收尾） |
-| 4 | 管理員網站 | 進行中（含排行榜結算與 Top 3 證書） |
-| 5 | 獎勵系統、共用後端與即時功能 | 進行中（積分／排行榜／Top 3 證書 PDF 已完成） |
-| 6 | 測試、各自部署與畢業專題收尾 | 未開始 |
+| 2 | 長者 Web App | 已完成（含 PWA；部署前再驗實機） |
+| 3 | 義工網站 | 已完成（接單／地圖／完成／紀錄／證書） |
+| 4 | 管理員網站 | 已完成（含排行榜結算與 Top 3 證書） |
+| 5 | 獎勵系統、共用後端與即時功能 | 進行中（缺共用日誌工具／backend facade） |
+| 6 | 測試、各自部署與畢業專題收尾 | 進行中（本地驗收＋手動指南已備；欠 Vercel 部署） |

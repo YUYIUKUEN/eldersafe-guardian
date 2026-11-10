@@ -171,3 +171,8 @@ export {
   CERTIFICATES_BUCKET,
   certificateObjectPath,
 } from "./certificates/storage";
+export {
+  clientKeyFromRequest,
+  consumeRateLimit,
+} from "./security/rate-limit";
+export { toSafeErrorCode } from "./security/safe-error";

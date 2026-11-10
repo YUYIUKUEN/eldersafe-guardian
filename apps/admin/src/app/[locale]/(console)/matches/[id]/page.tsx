@@ -2,6 +2,9 @@ import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { MatchDetailPanel } from "@/components/matches/MatchDetailPanel";
 
+
+export const instant = false;
+
 type PageProps = {
   params: Promise<{ locale: string; id: string }>;
 };

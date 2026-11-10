@@ -8,10 +8,14 @@ type RouteContext = {
 };
 
 /**
- * Memory-store only. Lets local demos advance volunteer accept / mark-done
- * before the volunteer app exists.
+ * Memory-store only + non-production. Lets local demos advance volunteer
+ * accept / mark-done without the volunteer app.
  */
 export async function POST(request: Request, context: RouteContext) {
+  if (process.env.NODE_ENV === "production") {
+    return Response.json({ error: "not_found" }, { status: 404 });
+  }
+
   const { id } = await context.params;
   const elder = await resolveElderFromRequest(request);
   const store = getElderStore();
@@ -69,6 +73,6 @@ export async function POST(request: Request, context: RouteContext) {
     if (message === "HELP_REQUEST_NOT_FOUND") {
       return Response.json({ error: "not_found" }, { status: 404 });
     }
-    return Response.json({ error: message }, { status: 409 });
+    return Response.json({ error: "simulate_conflict" }, { status: 409 });
   }
 }

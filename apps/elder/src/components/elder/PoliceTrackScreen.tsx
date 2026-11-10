@@ -21,7 +21,6 @@ type TrackPayload = {
     name: string;
     age: number;
     address: string;
-    healthNotes: string | null;
   };
   locations: TrackLocationPoint[];
 };
@@ -95,12 +94,6 @@ export function PoliceTrackScreen({ token }: { token: string }) {
             </BigText>
             <BigText size="caption">{t("address")}</BigText>
             <BigText>{payload.elder.address}</BigText>
-            <BigText size="caption">{t("healthNotes")}</BigText>
-            <BigText>
-              {payload.elder.healthNotes?.trim()
-                ? payload.elder.healthNotes
-                : t("noHealthNotes")}
-            </BigText>
             <BigText tone="muted">
               {t(`status.${payload.emergency.status}`)}
             </BigText>

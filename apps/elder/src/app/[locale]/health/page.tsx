@@ -1,7 +1,8 @@
 import { createSupabaseServiceClient } from "@eldersafe/shared";
 import { connection } from "next/server";
 import { Suspense } from "react";
-import { setRequestLocale } from "next-intl/server";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
 
 type HealthPageProps = {
@@ -10,44 +11,34 @@ type HealthPageProps = {
 
 async function HealthStatus() {
   await connection();
+  const t = await getTranslations("Common");
 
   let ok = false;
-  let detail = "";
 
   try {
     const supabase = createSupabaseServiceClient();
     const { error } = await supabase.from("elders").select("id").limit(1);
-    if (error) {
-      detail = error.message;
-    } else {
-      ok = true;
-    }
-  } catch (error) {
-    detail = error instanceof Error ? error.message : "Unknown error";
+    ok = !error;
+  } catch {
+    ok = false;
   }
 
   return (
-    <>
-      <h1 className="text-3xl font-bold text-brand">
-        {ok ? "已連線資料庫" : "資料庫連線失敗"}
-      </h1>
-      {!ok && detail ? (
-        <p className="text-base text-slate-700">{detail}</p>
-      ) : null}
-    </>
+    <BigText as="h1" size="title" tone="brand">
+      {ok ? t("healthOk") : t("healthFail")}
+    </BigText>
   );
 }
 
 export default async function HealthPage({ params }: HealthPageProps) {
   const { locale } = await params;
   setRequestLocale(locale);
+  const t = await getTranslations("Common");
 
   return (
     <Page backHref="/">
       <section className="flex flex-1 flex-col justify-center gap-2 py-8">
-        <Suspense
-          fallback={<p className="text-base text-slate-700">Checking…</p>}
-        >
+        <Suspense fallback={<BigText tone="muted">{t("healthChecking")}</BigText>}>
           <HealthStatus />
         </Suspense>
       </section>

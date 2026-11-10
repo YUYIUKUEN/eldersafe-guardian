@@ -28,6 +28,9 @@ export async function POST(request: Request, context: RouteContext) {
   if (!reason || reason.length < 2) {
     return Response.json({ error: "reason_required" }, { status: 400 });
   }
+  if (reason.length > 500) {
+    return Response.json({ error: "reason_too_long" }, { status: 400 });
+  }
 
   const { data: existing, error: existingError } = await auth.ctx.supabase
     .from("help_requests")

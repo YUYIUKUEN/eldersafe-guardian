@@ -2,6 +2,9 @@ import { Suspense } from "react";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { DashboardPanel } from "@/components/dashboard/DashboardPanel";
 
+
+export const instant = false;
+
 type HomePageProps = {
   params: Promise<{ locale: string }>;
 };

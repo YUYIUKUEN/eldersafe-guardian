@@ -1,10 +1,24 @@
 import {
+  clientKeyFromRequest,
+  consumeRateLimit,
   createSupabaseServiceClient,
   validateVolunteerRegisterInput,
   VolunteerActivityAction,
 } from "@eldersafe/shared";
 
 export async function POST(request: Request) {
+  const limited = consumeRateLimit({
+    key: clientKeyFromRequest(request, "volunteer-register"),
+    limit: 10,
+    windowMs: 60 * 60 * 1000,
+  });
+  if (!limited.ok) {
+    return Response.json(
+      { error: "rate_limited", retryAfterMs: limited.retryAfterMs },
+      { status: 429 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();

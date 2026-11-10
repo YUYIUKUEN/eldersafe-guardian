@@ -108,7 +108,7 @@ export function PoliceTrackMap({ locations, emptyLabel }: PoliceTrackMapProps) {
       id={`police-track-map-${mapId}`}
       className="min-h-[320px] w-full overflow-hidden rounded-2xl border-2 border-neutral"
       role="img"
-      aria-label="Live location map"
+      aria-label={emptyLabel}
     />
   );
 }

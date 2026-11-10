@@ -38,7 +38,6 @@ export type PublicTrackPayload = {
     name: string;
     age: number;
     address: string;
-    healthNotes: string | null;
   };
   locations: Array<{
     latitude: number;
@@ -204,9 +203,15 @@ export async function getPublicTrackByToken(
     if (error) throw new Error(error.message);
     if (!emergency) return { payload: null, storeMode: "supabase" };
 
+    // Cancelled emergencies are not shareable. Resolved stays readable so
+    // police can finish a hand-off, but health notes are never exposed here.
+    if ((emergency.status as EmergencyStatus) === "cancelled") {
+      return { payload: null, storeMode: "supabase" };
+    }
+
     const { data: elder, error: elderError } = await supabase
       .from("elders")
-      .select("name, age, address, health_notes")
+      .select("name, age, address")
       .eq("id", emergency.elder_id)
       .maybeSingle();
     if (elderError) throw new Error(elderError.message);
@@ -232,7 +237,6 @@ export async function getPublicTrackByToken(
           name: elder.name as string,
           age: elder.age as number,
           address: elder.address as string,
-          healthNotes: (elder.health_notes as string | null) ?? null,
         },
         locations: (locations ?? []).map((row) => ({
           latitude: row.latitude as number,
@@ -249,6 +253,9 @@ export async function getPublicTrackByToken(
   if (!id) return { payload: null, storeMode: "memory" };
   const emergency = state.byId.get(id);
   if (!emergency?.elderSnapshot) return { payload: null, storeMode: "memory" };
+  if (emergency.status === "cancelled") {
+    return { payload: null, storeMode: "memory" };
+  }
 
   const { getMemoryLocationsForEmergency } = await import("./locations");
   const locations = getMemoryLocationsForEmergency(emergency.id);
@@ -261,7 +268,11 @@ export async function getPublicTrackByToken(
         status: emergency.status,
         startedAt: emergency.startedAt,
       },
-      elder: emergency.elderSnapshot,
+      elder: {
+        name: emergency.elderSnapshot.name,
+        age: emergency.elderSnapshot.age,
+        address: emergency.elderSnapshot.address,
+      },
       locations,
     },
   };
