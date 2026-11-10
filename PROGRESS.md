@@ -78,6 +78,12 @@
 - [ ] 排行榜管理
 - [ ] Top 3 證書產生（PDF）
 - [x] 本階段已加文案放入 en / zh-HK 語言檔（後續功能繼續沿用）
+- [x] 4.9 驗收（腳本 `pnpm acceptance:admin-4.9` + `pnpm seed:admin-demo`）
+  - [x] 非管理員／未登入無法打開 `/admin` 頁面；未登入 API 被擋（proxy → `/login`；API `requireAdminApi` → 401／403／503）
+  - [x] 靜態確認：批准義工 API 寫入 `activity_logs`；RLS 僅 `approved` 可讀求助（需 Supabase 金鑰才跑 live）
+  - [x] 所有管理 mutation API 均寫入 `activity_logs`；DB append-only migration 004
+  - [x] 列表皆分頁（20–30／頁）；假資料腳本可種 ≥1000 筆 `help_requests`（`scripts/seed-admin-demo.mjs`）
+  - [ ] Live DB（批准後立刻可接單、append-only、1000 筆查詢）：待本機 `apps/admin/.env.local` Supabase 金鑰
 
 ---
 
