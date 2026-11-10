@@ -118,3 +118,14 @@ export {
   type ConfirmWithPointsInput,
   type ConfirmWithPointsResult,
 } from "./points/award";
+export {
+  formatLeaderboardDisplayName,
+  getMonthCountdown,
+  hongKongMonthEnd,
+  hongKongYearMonth,
+  leaderboardSurname,
+  mapLeaderboardRows,
+  type LeaderboardEntry,
+  type LeaderboardPeriod,
+  type MonthCountdown,
+} from "./points/leaderboard";

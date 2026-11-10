@@ -46,8 +46,9 @@ Storage buckets：`voice-recordings`（長者錄音）、`recordings`（舊名�
 - `003_volunteer_approval_rls.sql`（`rejected` 狀態、非 approved 不可讀求助資料、`volunteers` Realtime）
 - `004_activity_logs_append_only.sql`
 - `005_points_system.sql`（評分欄、確認加分 RPC、積分視圖／函式）
+- `006_volunteer_leaderboard.sql`（排行榜匿名欄、`get_volunteer_leaderboard`、approved 可讀 points、points Realtime）
 
-Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`。
+Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`、`points`。
 
 長者寫入走 Next.js API + **service role**（繞過 RLS）。義工／管理員用 Auth session + RLS。
 
