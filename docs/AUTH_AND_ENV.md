@@ -34,6 +34,13 @@ TEST_EMERGENCY_NUMBER=+85290000000
 
 改完 env 後重啟 `pnpm dev`。
 
+管理員 4.9 驗收／假資料（需 `apps/admin/.env.local`）：
+
+```bash
+pnpm seed:admin-demo          # ≥1000 筆 help_requests 等
+pnpm acceptance:admin-4.9     # 靜態 + 未登入擋頁／API；有金鑰再驗批准／RLS／日誌
+```
+
 ## C. 連線工具位置
 
 | 用途 | 位置 |
