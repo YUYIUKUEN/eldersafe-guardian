@@ -8,6 +8,8 @@ import {
   clearDeviceKey,
   readDeviceKey,
 } from "@/lib/elder/device-storage";
+import { useRouter } from "@/i18n/navigation";
+import { BigButton } from "@/components/ui/BigButton";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
 
@@ -20,22 +22,32 @@ type ElderSessionGateProps = {
 /** Survives locale remounts so language switch does not stick on "checking". */
 const sessionCache = new Map<string, ElderPublicProfile>();
 
+const SESSION_TIMEOUT_MS = 8_000;
+
 export function ElderSessionGate({
   children,
   requireSession = true,
 }: ElderSessionGateProps) {
   const t = useTranslations("Elder");
+  const router = useRouter();
   const [elder, setElder] = useState<ElderPublicProfile | null>(null);
   const [ready, setReady] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   useEffect(() => {
     let active = true;
+
+    async function goOnboarding() {
+      // Prefer next-intl client navigation so we stay on the ngrok host
+      // (full-page redirects can bounce to localhost behind tunnels).
+      router.replace("/onboarding");
+    }
 
     async function run() {
       const key = readDeviceKey();
       if (!key) {
         if (requireSession) {
-          window.location.replace("/onboarding");
+          await goOnboarding();
           return;
         }
         if (active) {
@@ -52,14 +64,19 @@ export function ElderSessionGate({
       }
 
       try {
-        const session = await fetchElderSession(key);
+        const session = await Promise.race([
+          fetchElderSession(key),
+          new Promise<null>((resolve) => {
+            window.setTimeout(() => resolve(null), SESSION_TIMEOUT_MS);
+          }),
+        ]);
         if (!active) return;
 
         if (!session) {
           clearDeviceKey();
           sessionCache.delete(key);
           if (requireSession) {
-            window.location.replace("/onboarding");
+            await goOnboarding();
             return;
           }
           setElder(null);
@@ -79,7 +96,7 @@ export function ElderSessionGate({
           return;
         }
         if (requireSession) {
-          window.location.replace("/onboarding");
+          setFailed(true);
           return;
         }
         setElder(null);
@@ -91,12 +108,39 @@ export function ElderSessionGate({
     return () => {
       active = false;
     };
-  }, [requireSession]);
+  }, [requireSession, router]);
+
+  if (failed) {
+    return (
+      <Page hideLanguageSwitcher>
+        <BigText tone="muted">{t("sessionCheckFailed")}</BigText>
+        <BigButton
+          variant="assist"
+          onClick={() => {
+            clearDeviceKey();
+            router.replace("/onboarding");
+          }}
+        >
+          {t("startOnboarding")}
+        </BigButton>
+      </Page>
+    );
+  }
 
   if (!ready || !elder) {
     return (
       <Page hideLanguageSwitcher>
         <BigText tone="muted">{t("checkingDevice")}</BigText>
+        <BigButton
+          variant="neutral"
+          className="mt-4"
+          onClick={() => {
+            clearDeviceKey();
+            router.replace("/onboarding");
+          }}
+        >
+          {t("startOnboarding")}
+        </BigButton>
       </Page>
     );
   }
