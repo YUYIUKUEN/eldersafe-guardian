@@ -7,6 +7,14 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   transpilePackages: ["@eldersafe/shared"],
+  // Same tunnel allowlist as elder — keep phone testing consistent.
+  allowedDevOrigins: [
+    "*.ngrok-free.app",
+    "*.ngrok-free.dev",
+    "*.ngrok.app",
+    "*.ngrok.io",
+    "*.trycloudflare.com",
+  ],
   turbopack: {
     rules: {
       "*.css": {

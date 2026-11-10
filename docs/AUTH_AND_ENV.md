@@ -34,6 +34,22 @@ TEST_EMERGENCY_NUMBER=+85290000000
 
 改完 env 後重啟 `pnpm dev`。
 
+### 手機用 ngrok 測試（尤其長者 app `:3001`）
+
+Next.js 16 預設會攔截來自 tunnel 網域對 `/_next` 開發資源嘅請求。三個 app 嘅 `next.config.ts` 已加入：
+
+```ts
+allowedDevOrigins: [
+  "*.ngrok-free.app",
+  "*.ngrok-free.dev",
+  "*.ngrok.app",
+  "*.ngrok.io",
+  "*.trycloudflare.com",
+],
+```
+
+改完 config 後一定要重啟 `next dev`。若你嘅 ngrok 網域唔喺以上列表，把完整 hostname 加進去再重啟。
+
 管理員 4.9 驗收／假資料（需 `apps/admin/.env.local`）：
 
 ```bash

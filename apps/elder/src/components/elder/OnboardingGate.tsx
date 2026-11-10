@@ -4,12 +4,15 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { fetchElderSession } from "@/lib/elder/api-client";
 import { clearDeviceKey, readDeviceKey } from "@/lib/elder/device-storage";
+import { useRouter } from "@/i18n/navigation";
+import { BigButton } from "@/components/ui/BigButton";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
 
 /** If a valid device key already exists, skip onboarding and go home. */
 export function OnboardingGate({ children }: { children: React.ReactNode }) {
   const t = useTranslations("Elder");
+  const router = useRouter();
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -31,7 +34,7 @@ export function OnboardingGate({ children }: { children: React.ReactNode }) {
         ]);
         if (!active) return;
         if (session) {
-          window.location.replace("/");
+          router.replace("/");
           return;
         }
         clearDeviceKey();
@@ -46,12 +49,22 @@ export function OnboardingGate({ children }: { children: React.ReactNode }) {
     return () => {
       active = false;
     };
-  }, []);
+  }, [router]);
 
   if (!ready) {
     return (
       <Page hideLanguageSwitcher>
         <BigText tone="muted">{t("checkingDevice")}</BigText>
+        <BigButton
+          variant="neutral"
+          className="mt-4"
+          onClick={() => {
+            clearDeviceKey();
+            setReady(true);
+          }}
+        >
+          {t("continueOnboarding")}
+        </BigButton>
       </Page>
     );
   }
