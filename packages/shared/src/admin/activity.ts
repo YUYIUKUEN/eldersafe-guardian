@@ -9,6 +9,9 @@ export const AdminActivityAction = {
   elderDisable: "admin.elder.disable",
   elderReactivate: "admin.elder.reactivate",
   elderUpdate: "admin.elder.update",
+  helpCancel: "admin.help.cancel",
+  helpReassign: "admin.help.reassign",
+  emergencyResolve: "admin.emergency.resolve",
 } as const;
 
 export type AdminActivityActionName =

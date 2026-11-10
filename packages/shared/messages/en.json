@@ -458,6 +458,8 @@
     "notFound": "Record not found.",
     "cancel": "Cancel",
     "confirmAction": "Confirm",
+    "reasonRequired": "Please enter a reason (at least 2 characters).",
+    "selectRequired": "Please select an option.",
     "working": "Working…",
     "saving": "Saving…",
     "save": "Save changes",
@@ -569,6 +571,136 @@
       "active": "Active",
       "resolved": "Resolved",
       "cancelled": "Cancelled"
+    }
+  },
+  "AdminMatches": {
+    "title": "Matching overview",
+    "subtitle": "Browse all help requests, open details, cancel or reassign.",
+    "loadFailed": "Could not load help requests. Please try again.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "notFound": "Help request not found.",
+    "backToList": "Back to matching overview",
+    "detailTitle": "Help request {id}",
+    "audioUnsupported": "Your browser cannot play this audio.",
+    "audioMissing": "Audio is not available for this request.",
+    "mapEmpty": "No location trail yet.",
+    "confirmedYes": "Yes — {when}",
+    "confirmedNo": "Not confirmed yet",
+    "reasonLabel": "Reason",
+    "reasonPlaceholder": "Explain why this action is needed.",
+    "selectVolunteer": "Assign volunteer",
+    "selectVolunteerPlaceholder": "Select an approved volunteer",
+    "filters": {
+      "status": "Status",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "any": "Any"
+    },
+    "status": {
+      "all": "All",
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "columns": {
+      "id": "Request ID",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "status": "Status",
+      "createdAt": "Created",
+      "acceptedAt": "Accepted",
+      "completedAt": "Completed",
+      "waitDuration": "Wait time",
+      "handleDuration": "Handle time"
+    },
+    "fields": {
+      "elderPhone": "Elder phone",
+      "elderAddress": "Elder address",
+      "elderConfirmed": "Elder confirmed"
+    },
+    "sections": {
+      "summary": "Summary",
+      "audio": "Voice recording",
+      "trail": "Location trail",
+      "timeline": "Timeline",
+      "logs": "Related logs"
+    },
+    "timeline": {
+      "created": "Created",
+      "accepted": "Accepted by volunteer",
+      "completed": "Marked completed",
+      "cancelled": "Cancelled",
+      "elderConfirmed": "Elder confirmed"
+    },
+    "actions": {
+      "cancel": "Cancel request",
+      "reassign": "Reassign volunteer"
+    },
+    "confirmCancel": {
+      "title": "Cancel this help request?",
+      "body": "Cancel request {id}? Please enter a reason. This is written to the activity log."
+    },
+    "confirmReassign": {
+      "title": "Reassign volunteer?",
+      "body": "Reassign request {id} to another approved volunteer? Please enter a reason."
+    },
+    "duration": {
+      "days": "d",
+      "hours": "h",
+      "minutes": "m"
+    }
+  },
+  "AdminEmergencies": {
+    "title": "Emergencies",
+    "subtitle": "Monitor emergency events. Active cases stay at the top.",
+    "loadFailed": "Could not load emergencies. Please try again.",
+    "actionFailed": "Could not complete that action. Please try again.",
+    "notFound": "Emergency not found.",
+    "backToList": "Back to emergencies",
+    "detailTitle": "Emergency {id}",
+    "activeOnTopHint": "Active emergencies are listed first.",
+    "liveUpdating": "Live location updating…",
+    "mapEmpty": "No location yet.",
+    "policeLinkHint": "Share this police tracking link when needed.",
+    "noteLabel": "Resolution note",
+    "notePlaceholder": "Describe how the emergency was handled.",
+    "filters": {
+      "status": "Status"
+    },
+    "status": {
+      "all": "All",
+      "active": "Active",
+      "resolved": "Resolved",
+      "cancelled": "Cancelled"
+    },
+    "columns": {
+      "id": "Event ID",
+      "elder": "Elder",
+      "status": "Status",
+      "startedAt": "Started",
+      "endedAt": "Ended"
+    },
+    "fields": {
+      "name": "Name",
+      "age": "Age",
+      "phone": "Phone",
+      "address": "Address"
+    },
+    "sections": {
+      "elder": "Elder details",
+      "policeLink": "Police tracking link",
+      "map": "Live location map",
+      "logs": "Related logs"
+    },
+    "actions": {
+      "resolve": "Mark resolved"
+    },
+    "confirmResolve": {
+      "title": "Mark emergency as resolved?",
+      "body": "Mark emergency {id} as handled? Please add a short note for the log."
     }
   }
 }

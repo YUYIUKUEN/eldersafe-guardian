@@ -458,6 +458,8 @@
     "notFound": "找不到此紀錄。",
     "cancel": "取消",
     "confirmAction": "確認",
+    "reasonRequired": "請輸入原因（至少 2 個字）。",
+    "selectRequired": "請先選擇一個選項。",
     "working": "處理中…",
     "saving": "儲存中…",
     "save": "儲存變更",
@@ -569,6 +571,136 @@
       "active": "進行中",
       "resolved": "已結束",
       "cancelled": "已取消"
+    }
+  },
+  "AdminMatches": {
+    "title": "配對總覽",
+    "subtitle": "查看所有求助單、詳情，以及手動取消或重新指派。",
+    "loadFailed": "無法載入求助單，請再試一次。",
+    "actionFailed": "操作失敗，請再試一次。",
+    "notFound": "找不到此求助單。",
+    "backToList": "返回配對總覽",
+    "detailTitle": "求助單 {id}",
+    "audioUnsupported": "此瀏覽器無法播放錄音。",
+    "audioMissing": "此求助單沒有可用錄音。",
+    "mapEmpty": "尚未有位置軌跡。",
+    "confirmedYes": "已確認 — {when}",
+    "confirmedNo": "尚未確認",
+    "reasonLabel": "原因",
+    "reasonPlaceholder": "請說明需要此操作的原因。",
+    "selectVolunteer": "指派義工",
+    "selectVolunteerPlaceholder": "選擇已批准義工",
+    "filters": {
+      "status": "狀態",
+      "dateFrom": "開始日期",
+      "dateTo": "結束日期",
+      "elder": "長者",
+      "volunteer": "義工",
+      "any": "全部"
+    },
+    "status": {
+      "all": "全部",
+      "pending": "待接單",
+      "accepted": "已接單",
+      "completed": "已完成",
+      "cancelled": "已取消"
+    },
+    "columns": {
+      "id": "單號",
+      "elder": "長者",
+      "volunteer": "義工",
+      "status": "狀態",
+      "createdAt": "建立時間",
+      "acceptedAt": "接單時間",
+      "completedAt": "完成時間",
+      "waitDuration": "等待時長",
+      "handleDuration": "處理時長"
+    },
+    "fields": {
+      "elderPhone": "長者電話",
+      "elderAddress": "長者住址",
+      "elderConfirmed": "長者是否確認"
+    },
+    "sections": {
+      "summary": "摘要",
+      "audio": "錄音播放",
+      "trail": "位置軌跡地圖",
+      "timeline": "時間線",
+      "logs": "相關日誌"
+    },
+    "timeline": {
+      "created": "建立求助單",
+      "accepted": "義工接單",
+      "completed": "標記完成",
+      "cancelled": "取消",
+      "elderConfirmed": "長者確認完成"
+    },
+    "actions": {
+      "cancel": "取消求助單",
+      "reassign": "重新指派"
+    },
+    "confirmCancel": {
+      "title": "取消此求助單？",
+      "body": "確定取消求助單 {id}？請填寫原因，系統會寫入日誌。"
+    },
+    "confirmReassign": {
+      "title": "重新指派義工？",
+      "body": "將求助單 {id} 指派給另一位已批准義工？請填寫原因。"
+    },
+    "duration": {
+      "days": "日",
+      "hours": "小時",
+      "minutes": "分"
+    }
+  },
+  "AdminEmergencies": {
+    "title": "緊急事件",
+    "subtitle": "監察緊急事件；進行中的會置頂顯示。",
+    "loadFailed": "無法載入緊急事件，請再試一次。",
+    "actionFailed": "操作失敗，請再試一次。",
+    "notFound": "找不到此緊急事件。",
+    "backToList": "返回緊急事件",
+    "detailTitle": "緊急事件 {id}",
+    "activeOnTopHint": "進行中的事件會排在最前。",
+    "liveUpdating": "即時位置更新中…",
+    "mapEmpty": "尚未有位置。",
+    "policeLinkHint": "需要時可分享此警方查看連結。",
+    "noteLabel": "處理備註",
+    "notePlaceholder": "請簡述如何處理此緊急事件。",
+    "filters": {
+      "status": "狀態"
+    },
+    "status": {
+      "all": "全部",
+      "active": "進行中",
+      "resolved": "已處理",
+      "cancelled": "已取消"
+    },
+    "columns": {
+      "id": "事件編號",
+      "elder": "長者",
+      "status": "狀態",
+      "startedAt": "開始時間",
+      "endedAt": "結束時間"
+    },
+    "fields": {
+      "name": "姓名",
+      "age": "年齡",
+      "phone": "電話",
+      "address": "住址"
+    },
+    "sections": {
+      "elder": "長者資料",
+      "policeLink": "警方查看連結",
+      "map": "即時位置地圖",
+      "logs": "相關日誌"
+    },
+    "actions": {
+      "resolve": "標記已處理"
+    },
+    "confirmResolve": {
+      "title": "標記此緊急事件為已處理？",
+      "body": "確定將緊急事件 {id} 標記為已處理？請填寫備註以便記入日誌。"
     }
   }
 }
