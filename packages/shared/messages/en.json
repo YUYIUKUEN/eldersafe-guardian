@@ -41,6 +41,13 @@
     "loadFailed": "Could not load your records. Please try again.",
     "cancelFailed": "Could not cancel. The request may already be accepted.",
     "confirmFailed": "Could not confirm. Please try again.",
+    "alreadyConfirmed": "This request was already confirmed. No extra points.",
+    "ratingLabel": "Rate the volunteer",
+    "ratingHint": "Please rate the volunteer (optional)",
+    "ratingOptional": "You can confirm without a rating.",
+    "skipRating": "Clear rating (skip)",
+    "starLabel": "{count} stars",
+    "confirmSuccess": "Confirmed. Thank you.",
     "status": {
       "pending": "Waiting for a volunteer",
       "accepted": "Volunteer {name} has accepted",

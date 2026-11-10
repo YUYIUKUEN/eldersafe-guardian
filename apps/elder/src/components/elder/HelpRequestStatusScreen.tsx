@@ -8,6 +8,7 @@ import { useRouter } from "@/i18n/navigation";
 import { BigButton } from "@/components/ui/BigButton";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
+import { ConfirmCompletePanel } from "./ConfirmCompletePanel";
 import { LocationSharingPanel } from "./LocationSharingPanel";
 
 const POLL_MS = 4_000;
@@ -90,19 +91,52 @@ export function HelpRequestStatusScreen({ id }: { id: string }) {
     }
   }
 
-  async function confirmRequest() {
+  async function reloadItem(deviceKey: string) {
+    const response = await fetch(`/api/elders/help-requests/${id}`, {
+      headers: { "X-Elder-Device-Key": deviceKey },
+    });
+    if (response.status === 401) {
+      clearDeviceKey();
+      router.replace("/onboarding");
+      return;
+    }
+    const payload = (await response.json()) as {
+      helpRequest?: HelpRequestListItem;
+      error?: string;
+    };
+    if (!response.ok || !payload.helpRequest) {
+      throw new Error(payload.error ?? "not_found");
+    }
+    setItem(payload.helpRequest);
+  }
+
+  async function confirmRequest(rating: number | null) {
     const deviceKey = readDeviceKey();
     if (!deviceKey) {
       router.replace("/onboarding");
       return;
     }
     setBusy(true);
+    setError(null);
     try {
       const response = await fetch(`/api/elders/help-requests/${id}/confirm`, {
         method: "POST",
-        headers: { "X-Elder-Device-Key": deviceKey },
+        headers: {
+          "X-Elder-Device-Key": deviceKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rating }),
       });
-      if (!response.ok) throw new Error("confirm_failed");
+      const payload = (await response.json()) as { error?: string };
+      if (!response.ok) {
+        if (payload.error === "not_confirmable") {
+          setError(tRecords("alreadyConfirmed"));
+          await reloadItem(deviceKey);
+          return;
+        }
+        throw new Error(payload.error ?? "confirm_failed");
+      }
+      await reloadItem(deviceKey);
     } catch {
       setError(tRecords("confirmFailed"));
     } finally {
@@ -158,14 +192,10 @@ export function HelpRequestStatusScreen({ id }: { id: string }) {
           </div>
 
           {item.canConfirm ? (
-            <BigButton
-              variant="assist"
-              className="min-h-[110px] text-[26px] leading-snug"
-              disabled={busy}
-              onClick={() => void confirmRequest()}
-            >
-              {busy ? tRecords("confirming") : tRecords("confirmThanks")}
-            </BigButton>
+            <ConfirmCompletePanel
+              busy={busy}
+              onConfirm={(rating) => confirmRequest(rating)}
+            />
           ) : null}
 
           {item.canCancel ? (
