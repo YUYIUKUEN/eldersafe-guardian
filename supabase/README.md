@@ -37,6 +37,14 @@ Storage buckets：`voice-recordings`（長者錄音）、`recordings`（舊名�
 若專案已跑過 `001_init.sql`，請再執行：
 - `002_voice_recordings_bucket.sql`
 - `003_volunteer_approval_rls.sql`（`rejected` 狀態、非 approved 不可讀求助資料、`volunteers` Realtime）
+- `004_activity_logs_append_only.sql`（activity_logs 禁止 update／delete）
+- `005_volunteer_status_allow_service_role.sql`（service_role 可改 approval_status，供 seed／acceptance）
+
+有 `SUPABASE_DB_PASSWORD` 時可一次套用 003–005：
+
+```bash
+pnpm apply:supabase-migrations
+```
 
 Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`。
 

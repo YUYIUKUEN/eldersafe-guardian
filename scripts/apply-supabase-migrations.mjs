@@ -29,6 +29,7 @@ try {
 const FILES = [
   "supabase/migrations/003_volunteer_approval_rls.sql",
   "supabase/migrations/004_activity_logs_append_only.sql",
+  "supabase/migrations/005_volunteer_status_allow_service_role.sql",
 ];
 
 function buildConnectionConfig() {

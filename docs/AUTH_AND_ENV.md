@@ -41,12 +41,13 @@ pnpm seed:admin-demo          # ≥1000 筆 help_requests 等
 pnpm acceptance:admin-4.9     # 靜態 + 未登入擋頁／API；有金鑰再驗批准／RLS／日誌
 ```
 
-Live DB 若 `live.rls.pending-cannot-read-help` 或 `live.logs.append-only-update` 失敗，代表遠端尚未套用：
+Live DB 若 RLS／append-only／approve 相關檢查失敗，確認遠端已套用：
 
 - `supabase/migrations/003_volunteer_approval_rls.sql`
 - `supabase/migrations/004_activity_logs_append_only.sql`
+- `supabase/migrations/005_volunteer_status_allow_service_role.sql`
 
-在 Supabase SQL Editor 跑完上述兩支，或設定 Cloud Agent secret `SUPABASE_DB_PASSWORD` 後執行 `pnpm apply:supabase-migrations`，再重跑 acceptance。
+在 Supabase SQL Editor 跑完，或設定 Cloud Agent secret `SUPABASE_DB_PASSWORD` 後執行 `pnpm apply:supabase-migrations`，再重跑 acceptance。
 
 ## C. 連線工具位置
 

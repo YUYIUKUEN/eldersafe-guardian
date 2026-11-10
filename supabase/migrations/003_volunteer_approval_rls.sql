@@ -57,7 +57,9 @@ security definer
 set search_path = public
 as $$
 begin
+  -- Allow admin sessions and service_role (seed/scripts); block volunteer self-change.
   if new.approval_status is distinct from old.approval_status
+     and coalesce(auth.jwt() ->> 'role', '') is distinct from 'service_role'
      and public.current_profile_role() is distinct from 'admin' then
     raise exception 'volunteers cannot change approval_status';
   end if;

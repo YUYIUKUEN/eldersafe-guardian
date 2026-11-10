@@ -19,7 +19,6 @@ pnpm seed:admin-demo -- --clean
 # 靜態 + 未登入擋頁／API；有金鑰時一併驗批准／日誌／RLS／列表效能
 pnpm acceptance:admin-4.9
 
-# 若 live RLS／append-only 失敗：遠端尚未套用 003／004
-# 可在 Supabase SQL Editor 跑 migrations，或加 SUPABASE_DB_PASSWORD 後：
+# 套用遠端 003／004／005（需 SUPABASE_DB_PASSWORD）
 pnpm apply:supabase-migrations
 ```
