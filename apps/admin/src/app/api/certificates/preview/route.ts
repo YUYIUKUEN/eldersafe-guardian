@@ -1,8 +1,5 @@
-import {
-  generateCertificatePdf,
-  isValidYearMonth,
-  type CertificatePdfInput,
-} from "@eldersafe/shared";
+import { isValidYearMonth, type CertificatePdfInput } from "@eldersafe/shared";
+import { generateCertificatePdf } from "@eldersafe/shared/certificates/pdf";
 import { requireAdminApi } from "@/lib/auth/api";
 
 export async function POST(request: Request) {

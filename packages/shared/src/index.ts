@@ -143,7 +143,8 @@ export {
   type PodiumResolution,
   type RankedVolunteer,
 } from "./certificates/ranking";
-export { generateCertificatePdf } from "./certificates/pdf";
+// generateCertificatePdf uses node:fs — import from
+// "@eldersafe/shared/certificates/pdf" in server-only modules only.
 export {
   CERTIFICATES_BUCKET,
   certificateObjectPath,

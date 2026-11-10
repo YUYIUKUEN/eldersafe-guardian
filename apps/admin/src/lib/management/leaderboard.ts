@@ -1,7 +1,6 @@
 import {
   certificateObjectPath,
   CERTIFICATES_BUCKET,
-  generateCertificatePdf,
   isValidYearMonth,
   mapMonthlyLeaderboardRows,
   resolvePodium,
@@ -9,6 +8,7 @@ import {
   type PodiumResolution,
   type RankedVolunteer,
 } from "@eldersafe/shared";
+import { generateCertificatePdf } from "@eldersafe/shared/certificates/pdf";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export type SettlementRecord = {
