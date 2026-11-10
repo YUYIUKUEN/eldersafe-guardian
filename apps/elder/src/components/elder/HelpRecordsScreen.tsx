@@ -9,6 +9,7 @@ import { useRouter } from "@/i18n/navigation";
 import { BigButton } from "@/components/ui/BigButton";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
+import { ConfirmCompletePanel } from "./ConfirmCompletePanel";
 import { ElderSessionGate } from "./ElderSessionGate";
 
 function statusTone(item: HelpRequestListItem): {
@@ -140,7 +141,7 @@ function HelpRecordsContent() {
     }
   }
 
-  async function confirmRequest(id: string) {
+  async function confirmRequest(id: string, rating: number | null) {
     const deviceKey = readDeviceKey();
     if (!deviceKey) {
       router.replace("/onboarding");
@@ -151,10 +152,19 @@ function HelpRecordsContent() {
     try {
       const response = await fetch(`/api/elders/help-requests/${id}/confirm`, {
         method: "POST",
-        headers: { "X-Elder-Device-Key": deviceKey },
+        headers: {
+          "X-Elder-Device-Key": deviceKey,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rating }),
       });
       const payload = (await response.json()) as { error?: string };
       if (!response.ok) {
+        if (payload.error === "not_confirmable") {
+          setError(t("alreadyConfirmed"));
+          await reloadList(deviceKey);
+          return;
+        }
         throw new Error(payload.error ?? "confirm_failed");
       }
       await reloadList(deviceKey);
@@ -223,14 +233,10 @@ function HelpRecordsContent() {
                 </BigText>
 
                 {item.canConfirm ? (
-                  <BigButton
-                    variant="assist"
-                    className="min-h-[110px] text-[26px] leading-snug"
-                    disabled={busy}
-                    onClick={() => void confirmRequest(item.id)}
-                  >
-                    {busy ? t("confirming") : t("confirmThanks")}
-                  </BigButton>
+                  <ConfirmCompletePanel
+                    busy={busy}
+                    onConfirm={(rating) => confirmRequest(item.id, rating)}
+                  />
                 ) : null}
 
                 {item.canCancel ? (

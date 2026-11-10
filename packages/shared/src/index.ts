@@ -101,8 +101,31 @@ export {
   type VolunteerValidationIssue,
 } from "./volunteer/validation";
 
+export { POINTS_RULES, type PointsRules } from "./points/rules";
+export {
+  calculatePointsAward,
+  normalizeElderRating,
+  type CalculatePointsInput,
+  type CalculatePointsResult,
+  type PointsBreakdown,
+} from "./points/calculate";
 export {
   awardPointsForConfirmedHelpRequest,
+  confirmHelpRequestWithPoints,
+  listMemoryPointsForVolunteer,
   type AwardPointsInput,
   type AwardPointsResult,
+  type ConfirmWithPointsInput,
+  type ConfirmWithPointsResult,
 } from "./points/award";
+export {
+  formatLeaderboardDisplayName,
+  getMonthCountdown,
+  hongKongMonthEnd,
+  hongKongYearMonth,
+  leaderboardSurname,
+  mapLeaderboardRows,
+  type LeaderboardEntry,
+  type LeaderboardPeriod,
+  type MonthCountdown,
+} from "./points/leaderboard";

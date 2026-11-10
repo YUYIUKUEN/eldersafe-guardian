@@ -30,23 +30,32 @@ values ('<auth-user-uuid>', 'admin', 'System Admin');
 | `emergencies` | 緊急事件與警方分享 token |
 | `locations` | 即時位置（關聯求助單或緊急事件） |
 | `activity_logs` | 操作審計 |
-| `points` | 積分明細（長者確認後一單一筆） |
+| `points` | 積分明細（長者確認後一單一筆；`help_request_id` 唯一） |
 | `certificates` | 每月 Top 3 證書 metadata |
+
+相關視圖／函式（見 `005_points_system.sql`）：
+- `volunteer_points_totals` / `volunteer_total_points(uuid)`：義工總積分
+- `volunteer_points_monthly` / `volunteer_month_points(uuid, text)`：本月（或指定 `YYYY-MM`）積分
+- `confirm_help_request_award_points(...)`：長者確認完成＋加分＋日誌同一交易（僅 service_role）
+
+積分規則設定檔：`packages/shared/src/points/rules.ts`（基本 10、逾 30 分鐘 +5、評分 ≥4 +5）。
 
 Storage buckets：`voice-recordings`（長者錄音）、`recordings`（舊名保留）、`certificates`（非公開）。  
 若專案已跑過 `001_init.sql`，請再執行：
 - `002_voice_recordings_bucket.sql`
 - `003_volunteer_approval_rls.sql`（`rejected` 狀態、非 approved 不可讀求助資料、`volunteers` Realtime）
-- `004_activity_logs_append_only.sql`（activity_logs 禁止 update／delete）
-- `005_volunteer_status_allow_service_role.sql`（service_role 可改 approval_status，供 seed／acceptance）
+- `004_activity_logs_append_only.sql`
+- `005_points_system.sql`（評分欄、確認加分 RPC、積分視圖／函式）
+- `005_volunteer_status_allow_service_role.sql`（service_role 可改 `volunteers.approval_status`，供 seed／acceptance）
+- `006_volunteer_leaderboard.sql`（排行榜匿名欄、`get_volunteer_leaderboard`、approved 可讀 points、points Realtime）
 
-有 `SUPABASE_DB_PASSWORD` 時可一次套用 003–005：
+有 `SUPABASE_DB_PASSWORD` 時可一次套用 migrations：
 
 ```bash
 pnpm apply:supabase-migrations
 ```
 
-Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`。
+Realtime：`help_requests`、`emergencies`、`locations`、`volunteers`、`points`。
 
 長者寫入走 Next.js API + **service role**（繞過 RLS）。義工／管理員用 Auth session + RLS。
 

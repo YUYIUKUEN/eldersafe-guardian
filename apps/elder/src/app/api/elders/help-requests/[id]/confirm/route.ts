@@ -21,24 +21,47 @@ export async function POST(request: Request, context: RouteContext) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
+  let rating: number | null = null;
   try {
-    const { record, storeMode, points } = await confirmHelpRequestForElder({
-      id,
-      elderId: elder.id,
-    });
+    const body = (await request.json().catch(() => null)) as {
+      rating?: unknown;
+    } | null;
+    if (body && "rating" in body) {
+      rating = body.rating as number | null;
+    }
+  } catch {
+    // Body is optional; invalid JSON treated as no rating.
+  }
 
-    await store.writeActivity({
-      actorType: "elder",
-      actorId: elder.id,
-      action: ElderActivityAction.helpRequestConfirm,
-      targetType: "help_request",
-      targetId: record.id,
-      metadata: {
-        storeMode,
-        pointsDeferred: points.deferred,
-        volunteerId: record.volunteerId,
-      },
-    });
+  try {
+    const { record, storeMode, points, activityLogged } =
+      await confirmHelpRequestForElder({
+        id,
+        elderId: elder.id,
+        rating,
+      });
+
+    // Supabase RPC already wrote activity_logs inside the same transaction.
+    // Memory mode still needs an explicit log write here.
+    if (!activityLogged) {
+      await store.writeActivity({
+        actorType: "elder",
+        actorId: elder.id,
+        action: ElderActivityAction.helpRequestConfirm,
+        targetType: "help_request",
+        targetId: record.id,
+        metadata: {
+          storeMode,
+          volunteerId: record.volunteerId,
+          points: points.points,
+          pointsId: points.pointsId,
+          awarded: points.awarded,
+          alreadyAwarded: points.alreadyAwarded,
+          rating: points.breakdown.rating,
+          breakdown: points.breakdown,
+        },
+      });
+    }
 
     return Response.json({
       helpRequest: {
@@ -47,7 +70,13 @@ export async function POST(request: Request, context: RouteContext) {
         elderConfirmedAt: record.elderConfirmedAt,
         volunteerName: record.volunteerName,
       },
-      points,
+      points: {
+        awarded: points.awarded,
+        alreadyAwarded: points.alreadyAwarded,
+        points: points.points,
+        pointsId: points.pointsId,
+        breakdown: points.breakdown,
+      },
       storeMode,
     });
   } catch (error) {
@@ -55,15 +84,26 @@ export async function POST(request: Request, context: RouteContext) {
       error instanceof Error ? error.message : "help_request_confirm_failed";
     const notConfirmable = message === "HELP_REQUEST_NOT_CONFIRMABLE";
     const notFound = message === "HELP_REQUEST_NOT_FOUND";
+    const invalidRating = message === "INVALID_RATING";
     return Response.json(
       {
         error: notConfirmable
           ? "not_confirmable"
           : notFound
             ? "not_found"
-            : message,
+            : invalidRating
+              ? "invalid_rating"
+              : message,
       },
-      { status: notFound ? 404 : notConfirmable ? 409 : 500 },
+      {
+        status: notFound
+          ? 404
+          : invalidRating
+            ? 400
+            : notConfirmable
+              ? 409
+              : 500,
+      },
     );
   }
 }
