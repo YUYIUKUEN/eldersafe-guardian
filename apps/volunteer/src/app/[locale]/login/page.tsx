@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { LoginForm } from "@/components/auth/LoginForm";
 
@@ -6,13 +7,25 @@ type LoginPageProps = {
   searchParams: Promise<{ next?: string }>;
 };
 
+async function LoginFormLoader({
+  searchParams,
+}: {
+  searchParams: Promise<{ next?: string }>;
+}) {
+  const { next } = await searchParams;
+  return <LoginForm nextPath={next ?? null} />;
+}
+
 export default async function LoginPage({
   params,
   searchParams,
 }: LoginPageProps) {
   const { locale } = await params;
-  const { next } = await searchParams;
   setRequestLocale(locale);
 
-  return <LoginForm nextPath={next ?? null} />;
+  return (
+    <Suspense fallback={null}>
+      <LoginFormLoader searchParams={searchParams} />
+    </Suspense>
+  );
 }
