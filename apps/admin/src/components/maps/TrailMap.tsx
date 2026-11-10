@@ -116,7 +116,7 @@ export function TrailMap({
         "min-h-[320px] w-full overflow-hidden rounded-xl border border-slate-200"
       }
       role="img"
-      aria-label="Location trail map"
+      aria-label={emptyLabel}
     />
   );
 }

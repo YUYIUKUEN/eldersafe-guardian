@@ -1,6 +1,9 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { LogsManager } from "@/components/logs/LogsManager";
 
+
+export const instant = false;
+
 type PageProps = {
   params: Promise<{ locale: string }>;
 };

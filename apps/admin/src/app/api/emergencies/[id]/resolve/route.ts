@@ -28,6 +28,9 @@ export async function POST(request: Request, context: RouteContext) {
   if (!note || note.length < 2) {
     return Response.json({ error: "note_required" }, { status: 400 });
   }
+  if (note.length > 500) {
+    return Response.json({ error: "note_too_long" }, { status: 400 });
+  }
 
   const { data: existing, error: existingError } = await auth.ctx.supabase
     .from("emergencies")

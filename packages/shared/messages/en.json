@@ -5,11 +5,17 @@
     "english": "English",
     "chineseHK": "Traditional Chinese (Hong Kong)",
     "chineseHKShort": "Chinese",
-    "back": "Back"
+    "back": "Back",
+    "healthOk": "Database connected",
+    "healthFail": "Database connection failed",
+    "healthChecking": "Checking…",
+    "mapLiveLocation": "Live location map",
+    "mapLocationTrail": "Location trail map"
   },
   "Elder": {
-    "title": "Elder Web App",
+    "title": "ElderSafe for elders",
     "subtitle": "Elder-first safety interface (mobile only)",
+    "myRecordsLink": "View my help records",
     "openDesignTest": "View design system",
     "welcome": "Hello, {name}",
     "homeReady": "Your details are ready. Use the button below if you need to change them.",
@@ -21,7 +27,7 @@
     "emergencyTitle": "Emergency help",
     "emergencyBody": "Emergency countdown and help flow.",
     "assistTitle": "Want someone with me",
-    "assistBody": "This page will later connect the voice help request flow.",
+    "assistBody": "Record a short voice message to ask for companionship or help.",
     "recordsTitle": "My help records",
     "recordsBody": "See the status of your help requests."
   },

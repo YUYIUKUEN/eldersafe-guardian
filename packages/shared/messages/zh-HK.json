@@ -5,11 +5,17 @@
     "english": "English",
     "chineseHK": "繁體中文（香港）",
     "chineseHKShort": "繁體中文",
-    "back": "返回"
+    "back": "返回",
+    "healthOk": "已連線資料庫",
+    "healthFail": "資料庫連線失敗",
+    "healthChecking": "檢查中…",
+    "mapLiveLocation": "即時位置地圖",
+    "mapLocationTrail": "位置軌跡地圖"
   },
   "Elder": {
-    "title": "長者 Web App",
+    "title": "長者安心守護",
     "subtitle": "以長者為先的安全介面（手機專用）",
+    "myRecordsLink": "查看我的求助紀錄",
     "openDesignTest": "查看設計系統",
     "welcome": "你好，{name}",
     "homeReady": "你的資料已準備好。有需要時可按下面按鈕修改。",
@@ -21,7 +27,7 @@
     "emergencyTitle": "緊急求助",
     "emergencyBody": "緊急倒數與求助功能。",
     "assistTitle": "想找人陪我",
-    "assistBody": "此頁稍後會接上錄音求助功能。",
+    "assistBody": "錄一段短語音，請人陪伴或協助。",
     "recordsTitle": "我的求助紀錄",
     "recordsBody": "查看你的求助單狀態。"
   },

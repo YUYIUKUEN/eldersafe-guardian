@@ -72,13 +72,13 @@ function HomeContent({ elder }: { elder: ElderPublicProfile }) {
         >
           {t("needCompany")}
         </BigButton>
-        <BigButton
-          href="/records"
-          variant="neutral"
-          className="min-h-[88px] whitespace-normal text-[22px] leading-snug"
+        <button
+          type="button"
+          className="min-h-[72px] w-full text-center text-[22px] font-bold text-brand underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+          onClick={() => router.push("/records")}
         >
-          {t("myRecords")}
-        </BigButton>
+          {t("myRecordsLink")}
+        </button>
       </section>
     </Page>
   );

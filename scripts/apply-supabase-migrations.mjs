@@ -37,6 +37,7 @@ const FILES = [
   "supabase/migrations/009_volunteer_help_feed_transcript.sql",
   "supabase/migrations/010_volunteer_accept_release.sql",
   "supabase/migrations/011_volunteer_complete_records.sql",
+  "supabase/migrations/012_security_hardening.sql",
 ];
 
 function buildConnectionConfig() {

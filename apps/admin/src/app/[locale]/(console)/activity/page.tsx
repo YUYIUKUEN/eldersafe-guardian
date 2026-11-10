@@ -1,6 +1,9 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { EngagementPanel } from "@/components/activity/EngagementPanel";
 
+
+export const instant = false;
+
 type PageProps = {
   params: Promise<{ locale: string }>;
 };

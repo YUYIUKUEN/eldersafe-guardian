@@ -1,4 +1,9 @@
-import { ElderActivityAction } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  clientKeyFromRequest,
+  consumeRateLimit,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import {
   createHelpRequest,
   listHelpRequestsForElder,
@@ -6,10 +11,29 @@ import {
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
 
+const ALLOWED_EXTENSIONS = new Set(["webm", "ogg", "mp4", "m4a", "wav"]);
+const ALLOWED_MIME_PREFIXES = ["audio/", "video/webm", "video/mp4"];
+
 function parseOptionalNumber(value: FormDataEntryValue | null): number | null {
   if (typeof value !== "string" || !value.trim()) return null;
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
+}
+
+function normalizeExtension(raw: string): string | null {
+  const cleaned = raw.trim().replace(/^\./, "").toLowerCase();
+  if (!ALLOWED_EXTENSIONS.has(cleaned)) return null;
+  return cleaned;
+}
+
+function isAllowedMime(mimeType: string): boolean {
+  const normalized = mimeType.trim().toLowerCase();
+  if (!normalized) return false;
+  return ALLOWED_MIME_PREFIXES.some(
+    (prefix) =>
+      normalized === prefix ||
+      normalized.startsWith(prefix.endsWith("/") ? prefix : `${prefix};`),
+  );
 }
 
 export async function GET(request: Request) {
@@ -42,9 +66,10 @@ export async function GET(request: Request) {
       storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "help_request_list_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return Response.json(
+      { error: toSafeErrorCode(error, "help_request_list_failed") },
+      { status: 500 },
+    );
   }
 }
 
@@ -59,6 +84,18 @@ export async function POST(request: Request) {
       metadata: { reason: "help_request_unauthorized" },
     });
     return Response.json({ error: "unauthorized" }, { status: 401 });
+  }
+
+  const limited = consumeRateLimit({
+    key: clientKeyFromRequest(request, `elder-help:${elder.id}`),
+    limit: 20,
+    windowMs: 60 * 60 * 1000,
+  });
+  if (!limited.ok) {
+    return Response.json(
+      { error: "rate_limited", retryAfterMs: limited.retryAfterMs },
+      { status: 429 },
+    );
   }
 
   let form: FormData;
@@ -82,16 +119,30 @@ export async function POST(request: Request) {
   const mimeType =
     (typeof form.get("mimeType") === "string" && String(form.get("mimeType"))) ||
     audio.type ||
-    "application/octet-stream";
+    "audio/webm";
+  if (!isAllowedMime(mimeType)) {
+    return Response.json({ error: "invalid_audio_type" }, { status: 400 });
+  }
+
   const extensionRaw = form.get("extension");
   const extension =
     typeof extensionRaw === "string" && extensionRaw.trim()
-      ? extensionRaw.trim().replace(/^\./, "")
+      ? normalizeExtension(extensionRaw)
       : "webm";
+  if (!extension) {
+    return Response.json({ error: "invalid_audio_extension" }, { status: 400 });
+  }
 
   const latitude = parseOptionalNumber(form.get("latitude"));
   const longitude = parseOptionalNumber(form.get("longitude"));
   const accuracyM = parseOptionalNumber(form.get("accuracyM"));
+
+  if (
+    (latitude != null && (latitude < -90 || latitude > 90)) ||
+    (longitude != null && (longitude < -180 || longitude > 180))
+  ) {
+    return Response.json({ error: "invalid_coordinates" }, { status: 400 });
+  }
 
   try {
     const bytes = new Uint8Array(await audio.arrayBuffer());
@@ -128,8 +179,9 @@ export async function POST(request: Request) {
       storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "help_request_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return Response.json(
+      { error: toSafeErrorCode(error, "help_request_failed") },
+      { status: 500 },
+    );
   }
 }

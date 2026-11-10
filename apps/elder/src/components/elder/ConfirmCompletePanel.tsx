@@ -51,11 +51,11 @@ export function ConfirmCompletePanel({
                 busy ? "cursor-not-allowed opacity-55" : "cursor-pointer",
                 selected
                   ? "border-assist bg-assist text-assist-fg"
-                  : "border-brand bg-white text-[#c45c00]",
+                  : "border-brand bg-white text-[#9a3412]",
               ].join(" ")}
             >
               <span aria-hidden="true">★</span>
-              <span className="mt-1 text-[18px] font-bold leading-none">
+              <span className="mt-1 text-[20px] font-bold leading-none">
                 {value}
               </span>
             </button>

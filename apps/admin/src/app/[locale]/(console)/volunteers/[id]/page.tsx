@@ -2,6 +2,9 @@ import { Suspense } from "react";
 import { setRequestLocale } from "next-intl/server";
 import { VolunteerDetailPanel } from "@/components/management/VolunteerDetailPanel";
 
+
+export const instant = false;
+
 type PageProps = {
   params: Promise<{ locale: string; id: string }>;
 };

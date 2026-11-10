@@ -1,5 +1,6 @@
 import {
   canAccessVolunteerApp,
+  createSupabaseServiceClient,
   loadAccessContext,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
@@ -37,10 +38,7 @@ export async function GET(_request: Request, context: RouteContext) {
     { target_id: id },
   );
   if (allowError) {
-    return Response.json(
-      { error: "access_check_failed", detail: allowError.message },
-      { status: 500 },
-    );
+    return Response.json({ error: "access_check_failed" }, { status: 500 });
   }
   if (!allowed) {
     return Response.json({ error: "forbidden" }, { status: 403 });
@@ -62,15 +60,21 @@ export async function GET(_request: Request, context: RouteContext) {
     ? rawPath.slice("voice-recordings/".length)
     : rawPath;
 
-  const { data: signed, error: signError } = await supabase.storage
+  // Service role signs the URL after access checks — storage objects have no
+  // authenticated SELECT policy (migration 012).
+  let service;
+  try {
+    service = createSupabaseServiceClient();
+  } catch {
+    return Response.json({ error: "supabase_not_configured" }, { status: 503 });
+  }
+
+  const { data: signed, error: signError } = await service.storage
     .from("voice-recordings")
     .createSignedUrl(objectPath, SIGNED_URL_TTL_SECONDS);
 
   if (signError || !signed?.signedUrl) {
-    return Response.json(
-      { error: "sign_failed", detail: signError?.message },
-      { status: 500 },
-    );
+    return Response.json({ error: "sign_failed" }, { status: 500 });
   }
 
   return Response.json({

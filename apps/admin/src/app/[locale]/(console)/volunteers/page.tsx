@@ -1,6 +1,9 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { VolunteersManager } from "@/components/management/VolunteersManager";
 
+
+export const instant = false;
+
 type PageProps = {
   params: Promise<{ locale: string }>;
 };

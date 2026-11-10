@@ -5,6 +5,9 @@ import { ApprovedSessionGuard } from "@/components/status/ApprovedSessionGuard";
 import { requireApprovedVolunteer } from "@/lib/auth/require-access";
 import { createClient } from "@/lib/supabase/server";
 
+
+export const instant = false;
+
 type ProfilePageProps = {
   params: Promise<{ locale: string }>;
 };

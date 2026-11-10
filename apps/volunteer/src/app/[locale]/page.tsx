@@ -4,6 +4,9 @@ import { VolunteerNav } from "@/components/VolunteerNav";
 import { ApprovedSessionGuard } from "@/components/status/ApprovedSessionGuard";
 import { requireApprovedVolunteer } from "@/lib/auth/require-access";
 
+
+export const instant = false;
+
 type HomePageProps = {
   params: Promise<{ locale: string }>;
 };

@@ -2,6 +2,9 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { LeaderboardManager } from "@/components/leaderboard/LeaderboardManager";
 import { requireAdminSession } from "@/lib/auth/require-access";
 
+
+export const instant = false;
+
 type PageProps = {
   params: Promise<{ locale: string }>;
 };

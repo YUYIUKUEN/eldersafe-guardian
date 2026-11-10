@@ -1,4 +1,9 @@
-import { ElderActivityAction } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  clientKeyFromRequest,
+  consumeRateLimit,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { getPublicTrackByToken } from "@/lib/elder/emergencies";
 import { getElderStore } from "@/lib/elder/store";
 
@@ -6,12 +11,24 @@ type RouteContext = {
   params: Promise<{ token: string }>;
 };
 
-export async function GET(_request: Request, context: RouteContext) {
+export async function GET(request: Request, context: RouteContext) {
   const { token } = await context.params;
   const store = getElderStore();
 
   if (!token || token.length < 16) {
     return Response.json({ error: "not_found" }, { status: 404 });
+  }
+
+  const limited = consumeRateLimit({
+    key: clientKeyFromRequest(request, "public-track"),
+    limit: 60,
+    windowMs: 60 * 1000,
+  });
+  if (!limited.ok) {
+    return Response.json(
+      { error: "rate_limited", retryAfterMs: limited.retryAfterMs },
+      { status: 429 },
+    );
   }
 
   try {
@@ -39,8 +56,9 @@ export async function GET(_request: Request, context: RouteContext) {
       storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "track_lookup_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return Response.json(
+      { error: toSafeErrorCode(error, "track_lookup_failed") },
+      { status: 500 },
+    );
   }
 }

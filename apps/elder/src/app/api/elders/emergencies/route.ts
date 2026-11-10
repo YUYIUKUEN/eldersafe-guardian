@@ -1,7 +1,10 @@
 import {
   ElderActivityAction,
+  clientKeyFromRequest,
+  consumeRateLimit,
   getEmergencyDialNumber,
   isEmergencyTestMode,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import {
   createEmergency,
@@ -94,6 +97,18 @@ export async function POST(request: Request) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
+  const limited = consumeRateLimit({
+    key: clientKeyFromRequest(request, `elder-emergency:${elder.id}`),
+    limit: 10,
+    windowMs: 60 * 60 * 1000,
+  });
+  if (!limited.ok) {
+    return Response.json(
+      { error: "rate_limited", retryAfterMs: limited.retryAfterMs },
+      { status: 429 },
+    );
+  }
+
   let body: unknown = {};
   try {
     body = await request.json();
@@ -150,8 +165,9 @@ export async function POST(request: Request) {
       storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "emergency_create_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return Response.json(
+      { error: toSafeErrorCode(error, "emergency_create_failed") },
+      { status: 500 },
+    );
   }
 }

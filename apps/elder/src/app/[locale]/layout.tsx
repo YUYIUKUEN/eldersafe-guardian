@@ -31,6 +31,7 @@ export async function generateMetadata({
   return {
     title: t("title"),
     description: t("subtitle"),
+    manifest: "/manifest.webmanifest",
     appleWebApp: {
       capable: true,
       title: t("title"),
@@ -39,6 +40,15 @@ export async function generateMetadata({
     formatDetection: {
       telephone: false,
     },
+    icons: [
+      { rel: "icon", url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      {
+        rel: "apple-touch-icon",
+        url: "/icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+    ],
   };
 }
 

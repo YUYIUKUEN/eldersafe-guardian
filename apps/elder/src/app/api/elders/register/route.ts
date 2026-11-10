@@ -1,14 +1,29 @@
 import {
   ELDER_CONSENT_VERSION,
   ElderActivityAction,
+  clientKeyFromRequest,
+  consumeRateLimit,
   generateDeviceKey,
   hashDeviceKey,
+  toSafeErrorCode,
   validateElderRegisterPayload,
 } from "@eldersafe/shared";
 import { getElderStore } from "@/lib/elder/store";
 import { toPublicProfile } from "@/lib/elder/types";
 
 export async function POST(request: Request) {
+  const limited = consumeRateLimit({
+    key: clientKeyFromRequest(request, "elder-register"),
+    limit: 10,
+    windowMs: 60 * 60 * 1000,
+  });
+  if (!limited.ok) {
+    return Response.json(
+      { error: "rate_limited", retryAfterMs: limited.retryAfterMs },
+      { status: 429 },
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -56,7 +71,9 @@ export async function POST(request: Request) {
       storeMode: store.mode,
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "register_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return Response.json(
+      { error: toSafeErrorCode(error, "register_failed") },
+      { status: 500 },
+    );
   }
 }

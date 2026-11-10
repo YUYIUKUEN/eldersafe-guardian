@@ -3,6 +3,9 @@ import { LogoutButton } from "@/components/auth/LogoutButton";
 import { ApprovalStatusWatcher } from "@/components/status/ApprovalStatusWatcher";
 import { requirePendingVolunteer } from "@/lib/auth/require-access";
 
+
+export const instant = false;
+
 type PendingPageProps = {
   params: Promise<{ locale: string }>;
 };

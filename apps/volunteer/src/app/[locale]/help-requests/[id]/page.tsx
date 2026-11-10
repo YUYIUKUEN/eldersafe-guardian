@@ -9,6 +9,9 @@ import { ApprovedSessionGuard } from "@/components/status/ApprovedSessionGuard";
 import { requireApprovedVolunteer } from "@/lib/auth/require-access";
 import { createClient } from "@/lib/supabase/server";
 
+
+export const instant = false;
+
 type DetailPageProps = {
   params: Promise<{ locale: string; id: string }>;
 };

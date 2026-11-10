@@ -3,6 +3,9 @@ import { LogoutButton } from "@/components/auth/LogoutButton";
 import { ApprovalStatusWatcher } from "@/components/status/ApprovalStatusWatcher";
 import { requireBlockedVolunteer } from "@/lib/auth/require-access";
 
+
+export const instant = false;
+
 type AccountStatusPageProps = {
   params: Promise<{ locale: string }>;
 };
