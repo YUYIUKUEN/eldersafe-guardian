@@ -129,3 +129,22 @@ export {
   type LeaderboardPeriod,
   type MonthCountdown,
 } from "./points/leaderboard";
+export {
+  CERTIFICATE_DEFAULTS,
+  getCertificateOrgName,
+  type CertificatePdfInput,
+} from "./certificates/config";
+export {
+  applyPodiumDecision,
+  isValidYearMonth,
+  mapMonthlyLeaderboardRows,
+  resolvePodium,
+  validatePodiumSelection,
+  type PodiumResolution,
+  type RankedVolunteer,
+} from "./certificates/ranking";
+export { generateCertificatePdf } from "./certificates/pdf";
+export {
+  CERTIFICATES_BUCKET,
+  certificateObjectPath,
+} from "./certificates/storage";
