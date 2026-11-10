@@ -29,6 +29,8 @@ packages/shared   共用語言檔（en / zh-HK）與 locale 設定
 pnpm install
 ```
 
+> 若義工網站按「接單」或開地圖時出現 `Module not found: Can't resolve 'leaflet'`，代表 `node_modules` 尚未裝好地圖依賴。請在**專案根目錄**再跑一次 `pnpm install`，然後刪除 `apps/volunteer/.next` 並重新 `pnpm dev:volunteer`。
+
 一次啟動三個網站（請在專案根目錄執行）：
 
 ```bash

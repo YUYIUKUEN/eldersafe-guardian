@@ -2,11 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import type {
-  CircleMarker,
-  LatLngExpression,
-  Map as LeafletMap,
-} from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 export type MapPoint = {
   latitude: number;
@@ -27,8 +23,8 @@ const KIND_COLOR: Record<MapPoint["kind"], string> = {
 export function HelpRequestMap({ points }: HelpRequestMapProps) {
   const t = useTranslations("VolunteerHelpDetail");
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const mapRef = useRef<LeafletMap | null>(null);
-  const markersRef = useRef<CircleMarker[]>([]);
+  const mapRef = useRef<import("leaflet").Map | null>(null);
+  const markersRef = useRef<import("leaflet").CircleMarker[]>([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -36,7 +32,6 @@ export function HelpRequestMap({ points }: HelpRequestMapProps) {
     async function setup() {
       if (!containerRef.current || points.length === 0) return;
       const L = await import("leaflet");
-      await import("leaflet/dist/leaflet.css");
 
       if (cancelled || !containerRef.current) return;
 
@@ -58,9 +53,12 @@ export function HelpRequestMap({ points }: HelpRequestMapProps) {
       }
       markersRef.current = [];
 
-      const latLngs: LatLngExpression[] = [];
+      const latLngs: import("leaflet").LatLngExpression[] = [];
       for (const point of points) {
-        const latLng: LatLngExpression = [point.latitude, point.longitude];
+        const latLng: import("leaflet").LatLngExpression = [
+          point.latitude,
+          point.longitude,
+        ];
         latLngs.push(latLng);
         const marker = L.circleMarker(latLng, {
           radius: 10,

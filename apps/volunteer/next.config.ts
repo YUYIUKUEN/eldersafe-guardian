@@ -8,7 +8,10 @@ const nextConfig: NextConfig = {
   partialPrefetching: true,
   transpilePackages: ["@eldersafe/shared"],
   // Same tunnel allowlist as elder — keep phone testing consistent.
+  // Also allow local IP hostnames used by some browsers / agents.
   allowedDevOrigins: [
+    "127.0.0.1",
+    "localhost",
     "*.ngrok-free.app",
     "*.ngrok-free.dev",
     "*.ngrok.app",
