@@ -129,7 +129,6 @@ export {
   type LeaderboardPeriod,
   type MonthCountdown,
 } from "./points/leaderboard";
-
 export {
   CERTIFICATE_DEFAULTS,
   getCertificateOrgName,

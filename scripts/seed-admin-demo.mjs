@@ -45,8 +45,10 @@ const supabase = createClient(url, serviceKey, {
 });
 
 const SEED_TAG = "seed-admin-demo";
-const STATUSES = ["pending", "approved", "rejected", "disabled"];
+/** Preferred statuses; narrowed at runtime to what the DB check constraint allows. */
+const PREFERRED_STATUSES = ["pending", "approved", "rejected", "disabled"];
 const HELP_STATUSES = ["pending", "accepted", "completed", "cancelled"];
+let STATUSES = [...PREFERRED_STATUSES];
 
 function hashDeviceKey(raw) {
   return createHash("sha256").update(raw).digest("hex");
@@ -102,6 +104,51 @@ async function seedElders() {
   if (error) throw new Error(`elders insert failed: ${error.message}`);
   console.log(`Inserted ${data.length} elders`);
   return data.map((row) => row.id);
+}
+
+async function resolveAllowedStatuses() {
+  const probeEmail = `seed.status.probe.${Date.now()}@example.com`;
+  const { data, error } = await supabase.auth.admin.createUser({
+    email: probeEmail,
+    password: "SeedProbe1!Aa",
+    email_confirm: true,
+  });
+  if (error || !data.user) {
+    console.warn(
+      "Could not probe approval statuses; using pending/approved/disabled only.",
+    );
+    STATUSES = ["pending", "approved", "disabled"];
+    return;
+  }
+  const id = data.user.id;
+  await supabase.from("profiles").insert({
+    id,
+    role: "volunteer",
+    display_name: "Seed Status Probe",
+  });
+  const allowed = [];
+  for (const status of PREFERRED_STATUSES) {
+    const { error: insertError } = await supabase.from("volunteers").insert({
+      id,
+      name: "Seed Status Probe",
+      phone: "50000000",
+      age: 30,
+      service_areas: ["Probe"],
+      bio: `${SEED_TAG} status-probe`,
+      approval_status: status,
+    });
+    if (!insertError) {
+      allowed.push(status);
+      await supabase.from("volunteers").delete().eq("id", id);
+    } else if (!insertError.message.includes("approval_status")) {
+      // Unexpected error — still try to continue with known-safe set.
+      console.warn(`Status probe ${status}: ${insertError.message}`);
+    }
+  }
+  await supabase.auth.admin.deleteUser(id);
+  STATUSES =
+    allowed.length > 0 ? allowed : ["pending", "approved", "disabled"];
+  console.log(`Volunteer approval statuses available: ${STATUSES.join(", ")}`);
 }
 
 async function seedVolunteers() {
@@ -264,6 +311,7 @@ async function main() {
   }
 
   console.log("Seeding admin demo data…");
+  await resolveAllowedStatuses();
   const elderIds = await seedElders();
   const volunteers = await seedVolunteers();
   await seedHelpRequests(elderIds, volunteers);
