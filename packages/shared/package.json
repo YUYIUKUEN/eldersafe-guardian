@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./certificates/pdf": "./src/certificates/pdf.ts",
     "./messages/en.json": "./messages/en.json",
     "./messages/zh-HK.json": "./messages/zh-HK.json",
     "./assets/fonts/*": "./assets/fonts/*"

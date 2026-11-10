@@ -30,6 +30,13 @@ const FILES = [
   "supabase/migrations/003_volunteer_approval_rls.sql",
   "supabase/migrations/004_activity_logs_append_only.sql",
   "supabase/migrations/005_volunteer_status_allow_service_role.sql",
+  "supabase/migrations/005_points_system.sql",
+  "supabase/migrations/006_volunteer_leaderboard.sql",
+  "supabase/migrations/007_leaderboard_settlements.sql",
+  "supabase/migrations/008_volunteer_help_feed.sql",
+  "supabase/migrations/009_volunteer_help_feed_transcript.sql",
+  "supabase/migrations/010_volunteer_accept_release.sql",
+  "supabase/migrations/011_volunteer_complete_records.sql",
 ];
 
 function buildConnectionConfig() {

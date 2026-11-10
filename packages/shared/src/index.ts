@@ -100,6 +100,28 @@ export {
   type VolunteerField,
   type VolunteerValidationIssue,
 } from "./volunteer/validation";
+export {
+  mapVolunteerHelpFeedRow,
+  filterVolunteerHelpFeed,
+  isAwaitingElderConfirm,
+  volunteerDisplayStatus,
+  serviceHoursBetween,
+  buildVolunteerRecordsSummary,
+  type VolunteerHelpFeedStatus,
+  type VolunteerHelpFeedItem,
+  type VolunteerHelpFeedFilter,
+  type VolunteerHelpFeedSort,
+  type VolunteerDisplayStatus,
+  type VolunteerRecordsSummary,
+} from "./volunteer/help-feed";
+export {
+  buildMapNavigationUrl,
+  type MapNavigationTarget,
+} from "./geo/navigation";
+export {
+  haversineDistanceMeters,
+  formatDistanceMeters,
+} from "./geo/haversine";
 
 export { POINTS_RULES, type PointsRules } from "./points/rules";
 export {
@@ -143,7 +165,8 @@ export {
   type PodiumResolution,
   type RankedVolunteer,
 } from "./certificates/ranking";
-export { generateCertificatePdf } from "./certificates/pdf";
+// generateCertificatePdf uses node:fs — import from
+// "@eldersafe/shared/certificates/pdf" in server-only modules only.
 export {
   CERTIFICATES_BUCKET,
   certificateObjectPath,

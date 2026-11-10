@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { HelpRequestList } from "@/components/help/HelpRequestList";
 import { VolunteerNav } from "@/components/VolunteerNav";
 import { ApprovedSessionGuard } from "@/components/status/ApprovedSessionGuard";
 import { requireApprovedVolunteer } from "@/lib/auth/require-access";
@@ -28,11 +29,7 @@ export default async function HomePage({ params }: HomePageProps) {
         <VolunteerNav />
       </div>
 
-      {/* Help-request list arrives in stage 3.3 — blank placeholder for now. */}
-      <div
-        className="min-h-48 rounded-2xl border border-dashed border-slate-300 bg-white/50 p-6 text-slate-500"
-        aria-hidden="true"
-      />
+      <HelpRequestList volunteerId={userId} />
     </section>
   );
 }

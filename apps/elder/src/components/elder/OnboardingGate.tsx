@@ -23,7 +23,12 @@ export function OnboardingGate({ children }: { children: React.ReactNode }) {
       }
 
       try {
-        const session = await fetchElderSession(key);
+        const session = await Promise.race([
+          fetchElderSession(key),
+          new Promise<null>((resolve) => {
+            window.setTimeout(() => resolve(null), 8000);
+          }),
+        ]);
         if (!active) return;
         if (session) {
           window.location.replace("/");

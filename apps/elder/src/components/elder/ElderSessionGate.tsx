@@ -17,6 +17,9 @@ type ElderSessionGateProps = {
   requireSession?: boolean;
 };
 
+/** Survives locale remounts so language switch does not stick on "checking". */
+const sessionCache = new Map<string, ElderPublicProfile>();
+
 export function ElderSessionGate({
   children,
   requireSession = true,
@@ -42,11 +45,19 @@ export function ElderSessionGate({
         return;
       }
 
+      const cached = sessionCache.get(key);
+      if (cached && active) {
+        setElder(cached);
+        setReady(true);
+      }
+
       try {
         const session = await fetchElderSession(key);
         if (!active) return;
+
         if (!session) {
           clearDeviceKey();
+          sessionCache.delete(key);
           if (requireSession) {
             window.location.replace("/onboarding");
             return;
@@ -56,10 +67,17 @@ export function ElderSessionGate({
           return;
         }
 
+        sessionCache.set(key, session.elder);
         setElder(session.elder);
         setReady(true);
       } catch {
         if (!active) return;
+        // Keep cached profile across transient failures / locale switches.
+        if (cached) {
+          setElder(cached);
+          setReady(true);
+          return;
+        }
         if (requireSession) {
           window.location.replace("/onboarding");
           return;
