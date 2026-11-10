@@ -702,5 +702,82 @@
       "title": "Mark emergency as resolved?",
       "body": "Mark emergency {id} as handled? Please add a short note for the log."
     }
+  },
+  "AdminLogs": {
+    "title": "Activity logs",
+    "subtitle": "Who did what and when. Logs are append-only and cannot be edited or deleted.",
+    "appendOnlyHint": "Database policy: activity_logs only allows insert. Updates and deletes are blocked.",
+    "loadFailed": "Could not load logs. Please try again.",
+    "keywordPlaceholder": "Action, actor id, or target id",
+    "filters": {
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "actorType": "Actor type",
+      "actionCategory": "Action category",
+      "keyword": "Keyword"
+    },
+    "actorType": {
+      "all": "All",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "admin": "Admin",
+      "system": "System"
+    },
+    "category": {
+      "all": "All",
+      "elder": "Elder actions",
+      "volunteer": "Volunteer actions",
+      "admin": "Admin actions",
+      "help": "Help requests",
+      "emergency": "Emergencies",
+      "auth": "Auth",
+      "other": "Other"
+    },
+    "columns": {
+      "time": "Time",
+      "actor": "Actor",
+      "action": "Action",
+      "target": "Target",
+      "detail": "Details"
+    }
+  },
+  "AdminEngagement": {
+    "title": "Engagement",
+    "subtitle": "Monthly activity levels for volunteers and elders, with a 30-day trend.",
+    "loadFailed": "Could not load engagement data. Please try again.",
+    "rulesTitle": "Activity level rules",
+    "rulesNote": "Metrics use Hong Kong calendar month. Volunteer trend counts accept events; elder trend counts help requests over the last 30 days.",
+    "volunteerRulesTitle": "Volunteers",
+    "elderRulesTitle": "Elders",
+    "volunteerRules": {
+      "high": "High: ≥ 4 completed services this month, or (≥ 6 accepts and completion rate ≥ 75%).",
+      "medium": "Medium: ≥ 2 accepts this month, or ≥ 1 completed service.",
+      "low": "Low: everyone else."
+    },
+    "elderRules": {
+      "high": "High: ≥ 3 help requests this month.",
+      "medium": "Medium: 1–2 help requests this month.",
+      "low": "Low: 0 help requests this month."
+    },
+    "volunteersTitle": "Volunteer engagement",
+    "eldersTitle": "Elder engagement",
+    "minutesValue": "{count} min",
+    "trendLabel": "30-day trend for {name}",
+    "level": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "columns": {
+      "name": "Name",
+      "acceptedCount": "Accepts (month)",
+      "completedCount": "Completed (month)",
+      "completionRate": "Completion rate",
+      "avgResponse": "Avg response",
+      "lastActiveAt": "Last active",
+      "level": "Level",
+      "trend": "30-day trend",
+      "helpCount": "Help requests (month)"
+    }
   }
 }

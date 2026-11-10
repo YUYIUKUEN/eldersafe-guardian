@@ -702,5 +702,82 @@
       "title": "標記此緊急事件為已處理？",
       "body": "確定將緊急事件 {id} 標記為已處理？請填寫備註以便記入日誌。"
     }
+  },
+  "AdminLogs": {
+    "title": "日誌",
+    "subtitle": "誰在何時做了什麼。日誌只可新增，不可編輯或刪除。",
+    "appendOnlyHint": "資料庫設定：activity_logs 只允許新增；更新與刪除會被拒絕。",
+    "loadFailed": "無法載入日誌，請再試一次。",
+    "keywordPlaceholder": "動作、操作者 ID 或對象 ID",
+    "filters": {
+      "dateFrom": "開始日期",
+      "dateTo": "結束日期",
+      "actorType": "操作者類型",
+      "actionCategory": "動作類別",
+      "keyword": "關鍵字"
+    },
+    "actorType": {
+      "all": "全部",
+      "elder": "長者",
+      "volunteer": "義工",
+      "admin": "管理員",
+      "system": "系統"
+    },
+    "category": {
+      "all": "全部",
+      "elder": "長者動作",
+      "volunteer": "義工動作",
+      "admin": "管理員動作",
+      "help": "求助單",
+      "emergency": "緊急事件",
+      "auth": "登入／帳號",
+      "other": "其他"
+    },
+    "columns": {
+      "time": "時間",
+      "actor": "操作者",
+      "action": "動作",
+      "target": "對象",
+      "detail": "詳情"
+    }
+  },
+  "AdminEngagement": {
+    "title": "活躍度",
+    "subtitle": "義工與長者本月活躍程度，附最近 30 天趨勢。",
+    "loadFailed": "無法載入活躍度，請再試一次。",
+    "rulesTitle": "活躍度分級規則",
+    "rulesNote": "統計以香港曆法本月為準。義工趨勢計算接單次數；長者趨勢計算最近 30 天求助次數。",
+    "volunteerRulesTitle": "義工",
+    "elderRulesTitle": "長者",
+    "volunteerRules": {
+      "high": "高：本月完成服務 ≥ 4，或（本月接單 ≥ 6 且完成率 ≥ 75%）。",
+      "medium": "中：本月接單 ≥ 2，或本月完成 ≥ 1。",
+      "low": "低：其餘。"
+    },
+    "elderRules": {
+      "high": "高：本月求助次數 ≥ 3。",
+      "medium": "中：本月求助 1–2 次。",
+      "low": "低：本月求助 0 次。"
+    },
+    "volunteersTitle": "義工活躍度",
+    "eldersTitle": "長者活躍度",
+    "minutesValue": "{count} 分鐘",
+    "trendLabel": "{name} 最近 30 天趨勢",
+    "level": {
+      "high": "高",
+      "medium": "中",
+      "low": "低"
+    },
+    "columns": {
+      "name": "姓名",
+      "acceptedCount": "本月接單數",
+      "completedCount": "本月完成數",
+      "completionRate": "完成率",
+      "avgResponse": "平均回應時間",
+      "lastActiveAt": "最後活動時間",
+      "level": "活躍度",
+      "trend": "近 30 天趨勢",
+      "helpCount": "本月求助次數"
+    }
   }
 }
