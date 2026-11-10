@@ -86,7 +86,7 @@
   - [x] 靜態確認：批准義工 API 寫入 `activity_logs`；RLS 僅 `approved` 可讀求助（需 Supabase 金鑰才跑 live）
   - [x] 所有管理 mutation API 均寫入 `activity_logs`；DB append-only migration 004
   - [x] 列表皆分頁（20–30／頁）；假資料腳本可種 ≥1000 筆 `help_requests`（`scripts/seed-admin-demo.mjs`）
-  - [~] Live DB：Secrets 三金鑰已注入；`seed:admin-demo` 成功（200/80/1000）；acceptance **31/33**。尚欠遠端 migration `003`（pending RLS）與 `004`（append-only）— 需 `SUPABASE_DB_PASSWORD` 或於 SQL Editor 手動套用後重跑
+  - [x] Live DB：已套用 `003`／`004`／`005`（`pnpm apply:supabase-migrations`）；`seed:admin-demo -- --clean`（200/80/1000）；`acceptance:admin-4.9` **33/33**
 
 ---
 
