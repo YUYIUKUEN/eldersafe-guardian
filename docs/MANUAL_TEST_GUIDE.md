@@ -1,38 +1,39 @@
-# ElderSafe Guardian — Full Manual Test Guide
+# ElderSafe Guardian — 完整手動測試指南
 
-Run this after pulling the latest branch and applying DB migrations.
+請先拉取最新分支，並套用資料庫 migration，再按本指南測試。
 
-## 0. One-time setup
+## 0. 一次性設定
 
 ```bash
 pnpm install
 cp apps/elder/.env.local.example apps/elder/.env.local
 cp apps/volunteer/.env.local.example apps/volunteer/.env.local
 cp apps/admin/.env.local.example apps/admin/.env.local
-# Fill the three Supabase keys in each file.
-# Elder also needs: TEST_MODE=true and TEST_EMERGENCY_NUMBER=+85290000000
-# Admin also needs: SUPABASE_DB_PASSWORD (for migrations) and NEXT_PUBLIC_ELDER_APP_URL=http://localhost:3001
+# 每個檔案填入三個 Supabase 金鑰。
+# 長者 app 另需：TEST_MODE=true 和 TEST_EMERGENCY_NUMBER=+85290000000
+# 管理員 app 另需：SUPABASE_DB_PASSWORD（跑 migration）和 NEXT_PUBLIC_ELDER_APP_URL=http://localhost:3001
 ```
 
-Apply migrations (includes security hardening `012`):
+套用 migration（包含安全加固 `012`）：
 
 ```bash
 pnpm apply:supabase-migrations
 ```
 
-Automated checks:
+自動化檢查：
 
 ```bash
 pnpm acceptance:security-012
 pnpm acceptance:admin-4.9
-# optional: start admin first for the HTTP reachability check
+# 可選：先開 admin 再跑 HTTP 可達性檢查
 pnpm --filter @eldersafe/admin run dev   # port 3003
 ADMIN_BASE_URL=http://127.0.0.1:3003 pnpm acceptance:admin-4.9
-pnpm acceptance:points-certificates   # if script is wired; else:
+pnpm acceptance:points-certificates
+# 若腳本未掛到 package.json，可改用：
 node --env-file=apps/admin/.env.local ./scripts/acceptance-points-certificates.mjs
 ```
 
-Start all apps:
+啟動三個網站：
 
 ```bash
 pnpm --filter @eldersafe/elder run dev      # http://localhost:3001
@@ -42,84 +43,84 @@ pnpm --filter @eldersafe/admin run dev      # http://localhost:3003
 
 ---
 
-## 1. Security (must pass)
+## 1. 安全檢查（必須通過）
 
-| # | Check | How |
-|---|--------|-----|
-| C0 | Volunteer cannot become admin | `pnpm acceptance:security-012` (PASS C0…) |
-| C1 | Volunteer cannot `select` elders table | same script |
-| C2 | Recording files not listable with volunteer JWT | same script |
-| C3 | Volunteer cannot read `emergencies` / police tokens | same script |
-| H2 | Volunteer cannot direct-update `help_requests` | same script |
-| H4 | Volunteer cannot forge `actor_type=admin` logs | same script |
-| Admin API | Unauthenticated `/api/elders` → 401 | `curl -i http://localhost:3003/api/elders` |
-
----
-
-## 2. Elder app (`http://localhost:3001/zh-HK`)
-
-1. Open site on a **phone-width** window (or real phone on same LAN / tunnel).
-2. Complete onboarding (name / age / phone / address / emergency contact / optional health notes / consent).
-3. Home should show **two primary buttons** (red emergency, blue assist) plus a **text link** for records.
-4. **Blue assist**: record ≤60s → stop → listen → send. Expect status page “待接單”.
-5. Confirm location permission; after send, location sharing can run while request is open.
-6. **Red emergency**: confirm → 5s countdown with cancel → dials **test number** (not 999 while `TEST_MODE=true`) → track link created.
-7. Open police `/track/{token}`: see name / age / address / map; **no health notes**.
-8. End emergency with “我已安全”.
-9. After a volunteer marks complete (section 3), open records → **確認完成** (optional stars). Volunteer should gain points only then.
-10. Switch language EN / zh-HK; no missing message keys.
-11. PWA: on HTTPS/localhost, browser “Add to Home Screen” / install should offer ElderSafe (manifest present).
-
-Font / button spot-checks: body ≥20px, titles ≥28px, primary buttons ≥72px tall.
+| # | 檢查項目 | 做法 |
+|---|----------|------|
+| C0 | 義工不能把自己升成 admin | `pnpm acceptance:security-012`（應見 PASS C0…） |
+| C1 | 義工不能直接 `select` elders 表 | 同一個腳本 |
+| C2 | 用義工 JWT 不能列出錄音檔 | 同一個腳本 |
+| C3 | 義工不能讀 `emergencies`／警方 token | 同一個腳本 |
+| H2 | 義工不能直接 UPDATE `help_requests` | 同一個腳本 |
+| H4 | 義工不能偽造 `actor_type=admin` 日誌 | 同一個腳本 |
+| 管理員 API | 未登入呼叫 `/api/elders` → 401 | `curl -i http://localhost:3003/api/elders` |
 
 ---
 
-## 3. Volunteer app (`http://localhost:3002/zh-HK`)
+## 2. 長者 App（`http://localhost:3001/zh-HK`）
 
-1. Register a new volunteer → lands on **pending**.
-2. In admin (section 4), approve the volunteer → pending page auto-redirects home.
-3. Home help list shows pending requests (Realtime / refresh). Name+age visible; address/phone only after accept.
-4. Open a request → play audio → **接單** → map with live location.
-5. **標記完成** → elder must still confirm before points.
-6. Optional: release before complete with a reason (2–500 chars).
-7. Check **我的紀錄**, **排行榜**, **我的證書** (certificates appear after monthly settlement).
-8. Log out; pending/rejected accounts must not see help data.
+1. 用**手機闊度**視窗開啟（或同一區網／tunnel 的真實手機）。
+2. 完成首次登記（姓名／年齡／電話／住址／緊急聯絡人／健康備註可選／同意條款）。
+3. 首頁應有**兩個超大按鈕**（紅色緊急、藍色陪伴），另加「求助紀錄」文字連結。
+4. **藍色陪伴**：錄音 ≤60 秒 → 停止 → 重聽 → 送出。應進入狀態頁「待接單」。
+5. 允許定位；送出後，求助進行中可持續分享位置。
+6. **紅色緊急**：確認 → 5 秒倒數（可取消）→ 撥打**測試號碼**（`TEST_MODE=true` 時不可撥 999）→ 產生追蹤連結。
+7. 打開警方 `/track/{token}`：可見姓名／年齡／住址／地圖；**不應見到健康備註**。
+8. 按「我已安全」結束緊急。
+9. 義工標記完成後（見第 3 節），打開紀錄 → **確認完成**（星級可略過）。義工此時才加分。
+10. 切換 EN／zh-HK；不應有缺漏文案鍵。
+11. PWA：在 HTTPS／localhost，瀏覽器「加入主畫面／安裝」應出現 ElderSafe（已有 manifest）。
 
----
-
-## 4. Admin app (`http://localhost:3003/zh-HK`)
-
-1. Login with an admin Auth user (`profiles.role=admin`). Non-admin → unauthorized.
-2. Dashboard: counts + 7-day chart; trigger an emergency and confirm Realtime red banner.
-3. Users: search elders/volunteers; approve / reject / disable; CSV export.
-4. Matches: open a help request with audio + trail; cancel / reassign with reason (2–500 chars).
-5. Emergencies: open map + police link; resolve with note (2–500 chars).
-6. Logs / engagement pages load with pagination.
-7. Leaderboard: pick a month → settle Top 3 → preview / download PDF certificates.
-8. Volunteer downloads the same certificate from their certificates page.
+字體／按鈕抽查：正文 ≥20px、標題 ≥28px、主要按鈕高度 ≥72px。
 
 ---
 
-## 5. Rewards
+## 3. 義工網站（`http://localhost:3002/zh-HK`）
 
-1. Accept → volunteer complete → elder confirm (with/without rating).
-2. Confirm twice → second attempt fails; only one `points` row.
-3. Leaderboard order matches totals; monthly settlement cannot run twice for the same month.
+1. 註冊新義工 → 進入**等待審批**頁。
+2. 到管理員（第 4 節）批准該義工 → 等待頁應自動跳去首頁。
+3. 首頁求助列表顯示待接單（Realtime／刷新）。接單前可見姓名＋年齡；住址／電話只在接單後可見。
+4. 打開一單 → 播放錄音 → **接單** → 地圖顯示即時位置。
+5. **標記完成** → 長者仍須確認，義工才得分。
+6. 可選：完成前取消接單，並填原因（2–500 字）。
+7. 檢查**我的紀錄**、**排行榜**、**我的證書**（證書在每月結算後才有）。
+8. 登出；pending／rejected 帳號不可看到求助資料。
 
 ---
 
-## 6. Expected automated results (this branch)
+## 4. 管理員網站（`http://localhost:3003/zh-HK`）
+
+1. 用管理員 Auth 帳號登入（`profiles.role=admin`）。非管理員 → 沒有權限。
+2. 儀表板：統計數字＋近 7 天圖；製造緊急事件後應見 Realtime 紅色提示。
+3. 用戶管理：搜尋長者／義工；批准／拒絕／停用；匯出 CSV。
+4. 配對總覽：打開求助單（含錄音＋軌跡）；取消／重新指派並填原因（2–500 字）。
+5. 緊急事件：打開地圖＋警方連結；標記已處理並填備註（2–500 字）。
+6. 日誌／活躍度頁可載入並有分頁。
+7. 排行榜：選月份 → 結算 Top 3 → 預覽／下載 PDF 證書。
+8. 義工在「我的證書」可下載同一張證書。
+
+---
+
+## 5. 獎勵系統
+
+1. 接單 → 義工標記完成 → 長者確認（有／無評分）。
+2. 同一單再確認一次 → 第二次應失敗；`points` 只有一列。
+3. 排行榜次序與積分一致；同一月份不可重複結算。
+
+---
+
+## 6. 本分支預期自動化結果
 
 - `pnpm acceptance:security-012` → **9/9**
-- `pnpm acceptance:admin-4.9` (with admin running) → **20/20** (19/20 without HTTP)
-- Points/certificates script → all checks ✓
-- `pnpm --filter @eldersafe/elder|volunteer|admin run build` → success
+- `pnpm acceptance:admin-4.9`（admin 已啟動）→ **20/20**（未開 HTTP 時約 19/20）
+- 積分／證書腳本 → 全部 ✓
+- `pnpm --filter @eldersafe/elder|volunteer|admin run build` → 成功
 
 ---
 
-## Troubleshooting
+## 疑難排解
 
-- **503 supabase_not_configured**: missing `.env.local` keys.
-- **Volunteer cannot play audio after 012**: audio API must sign with service role (already in this branch); re-deploy / restart volunteer app.
-- **RLS failures after pull**: re-run `pnpm apply:supabase-migrations`.
-- **Emergency dials 999**: set `TEST_MODE=true` (only `false` enables 999).
+- **503 supabase_not_configured**：`.env.local` 金鑰未填齊。
+- **012 之後義工播不到錄音**：錄音 API 須用 service role 簽 URL（本分支已做）；請重啟／重新部署義工 app。
+- **拉取後 RLS 異常**：再跑 `pnpm apply:supabase-migrations`。
+- **緊急竟然撥 999**：設 `TEST_MODE=true`（只有明確設 `false` 才會撥 999）。
