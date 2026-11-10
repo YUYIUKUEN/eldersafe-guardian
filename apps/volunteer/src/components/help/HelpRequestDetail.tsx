@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
+import dynamic from "next/dynamic";
 import { useLocale, useTranslations } from "next-intl";
 import {
   buildMapNavigationUrl,
@@ -13,7 +14,21 @@ import { createClient } from "@/lib/supabase/browser";
 import { geocodeAddress } from "@/lib/geo/geocode-address";
 import { useVolunteerLocation } from "@/lib/geo/use-volunteer-location";
 import { AudioPlayer } from "./AudioPlayer";
-import { HelpRequestMap, type MapPoint } from "./HelpRequestMap";
+import type { MapPoint } from "./HelpRequestMap";
+
+const HelpRequestMap = dynamic(
+  () =>
+    import("./HelpRequestMap").then((mod) => ({ default: mod.HelpRequestMap })),
+  {
+    ssr: false,
+    loading: () => (
+      <div
+        className="h-72 w-full animate-pulse rounded-2xl border border-slate-200 bg-slate-100 sm:h-96"
+        aria-hidden
+      />
+    ),
+  },
+);
 
 type HelpRequestDetailProps = {
   helpRequestId: string;
