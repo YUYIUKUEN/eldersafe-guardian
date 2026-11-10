@@ -101,6 +101,11 @@
 - [x] SQL 視圖／函式：`volunteer_points_totals`、`volunteer_points_monthly`、`volunteer_total_points`、`volunteer_month_points`
 - [x] 義工端每月／全部時間排行榜 UI（`get_volunteer_leaderboard` + Realtime／輪詢）
 - [x] Top 3 義工 PDF 證書（admin 結算寫入 `certificates` + 私有 Storage；義工「我的證書」下載）
+- [x] 積分／排行榜／證書驗收（腳本 `scripts/acceptance-points-certificates.mjs` + PDF 預覽）
+  - [x] 重複確認完成只加一次分（RPC `HELP_REQUEST_NOT_CONFIRMABLE` + `points` 唯一）
+  - [x] 5 位義工假資料：排序正確；同分（C/D）並列 rank=3 待管理員決定
+  - [x] 證書 PDF 中文正常（Noto Sans TC TTF；無方塊字）
+  - [x] 結算後該月不可再結算（`leaderboard_settlements` PK）
 - [ ] Realtime：義工求助列表自動刷新；admin 儀表板提示與緊急詳情即時地圖已接
 - [ ] Storage：錄音上傳
 - [ ] 共用日誌工具
