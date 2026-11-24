@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { TrailMap } from "@/components/maps/TrailMap";
 import { ReasonDialog } from "@/components/management/ReasonDialog";
+import { SentimentBadge } from "@/components/management/SentimentBadge";
 import { StatusBadge } from "@/components/management/StatusBadge";
 import { formatDuration, formatHkDateTime } from "@/lib/management/format";
 import type { MatchDetail } from "@/lib/management/matches";
@@ -247,6 +248,28 @@ export function MatchDetailPanel({ id }: MatchDetailPanelProps) {
                       when: formatHkDateTime(detail.elderConfirmedAt, locale),
                     })
                   : t("confirmedNo")}
+              </dd>
+            </div>
+            <div>
+              <dt className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                {t("fields.feedback")}
+              </dt>
+              <dd className="mt-1 space-y-1 text-sm text-slate-800">
+                {detail.elderConfirmedAt ? (
+                  <>
+                    <SentimentBadge
+                      sentiment={detail.ratingSentiment}
+                      rating={detail.elderRating}
+                    />
+                    {detail.needsFollowUp ? (
+                      <p className="text-xs font-medium text-red-700">
+                        {t("needsFollowUp")}
+                      </p>
+                    ) : null}
+                  </>
+                ) : (
+                  t("feedbackPending")
+                )}
               </dd>
             </div>
             <div className="sm:col-span-2">

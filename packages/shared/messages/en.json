@@ -423,6 +423,7 @@
       "volunteers": "Volunteers",
       "matches": "Matching overview",
       "emergencies": "Emergencies",
+      "feedback": "Feedback form",
       "logs": "Activity logs",
       "activity": "Engagement",
       "leaderboard": "Leaderboard & certificates"
@@ -436,6 +437,8 @@
       "matchesBody": "Browse all help requests and elder–volunteer pairings.",
       "emergenciesTitle": "Emergencies",
       "emergenciesBody": "Monitor emergency events and live maps.",
+      "feedbackTitle": "Feedback form",
+      "feedbackBody": "Review star ratings submitted when elders confirm completion.",
       "logsTitle": "Activity logs",
       "logsBody": "Filter who did what and when.",
       "activityTitle": "Engagement",
@@ -585,6 +588,7 @@
     "emptyCertificates": "No certificates yet.",
     "emptyEmergencies": "No emergency events yet.",
     "emptyLogs": "No related logs yet.",
+    "openCase": "Open case",
     "status": {
       "all": "All",
       "pending": "Pending",
@@ -625,6 +629,8 @@
       "status": "Status",
       "registeredAt": "Registered",
       "completedServices": "Completed services",
+      "tags": "Tags",
+      "feedback": "Feedback",
       "actions": "Actions",
       "age": "Age",
       "address": "Address",
@@ -727,7 +733,8 @@
     "fields": {
       "elderPhone": "Elder phone",
       "elderAddress": "Elder address",
-      "elderConfirmed": "Elder confirmed"
+      "elderConfirmed": "Elder confirmed",
+      "feedback": "Elder feedback (rating)"
     },
     "sections": {
       "summary": "Summary",
@@ -759,7 +766,9 @@
       "days": "d",
       "hours": "h",
       "minutes": "m"
-    }
+    },
+    "feedbackPending": "Elder has not confirmed / rated yet",
+    "needsFollowUp": "Negative feedback — follow up recommended"
   },
   "AdminEmergencies": {
     "title": "Emergencies",
@@ -850,8 +859,8 @@
     }
   },
   "AdminEngagement": {
-    "title": "Engagement",
-    "subtitle": "Monthly activity levels for volunteers and elders, with a 30-day trend.",
+    "title": "Active volunteer ranking",
+    "subtitle": "Monthly activity for volunteers and elders, with a 30-day trend. Open each case to review praise and criticism.",
     "loadFailed": "Could not load engagement data. Please try again.",
     "rulesTitle": "Activity level rules",
     "rulesNote": "Metrics use Hong Kong calendar month. Volunteer trend counts accept events; elder trend counts help requests over the last 30 days.",
@@ -867,10 +876,20 @@
       "medium": "Medium: 1–2 help requests this month.",
       "low": "Low: 0 help requests this month."
     },
-    "volunteersTitle": "Volunteer engagement",
+    "volunteersTitle": "Active volunteer ranking",
+    "volunteersHint": "Use “Open cases” to see each help request and elder praise / criticism.",
     "eldersTitle": "Elder engagement",
     "minutesValue": "{count} min",
     "trendLabel": "30-day trend for {name}",
+    "openCases": "Open cases",
+    "backToRanking": "Back to active volunteer ranking",
+    "casesTitle": "Cases for {name}",
+    "casesSubtitle": "Each case shows elder rating sentiment. Negative ratings are flagged for follow-up.",
+    "casesLoadFailed": "Could not load cases. Please try again.",
+    "casesEmpty": "This volunteer has no cases yet.",
+    "openCase": "Open details",
+    "feedbackPending": "Not rated yet",
+    "needsFollowUp": "Follow up recommended",
     "level": {
       "high": "High",
       "medium": "Medium",
@@ -878,6 +897,7 @@
     },
     "columns": {
       "name": "Name",
+      "tags": "Tags",
       "acceptedCount": "Accepts (month)",
       "completedCount": "Completed (month)",
       "completionRate": "Completion rate",
@@ -885,7 +905,56 @@
       "lastActiveAt": "Last active",
       "level": "Level",
       "trend": "30-day trend",
+      "cases": "Cases",
       "helpCount": "Help requests (month)"
+    },
+    "caseColumns": {
+      "id": "Request ID",
+      "elder": "Elder",
+      "status": "Status",
+      "createdAt": "Created",
+      "feedback": "Feedback",
+      "actions": "Actions"
+    }
+  },
+  "AdminFeedback": {
+    "title": "Feedback form",
+    "subtitle": "Review star ratings submitted when elders confirm completion. Negative ratings are flagged for follow-up.",
+    "hint": "Data comes from the elder confirm-complete star rating form.",
+    "loadFailed": "Could not load feedback. Please try again.",
+    "empty": "No rated feedback yet. Complete a volunteer service and have the elder confirm with a rating first.",
+    "filterLabel": "Filter sentiment",
+    "filters": {
+      "all": "All",
+      "needsFollowUp": "Needs follow-up (negative)",
+      "positive": "Positive",
+      "neutral": "Neutral",
+      "negative": "Negative"
+    },
+    "columns": {
+      "id": "Request ID",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "rating": "Rating",
+      "sentiment": "Sentiment",
+      "confirmedAt": "Confirmed",
+      "actions": "Actions"
+    },
+    "starsValue": "{count} stars",
+    "openCase": "Open case",
+    "sentiment": {
+      "positive": "Positive",
+      "negative": "Negative",
+      "neutral": "Neutral",
+      "none": "Not rated"
+    },
+    "sentimentWithStars": "{sentiment} ({stars}★)"
+  },
+  "AdminVolunteerTags": {
+    "tags": {
+      "first_time": "First-time volunteer",
+      "inactive": "Inactive (>30 days)",
+      "frequent": "Frequent volunteer"
     }
   },
   "VolunteerHelp": {

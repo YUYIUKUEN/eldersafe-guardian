@@ -6,7 +6,8 @@
 **目前進度：階段 1–5 核心流程已接上（含義工求助列表／接單／完成）；階段 2 缺 PWA；階段 6 未開始。**  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
-**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。
+**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
+**2026-11-24 管理員項目 12–14**：意見表單列表、活躍義工排行榜個案褒貶、義工背景標籤（首次／很久沒做／經常做）。
 
 ---
 
@@ -90,6 +91,10 @@
   - [x] 所有管理 mutation API 均寫入 `activity_logs`；DB append-only migration 004
   - [x] 列表皆分頁（20–30／頁）；假資料腳本可種 ≥1000 筆 `help_requests`（`scripts/seed-admin-demo.mjs`）
   - [x] Live DB：已套用 `003`／`004`／`005`（`pnpm apply:supabase-migrations`）；`seed:admin-demo -- --clean`（200/80/1000）；`acceptance:admin-4.9` **33/33**
+- [x] **項目 12–14（管理員進階）**
+  - [x] 12. 意見表單（Feedback form）：`/feedback` 列出長者確認完成時的星級評分，可篩選正面／負面／需跟進
+  - [x] 13. 活躍義工排行榜：活躍度頁可「打開個案」，查看每宗求助詳情與褒貶（正／負評價）；配對詳情／義工紀錄亦顯示評分
+  - [x] 14. 義工標籤：首次做義工、很久沒做（>30 天）、經常做（近 30 天完成 ≥3）；顯示於義工列表／詳情／活躍度
 
 ---
 
