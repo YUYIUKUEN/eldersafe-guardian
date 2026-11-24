@@ -6,7 +6,6 @@ import {
   VolunteerActivityAction,
   isUuid,
   jsonSafeError,
-  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
