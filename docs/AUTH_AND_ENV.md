@@ -34,6 +34,8 @@ TEST_EMERGENCY_NUMBER=+85290000000
 
 改完 env 後重啟 `pnpm dev`。
 
+正式環境（Vercel）環境變數、公開／私密分類、三個 Root Directory 專案與 Supabase 允許網域：見 [`VERCEL_DEPLOY.md`](./VERCEL_DEPLOY.md)。部署時 `TEST_MODE` 必須維持 `true`。
+
 ### 手機用 ngrok 測試（尤其長者 app `:3001`）
 
 Next.js 16 預設會攔截來自 tunnel 網域對 `/_next` 開發資源嘅請求。三個 app 嘅 `next.config.ts` 已加入：

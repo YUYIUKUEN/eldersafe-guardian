@@ -3,7 +3,7 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 1–5 核心流程已接上（含義工求助列表／接單／完成）；階段 2 缺 PWA；階段 6 未開始。**  
+**目前進度：階段 1–5 核心流程已接上；階段 6 本地驗收＋`docs/VERCEL_DEPLOY.md` 部署指南已備，欠你在 Vercel 實際建立三個專案並 Deploy。**  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
 **2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。
@@ -124,7 +124,8 @@
 - [x] 確認無寫死文字（UI 文案走 en / zh-HK；health／map aria 已收進語言檔）
 - [x] HTTPS／localhost 錄音與定位說明（見 `docs/MANUAL_TEST_GUIDE.md`）
 - [x] 確認金鑰未進入 git（只追蹤 `.env*.example`）
-- [ ] 三個網站各自部署到 Vercel
+- [ ] 三個網站各自部署到 Vercel（實際 Deploy 由你在 Vercel Dashboard 完成）
+- [x] Vercel 三專案部署逐步指南（`docs/VERCEL_DEPLOY.md`：GitHub 連接、Root Directory、環境變數公開／私密、`TEST_MODE=true`、Supabase 允許網域、手機錄音／定位）
 - [x] 撰寫／整理專題文件與示範流程（`docs/MANUAL_TEST_GUIDE.md`）
 - [x] 最終驗收對照 `PROJECT_SPEC.md`（整合檢查後已修 C0→其餘；自動化 33/33 + 9/9）
 
@@ -140,4 +141,4 @@
 | 3 | 義工網站 | 已完成（接單／地圖／完成／紀錄／證書） |
 | 4 | 管理員網站 | 已完成（含排行榜結算與 Top 3 證書） |
 | 5 | 獎勵系統、共用後端與即時功能 | 進行中（缺共用日誌工具／backend facade） |
-| 6 | 測試、各自部署與畢業專題收尾 | 進行中（本地驗收＋手動指南已備；欠 Vercel 部署） |
+| 6 | 測試、各自部署與畢業專題收尾 | 進行中（部署指南已備；欠你在 Vercel 實際 Deploy） |
