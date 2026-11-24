@@ -28,6 +28,7 @@ type StepId =
   | "age"
   | "phone"
   | "address"
+  | "meetingPlace"
   | "emergencyContactName"
   | "emergencyContactPhone"
   | "healthNotes"
@@ -38,6 +39,7 @@ type FormState = {
   age: string;
   phone: string;
   address: string;
+  meetingPlace: string;
   emergencyContactName: string;
   emergencyContactPhone: string;
   healthNotes: string;
@@ -49,6 +51,7 @@ const STEPS: StepId[] = [
   "age",
   "phone",
   "address",
+  "meetingPlace",
   "emergencyContactName",
   "emergencyContactPhone",
   "healthNotes",
@@ -60,6 +63,7 @@ const initialForm: FormState = {
   age: "",
   phone: "",
   address: "",
+  meetingPlace: "",
   emergencyContactName: "",
   emergencyContactPhone: "",
   healthNotes: "",
@@ -147,6 +151,15 @@ export function OnboardingWizard() {
   }
 
   function validateCurrentStep(): boolean {
+    if (step === "meetingPlace") {
+      if (form.meetingPlace.trim().length > 300) {
+        setIssues([{ field: "meetingPlace", code: "too_long" }]);
+        return false;
+      }
+      setIssues([]);
+      return true;
+    }
+
     if (step === "healthNotes") {
       if (form.healthNotes.trim().length > 1000) {
         setIssues([{ field: "healthNotes", code: "too_long" }]);
@@ -162,6 +175,7 @@ export function OnboardingWizard() {
         age: form.age,
         phone: form.phone,
         address: form.address,
+        meetingPlace: form.meetingPlace,
         emergencyContactName: form.emergencyContactName,
         emergencyContactPhone: form.emergencyContactPhone,
         healthNotes: form.healthNotes,
@@ -177,6 +191,7 @@ export function OnboardingWizard() {
       age: step === "age" ? form.age : "70",
       phone: step === "phone" ? form.phone : "91234567",
       address: step === "address" ? form.address : "ok",
+      meetingPlace: form.meetingPlace,
       emergencyContactName:
         step === "emergencyContactName" ? form.emergencyContactName : "ok",
       emergencyContactPhone:
@@ -229,6 +244,9 @@ export function OnboardingWizard() {
         age: Number(form.age),
         phone: normalizeHkPhone(form.phone),
         address: form.address.trim(),
+        meetingPlace: form.meetingPlace.trim()
+          ? form.meetingPlace.trim()
+          : null,
         emergencyContact: {
           name: form.emergencyContactName.trim(),
           phone: normalizeHkPhone(form.emergencyContactPhone),
@@ -321,6 +339,19 @@ export function OnboardingWizard() {
         />
       ) : null}
 
+      {step === "meetingPlace" ? (
+        <>
+          <BigField
+            id="elder-meeting-place"
+            label={t("fields.meetingPlace")}
+            value={form.meetingPlace}
+            onChange={(event) => updateField("meetingPlace", event.target.value)}
+            error={messageFor(stepIssue)}
+          />
+          <BigText tone="muted">{t("meetingPlaceHint")}</BigText>
+        </>
+      ) : null}
+
       {step === "emergencyContactName" ? (
         <BigField
           id="elder-emergency-name"
@@ -370,6 +401,12 @@ export function OnboardingWizard() {
           <ReviewRow label={t("fields.phone")} value={form.phone} />
           <ReviewRow label={t("fields.address")} value={form.address} />
           <ReviewRow
+            label={t("fields.meetingPlace")}
+            value={
+              form.meetingPlace.trim() ? form.meetingPlace : t("skipped")
+            }
+          />
+          <ReviewRow
             label={t("fields.emergencyContactName")}
             value={form.emergencyContactName}
           />
@@ -398,6 +435,18 @@ export function OnboardingWizard() {
       ) : null}
 
       <div className="mt-auto flex flex-col gap-3 pt-4">
+        {step === "meetingPlace" ? (
+          <BigButton
+            variant="assistSoft"
+            onClick={() => {
+              updateField("meetingPlace", "");
+              setIssues([]);
+              setStepIndex((index) => index + 1);
+            }}
+          >
+            {t("skip")}
+          </BigButton>
+        ) : null}
         {step === "healthNotes" ? (
           <BigButton
             variant="assistSoft"

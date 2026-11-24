@@ -3,7 +3,8 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 1–5 核心流程已接上（含義工求助列表／接單／完成）；階段 2 缺 PWA；階段 6 未開始。**  
+**目前進度：階段 1–5 核心流程已接上；第二階段新功能 5–7、11 已實作（錄音示範句／60 秒倒數自動送出／見面地點取代求助即時位置／義工完成證明）。**  
+**2026-11-24 第二階段（5–7、11）**：錄音畫面示範句；60 秒倒數並自動送出；取消求助即時位置，改選「約在屋企／指定地點」（個人資料／首次設定 `meeting_place`；未設定則用住址）；義工完成須上載相片＋文字說明（migration `014`）。  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
 **2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。
@@ -44,10 +45,12 @@
 - [x] 驗證錯誤用大字紅色語言說明；行為寫入 `activity_logs`（無 Supabase 時用記憶體 fallback）
 - [x] 首頁兩大按鈕（緊急紅／陪伴藍）+「我的求助紀錄」；點擊暫導空白頁
 - [x] 藍色按鈕全螢幕錄音（MediaRecorder、iOS/Android 格式偵測、最長 60 秒）
-- [x] 錄音上傳 `voice-recordings`、建立 `help_requests`（待接單）+ 位置 + `activity_logs`（裝置密鑰 API）
+- [x] 錄音畫面上示範句（項目 5）
+- [x] 錄音 60 秒倒數；滿時自動結束並送出（項目 6）
+- [x] 錄音上傳 `voice-recordings`、建立 `help_requests`（待接單）+ 見面地點 + `activity_logs`（裝置密鑰 API）
 - [x] 送出後大字提示並導向求助狀態頁
-- [x] 求助進行中持續分享位置（`watchPosition`、10 秒節流寫入 `locations`、可停止；結束自動停）
-- [x] `locations` 已在 Realtime publication（義工／管理員接收端之後階段接）
+- [x] 取消求助即時位置分享；改為「約在屋企／指定地點」（個人資料／首次設定；未設定用住址）（項目 7；緊急求助仍用即時位置）
+- [x] `locations` 已在 Realtime publication（緊急事件仍用；義工／管理員接收端已接）
 - [x] 紅色緊急按鈕：首頁按一下再確認（避免 iPhone 長按預覽）；全紅 5 秒倒數（震動 + speechSynthesis）；取消；建立 `emergencies` + 警方 `/track/{token}`；`tel:` 撥號（`TEST_MODE` 預設測試號）；「請按通話鍵」+ 位置分享 +「我已安全／結束」
 - [x] 我的求助紀錄：超大狀態卡（待接單／義工已接單／已完成）、可取消未接單、義工完成後「確認完成，多謝義工」、列表自動更新（輪詢 + Realtime）
 - [x] 求助確認完成：1–5 星評分（可略過）+ 伺服器交易標記完成／加分／寫日誌（同一單不重複加分）
@@ -67,6 +70,7 @@
 - [x] 排行榜頁（本月／全部時間、金銀銅、底部自己名次、本月倒數、匿名姓氏、Realtime／每分鐘更新）
 - [x] 我的證書頁（下載已結算 Top 3 PDF）
 - [x] 求助列表、接單、地圖、標記完成、我的紀錄（Realtime／距離／錄音詳情頁）
+- [x] 義工完成須上載完成證明（相片＋文字說明；bucket `completion-proofs`；migration `014`）（項目 11）
 
 ---
 
