@@ -6,7 +6,8 @@
 **目前進度：階段 1–5 核心流程已接上（含義工求助列表／接單／完成）；階段 2 缺 PWA；階段 6 未開始。**  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
-**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。
+**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
+**2026-11-24 義工流程 8–10**：接單前可聽錄音／致電問清楚再決定；接單後仍可致電；列表改為最舊在上、最新在底（migration `014` 開放 pending 電話）。
 
 ---
 
@@ -67,6 +68,9 @@
 - [x] 排行榜頁（本月／全部時間、金銀銅、底部自己名次、本月倒數、匿名姓氏、Realtime／每分鐘更新）
 - [x] 我的證書頁（下載已結算 Top 3 PDF）
 - [x] 求助列表、接單、地圖、標記完成、我的紀錄（Realtime／距離／錄音詳情頁）
+- [x] 義工可先聽錄音／睇內容再決定接單（列表不再直接接單；詳情頁錄音＋提示）
+- [x] 接單前後均可致電長者（migration `014`：pending 即顯示電話；`tel:` 按鈕）
+- [x] 求助列表時間由舊至新（最近的在最底）
 
 ---
 

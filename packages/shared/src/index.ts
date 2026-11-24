@@ -25,6 +25,7 @@ export type {
   ElderRegisterPayload,
 } from "./elder/types";
 export {
+  buildHkTelHref,
   decodeEmergencyContact,
   encodeEmergencyContact,
   isValidHkPhone,
