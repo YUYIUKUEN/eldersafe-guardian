@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import type { ElderPublicProfile } from "@eldersafe/shared";
 import { useRouter } from "@/i18n/navigation";
@@ -10,13 +10,37 @@ import { Page } from "@/components/ui/Page";
 import { ElderSessionGate } from "./ElderSessionGate";
 
 const homePrimaryButtonClassName =
-  "flex-1 min-h-[140px] whitespace-normal px-4 text-[26px] leading-snug";
+  "flex-1 min-h-[140px] whitespace-normal px-4 text-[26px] font-bold leading-snug";
+
+/** Loud confirmation prompt before starting the emergency countdown. */
+function speakConfirmPrompt(text: string) {
+  if (typeof window === "undefined" || !window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "zh-HK";
+  utterance.rate = 0.85;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+  window.speechSynthesis.speak(utterance);
+}
 
 function HomeContent({ elder }: { elder: ElderPublicProfile }) {
   const t = useTranslations("Elder");
   const tEmergency = useTranslations("Emergency");
   const router = useRouter();
   const [confirmingEmergency, setConfirmingEmergency] = useState(false);
+
+  useEffect(() => {
+    if (!confirmingEmergency) return;
+
+    speakConfirmPrompt(tEmergency("speechConfirm"));
+
+    return () => {
+      if (typeof window !== "undefined" && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [confirmingEmergency, tEmergency]);
 
   if (confirmingEmergency) {
     return (

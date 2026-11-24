@@ -8,6 +8,7 @@
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
 **2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
 **2026-11-24 義工流程 8–10**：接單前可聽錄音／致電問清楚再決定；接單後仍可致電；列表改為最舊在上、最新在底（migration `014` 開放 pending 電話）。
+**2026-11-24 長者端首頁調整（項目 1–4）**：紅藍掣字級／字重一致（修 `font: inherit` 覆寫）；移除長者端英文切換（只保留 zh-HK）；緊急求助確認改為語音大聲讀出「你是否真的需要緊急求助？」再確認；藍掣文案改「搵人幫手」。
 
 ---
 
