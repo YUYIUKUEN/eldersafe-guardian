@@ -1,4 +1,9 @@
-import { AdminActivityAction } from "@eldersafe/shared";
+import {
+  AdminActivityAction,
+  isUuid,
+  jsonSafeError,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 import { createCertificateSignedUrl } from "@/lib/management/leaderboard";
 
@@ -11,6 +16,10 @@ export async function GET(_request: Request, context: RouteContext) {
   if (!auth.ok) return auth.response;
 
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
   const { data, error } = await auth.ctx.service
     .from("certificates")
     .select("id, file_path, volunteer_id, year_month, rank")
@@ -18,7 +27,7 @@ export async function GET(_request: Request, context: RouteContext) {
     .maybeSingle();
 
   if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return jsonSafeError(error, "load_failed", 500);
   }
   if (!data) {
     return Response.json({ error: "not_found" }, { status: 404 });
@@ -45,7 +54,6 @@ export async function GET(_request: Request, context: RouteContext) {
 
     return Response.json({ url });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "download_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return jsonSafeError(err, "download_failed", 500);
   }
 }

@@ -9,7 +9,6 @@ import { BigButton } from "@/components/ui/BigButton";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
 import { ConfirmCompletePanel } from "./ConfirmCompletePanel";
-import { LocationSharingPanel } from "./LocationSharingPanel";
 
 const POLL_MS = 4_000;
 
@@ -144,10 +143,6 @@ export function HelpRequestStatusScreen({ id }: { id: string }) {
     }
   }
 
-  const sharingActive =
-    item?.status === "pending" ||
-    (item?.status === "accepted" && !item.awaitingElderConfirm);
-
   const statusText = !item
     ? null
     : item.status === "pending"
@@ -206,16 +201,6 @@ export function HelpRequestStatusScreen({ id }: { id: string }) {
             >
               {busy ? tRecords("cancelling") : tRecords("cancelRequest")}
             </BigButton>
-          ) : null}
-
-          {sharingActive ||
-          item.status === "completed" ||
-          item.status === "cancelled" ||
-          item.awaitingElderConfirm ? (
-            <LocationSharingPanel
-              helpRequestId={id}
-              active={Boolean(sharingActive)}
-            />
           ) : null}
 
           <BigButton href="/records" variant="assist">

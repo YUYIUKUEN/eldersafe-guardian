@@ -1,4 +1,9 @@
-import { ElderActivityAction } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  isUuid,
+  readJsonBody,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { simulateVolunteerTransition } from "@/lib/elder/help-requests";
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
@@ -17,6 +22,10 @@ export async function POST(request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
   const elder = await resolveElderFromRequest(request);
   const store = getElderStore();
 
@@ -25,13 +34,16 @@ export async function POST(request: Request, context: RouteContext) {
   }
 
   let body: { action?: string; volunteerName?: string } = {};
-  try {
-    body = (await request.json()) as {
-      action?: string;
-      volunteerName?: string;
-    };
-  } catch {
-    body = {};
+  const parsed = await readJsonBody<{
+    action?: string;
+    volunteerName?: string;
+  }>(request);
+  if (!parsed.ok) {
+    if (parsed.error === "body_too_large") {
+      return Response.json({ error: parsed.error }, { status: 400 });
+    }
+  } else {
+    body = parsed.value;
   }
 
   const action =
@@ -65,12 +77,11 @@ export async function POST(request: Request, context: RouteContext) {
       storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "simulate_failed";
-    if (message === "SIMULATE_MEMORY_ONLY") {
+    const code = toSafeErrorCode(error, "simulate_failed");
+    if (code === "SIMULATE_MEMORY_ONLY") {
       return Response.json({ error: "memory_only" }, { status: 400 });
     }
-    if (message === "HELP_REQUEST_NOT_FOUND") {
+    if (code === "HELP_REQUEST_NOT_FOUND") {
       return Response.json({ error: "not_found" }, { status: 404 });
     }
     return Response.json({ error: "simulate_conflict" }, { status: 409 });

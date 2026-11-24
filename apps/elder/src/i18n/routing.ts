@@ -1,8 +1,8 @@
 import { defineRouting } from "next-intl/routing";
-import { defaultLocale, locales } from "@eldersafe/shared";
 
+/** Elder app is Traditional Chinese (Hong Kong) only — no English switch. */
 export const routing = defineRouting({
-  locales: [...locales],
-  defaultLocale,
+  locales: ["zh-HK"],
+  defaultLocale: "zh-HK",
   localePrefix: "as-needed",
 });

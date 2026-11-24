@@ -4,6 +4,8 @@ import {
   loadAccessContext,
   mapVolunteerHelpFeedRow,
   type VolunteerHelpFeedItem,
+  jsonSafeError,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
@@ -29,10 +31,7 @@ export async function GET() {
 
   const { data, error } = await supabase.rpc("list_volunteer_help_feed");
   if (error) {
-    return Response.json(
-      { error: "records_failed", detail: error.message },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "records_failed", 500);
   }
 
   const items: VolunteerHelpFeedItem[] = [];

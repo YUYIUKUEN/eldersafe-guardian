@@ -1,4 +1,10 @@
-import { AdminActivityAction } from "@eldersafe/shared";
+import {
+  AdminActivityAction,
+  isUuid,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 
 type RouteContext = {
@@ -10,12 +16,15 @@ export async function POST(request: Request, context: RouteContext) {
   if (!auth.ok) return auth.response;
 
   const { id } = await context.params;
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
   }
+
+  const parsed = await readJsonBody<unknown>(request, 4096);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
+  }
+  const body = parsed.value;
 
   const note =
     typeof body === "object" &&
@@ -34,15 +43,12 @@ export async function POST(request: Request, context: RouteContext) {
 
   const { data: existing, error: existingError } = await auth.ctx.supabase
     .from("emergencies")
-    .select("id, status")
+    .select("id, status, police_share_expires_at")
     .eq("id", id)
     .maybeSingle();
 
   if (existingError) {
-    return Response.json(
-      { error: "load_failed", detail: existingError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(existingError, "load_failed", 500);
   }
   if (!existing) {
     return Response.json({ error: "not_found" }, { status: 404 });
@@ -52,19 +58,27 @@ export async function POST(request: Request, context: RouteContext) {
   }
 
   const now = new Date().toISOString();
+  const existingExpiry =
+    typeof existing.police_share_expires_at === "string"
+      ? existing.police_share_expires_at
+      : null;
+  const existingMs = existingExpiry ? Date.parse(existingExpiry) : Number.NaN;
+  const graceMs = Date.parse(now) + 2 * 60 * 60 * 1000;
+  const expiresAt = new Date(
+    Number.isFinite(existingMs) ? Math.min(existingMs, graceMs) : graceMs,
+  ).toISOString();
+
   const { error: updateError } = await auth.ctx.supabase
     .from("emergencies")
     .update({
       status: "resolved",
       ended_at: now,
+      police_share_expires_at: expiresAt,
     })
     .eq("id", id);
 
   if (updateError) {
-    return Response.json(
-      { error: "update_failed", detail: updateError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(updateError, "update_failed", 500);
   }
 
   await auth.ctx.supabase.from("activity_logs").insert({

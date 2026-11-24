@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { MatchesManager } from "@/components/matches/MatchesManager";
+import { OverdueConfirmationsPanel } from "@/components/matches/OverdueConfirmationsPanel";
 
 
 export const instant = false;
@@ -21,6 +22,7 @@ export default async function MatchesPage({ params }: PageProps) {
         </h1>
         <p className="max-w-2xl text-base text-slate-700">{t("subtitle")}</p>
       </div>
+      <OverdueConfirmationsPanel />
       <MatchesManager />
     </section>
   );

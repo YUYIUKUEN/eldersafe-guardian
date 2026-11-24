@@ -2,6 +2,9 @@ import {
   canAccessVolunteerApp,
   loadAccessContext,
   VolunteerActivityAction,
+  isUuid,
+  jsonSafeError,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
@@ -11,6 +14,10 @@ type RouteContext = {
 
 export async function POST(_request: Request, context: RouteContext) {
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
 
   let supabase;
   try {
@@ -63,10 +70,7 @@ export async function POST(_request: Request, context: RouteContext) {
   });
 
   if (logError) {
-    return Response.json(
-      { error: "log_failed", detail: logError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(logError, "log_failed", 500);
   }
 
   return Response.json({ ok: true });

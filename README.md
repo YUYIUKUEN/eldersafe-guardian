@@ -14,7 +14,9 @@ apps/admin        管理員網站（本機 port 3003）
 packages/shared   共用語言檔（en / zh-HK）與 locale 設定
 ```
 
-三個網站互相獨立，各自啟動，沒有共用入口頁。之後會各自部署成不同網址，並共用同一個 Supabase 後端。
+三個網站互相獨立，各自啟動，沒有共用入口頁。正式環境各自部署到 Vercel（同一 GitHub repo、三個專案、不同 Root Directory），並共用同一個 Supabase 後端。
+
+部署逐步指南（連接 GitHub、環境變數公開／私密、Supabase 允許網域、手機錄音／定位）：[`docs/VERCEL_DEPLOY.md`](./docs/VERCEL_DEPLOY.md)
 
 ## 環境需求
 

@@ -11,6 +11,7 @@ export const AdminActivityAction = {
   elderUpdate: "admin.elder.update",
   helpCancel: "admin.help.cancel",
   helpReassign: "admin.help.reassign",
+  helpForceConfirm: "admin.help.force_confirm",
   emergencyResolve: "admin.emergency.resolve",
   leaderboardSettle: "admin.leaderboard.settle",
   certificateRegenerate: "admin.certificate.regenerate",

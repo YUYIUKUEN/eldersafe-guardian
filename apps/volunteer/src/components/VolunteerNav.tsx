@@ -23,6 +23,9 @@ export function VolunteerNav() {
       <Link href="/records" className={linkClass("/records")}>
         {t("navRecords")}
       </Link>
+      <Link href="/points" className={linkClass("/points")}>
+        {t("navPoints")}
+      </Link>
       <Link href="/leaderboard" className={linkClass("/leaderboard")}>
         {t("navLeaderboard")}
       </Link>

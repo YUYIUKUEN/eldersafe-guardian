@@ -63,11 +63,13 @@ body {
   line-height: 1.45;
 }
 
+/* Inherit family only — do not use `font: inherit` shorthand, or it
+   overrides Tailwind text-size / font-weight utilities on <button>. */
 button,
 input,
 textarea,
 select {
-  font: inherit;
+  font-family: inherit;
 }
 
 @keyframes elder-recording-pulse {

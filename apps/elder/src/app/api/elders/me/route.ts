@@ -1,6 +1,9 @@
 import {
   ElderActivityAction,
   validateElderProfileInput,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
@@ -45,12 +48,11 @@ export async function PATCH(request: Request) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const bodyObject =
     typeof body === "object" && body !== null
@@ -88,8 +90,8 @@ export async function PATCH(request: Request) {
       storeMode: store.mode,
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "update_failed";
-    const status = message === "ELDER_NOT_FOUND" ? 404 : 500;
-    return Response.json({ error: message }, { status });
+    const code = toSafeErrorCode(error, "update_failed");
+    const status = code === "ELDER_NOT_FOUND" ? 404 : 500;
+    return Response.json({ error: code }, { status });
   }
 }

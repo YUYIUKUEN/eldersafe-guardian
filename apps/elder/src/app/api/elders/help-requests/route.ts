@@ -3,6 +3,7 @@ import {
   clientKeyFromRequest,
   consumeRateLimit,
   toSafeErrorCode,
+  type HelpMeetingType,
 } from "@eldersafe/shared";
 import {
   createHelpRequest,
@@ -13,12 +14,6 @@ import { getElderStore } from "@/lib/elder/store";
 
 const ALLOWED_EXTENSIONS = new Set(["webm", "ogg", "mp4", "m4a", "wav"]);
 const ALLOWED_MIME_PREFIXES = ["audio/", "video/webm", "video/mp4"];
-
-function parseOptionalNumber(value: FormDataEntryValue | null): number | null {
-  if (typeof value !== "string" || !value.trim()) return null;
-  const n = Number(value);
-  return Number.isFinite(n) ? n : null;
-}
 
 function normalizeExtension(raw: string): string | null {
   const cleaned = raw.trim().replace(/^\./, "").toLowerCase();
@@ -34,6 +29,22 @@ function isAllowedMime(mimeType: string): boolean {
       normalized === prefix ||
       normalized.startsWith(prefix.endsWith("/") ? prefix : `${prefix};`),
   );
+}
+
+function parseMeetingType(value: FormDataEntryValue | null): HelpMeetingType | null {
+  if (value === "home" || value === "custom") return value;
+  return null;
+}
+
+function resolveMeetingPlace(
+  meetingType: HelpMeetingType,
+  elder: { address: string; meetingPlace: string | null },
+): string {
+  if (meetingType === "custom" && elder.meetingPlace?.trim()) {
+    return elder.meetingPlace.trim();
+  }
+  // Home, or custom with no saved place — fall back to registration address.
+  return elder.address;
 }
 
 export async function GET(request: Request) {
@@ -133,16 +144,12 @@ export async function POST(request: Request) {
     return Response.json({ error: "invalid_audio_extension" }, { status: 400 });
   }
 
-  const latitude = parseOptionalNumber(form.get("latitude"));
-  const longitude = parseOptionalNumber(form.get("longitude"));
-  const accuracyM = parseOptionalNumber(form.get("accuracyM"));
-
-  if (
-    (latitude != null && (latitude < -90 || latitude > 90)) ||
-    (longitude != null && (longitude < -180 || longitude > 180))
-  ) {
-    return Response.json({ error: "invalid_coordinates" }, { status: 400 });
+  const meetingType = parseMeetingType(form.get("meetingType"));
+  if (!meetingType) {
+    return Response.json({ error: "invalid_meeting_type" }, { status: 400 });
   }
+
+  const meetingPlace = resolveMeetingPlace(meetingType, elder);
 
   try {
     const bytes = new Uint8Array(await audio.arrayBuffer());
@@ -151,9 +158,8 @@ export async function POST(request: Request) {
       audioBytes: bytes,
       mimeType,
       extension,
-      latitude,
-      longitude,
-      accuracyM,
+      meetingType,
+      meetingPlace,
     });
 
     await store.writeActivity({
@@ -165,7 +171,8 @@ export async function POST(request: Request) {
       metadata: {
         storeMode,
         audioPath: record.audioPath,
-        hasLocation: latitude != null && longitude != null,
+        meetingType,
+        meetingPlace,
         mimeType,
       },
     });
@@ -175,6 +182,8 @@ export async function POST(request: Request) {
         id: record.id,
         status: record.status,
         createdAt: record.createdAt,
+        meetingType: record.meetingType,
+        meetingPlace: record.meetingPlace,
       },
       storeMode,
     });

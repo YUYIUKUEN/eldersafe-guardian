@@ -23,8 +23,10 @@ export type {
   ElderProfileInput,
   ElderPublicProfile,
   ElderRegisterPayload,
+  HelpMeetingType,
 } from "./elder/types";
 export {
+  buildHkTelHref,
   decodeEmergencyContact,
   encodeEmergencyContact,
   isValidHkPhone,
@@ -74,6 +76,18 @@ export {
   AdminActivityAction,
   type AdminActivityActionName,
 } from "./admin/activity";
+export {
+  isNegativeFeedback,
+  ratingSentiment,
+  type RatingSentiment,
+} from "./admin/feedback";
+export {
+  computeVolunteerTags,
+  VOLUNTEER_FREQUENT_MIN_COMPLETED_30D,
+  VOLUNTEER_INACTIVE_DAYS,
+  type VolunteerTag,
+  type VolunteerTagInput,
+} from "./admin/volunteer-tags";
 
 export type {
   VolunteerRegisterInput,
@@ -175,4 +189,5 @@ export {
   clientKeyFromRequest,
   consumeRateLimit,
 } from "./security/rate-limit";
-export { toSafeErrorCode } from "./security/safe-error";
+export { toSafeErrorCode, jsonSafeError } from "./security/safe-error";
+export { isUuid, readJsonBody, type ReadJsonBodyError } from "./security/request";

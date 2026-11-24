@@ -13,6 +13,7 @@ type ElderRow = {
   age: number;
   phone: string;
   address: string;
+  meeting_place: string | null;
   emergency_contact: string;
   health_notes: string | null;
   language: AppLocale;
@@ -22,6 +23,9 @@ type ElderRow = {
   is_disabled: boolean;
 };
 
+const ELDER_SELECT =
+  "id, name, age, phone, address, meeting_place, emergency_contact, health_notes, language, device_key_hash, consent_version, consent_accepted_at, is_disabled";
+
 function mapRow(row: ElderRow): ElderRecord {
   return {
     id: row.id,
@@ -29,6 +33,7 @@ function mapRow(row: ElderRow): ElderRecord {
     age: row.age,
     phone: row.phone,
     address: row.address,
+    meetingPlace: row.meeting_place?.trim() ? row.meeting_place.trim() : null,
     emergencyContact: decodeEmergencyContact(row.emergency_contact),
     healthNotes: row.health_notes,
     language: row.language,
@@ -53,6 +58,7 @@ export function createSupabaseElderStore(): ElderStore {
           age: payload.age,
           phone: payload.phone,
           address: payload.address,
+          meeting_place: payload.meetingPlace,
           emergency_contact: encodeEmergencyContact(payload.emergencyContact),
           health_notes: payload.healthNotes,
           language: payload.language,
@@ -60,9 +66,7 @@ export function createSupabaseElderStore(): ElderStore {
           consent_version: consentVersion,
           consent_accepted_at: now,
         })
-        .select(
-          "id, name, age, phone, address, emergency_contact, health_notes, language, device_key_hash, consent_version, consent_accepted_at, is_disabled",
-        )
+        .select(ELDER_SELECT)
         .single();
 
       if (error || !data) {
@@ -74,9 +78,7 @@ export function createSupabaseElderStore(): ElderStore {
     async findByDeviceKeyHash(deviceKeyHash) {
       const { data, error } = await supabase
         .from("elders")
-        .select(
-          "id, name, age, phone, address, emergency_contact, health_notes, language, device_key_hash, consent_version, consent_accepted_at, is_disabled",
-        )
+        .select(ELDER_SELECT)
         .eq("device_key_hash", deviceKeyHash)
         .maybeSingle();
 
@@ -94,15 +96,14 @@ export function createSupabaseElderStore(): ElderStore {
           age: payload.age,
           phone: payload.phone,
           address: payload.address,
+          meeting_place: payload.meetingPlace,
           emergency_contact: encodeEmergencyContact(payload.emergencyContact),
           health_notes: payload.healthNotes,
           language: payload.language,
         })
         .eq("id", id)
         .eq("is_disabled", false)
-        .select(
-          "id, name, age, phone, address, emergency_contact, health_notes, language, device_key_hash, consent_version, consent_accepted_at, is_disabled",
-        )
+        .select(ELDER_SELECT)
         .maybeSingle();
 
       if (error) {

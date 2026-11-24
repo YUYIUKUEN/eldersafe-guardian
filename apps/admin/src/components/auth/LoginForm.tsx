@@ -67,6 +67,7 @@ export function LoginForm({ nextPath }: LoginFormProps) {
 
         if (destination === "/unauthorized") {
           setFormError(t("noPermission"));
+          await supabase.auth.signOut();
           router.replace("/unauthorized");
           router.refresh();
           return;

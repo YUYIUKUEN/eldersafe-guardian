@@ -1,4 +1,9 @@
-import { ElderActivityAction } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { insertLocationPoint } from "@/lib/elder/locations";
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
@@ -25,12 +30,11 @@ export async function POST(request: Request) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const object =
     typeof body === "object" && body !== null
@@ -120,8 +124,6 @@ export async function POST(request: Request) {
       storeMode: result.storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "location_write_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return jsonSafeError(error, "location_write_failed", 500);
   }
 }

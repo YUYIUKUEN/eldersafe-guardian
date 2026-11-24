@@ -1,3 +1,4 @@
+import { jsonSafeError, toSafeErrorCode } from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 import { csvResponse, toCsv } from "@/lib/management/csv";
 import {
@@ -65,12 +66,6 @@ export async function GET(request: Request) {
 
     return csvResponse("activity-logs.csv", csv);
   } catch (error) {
-    return Response.json(
-      {
-        error: "export_failed",
-        detail: error instanceof Error ? error.message : "unknown",
-      },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "export_failed", 500);
   }
 }
