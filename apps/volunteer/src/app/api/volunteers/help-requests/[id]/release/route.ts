@@ -2,6 +2,10 @@ import {
   canAccessVolunteerApp,
   loadAccessContext,
   VolunteerActivityAction,
+  isUuid,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
@@ -11,13 +15,16 @@ type RouteContext = {
 
 export async function POST(request: Request, context: RouteContext) {
   const { id } = await context.params;
-
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
   }
+
+
+  const parsed = await readJsonBody<unknown>(request, 4096);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
+  }
+  const body = parsed.value;
 
   const reason =
     typeof body === "object" &&
@@ -63,10 +70,7 @@ export async function POST(request: Request, context: RouteContext) {
     if (message.includes("release_reason")) {
       return Response.json({ error: "reason_required" }, { status: 400 });
     }
-    return Response.json(
-      { error: "release_failed", detail: error.message },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "release_failed", 500);
   }
 
   const row = Array.isArray(data) ? data[0] : data;

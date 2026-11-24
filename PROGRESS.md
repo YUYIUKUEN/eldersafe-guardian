@@ -3,14 +3,22 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 1–5 核心流程已接上；教授會議項目 1–14 程式已合入 main；2026-11-24 驗收時補套用 DB migration `014`/`015`（先前遠端庫缺 `meeting_place`／完成證明欄，並已把兩者列入 `apply:supabase-migrations`）。**  
+**目前進度：階段 1–5 核心流程已接上；教授會議項目 1–14 程式已合入 main；階段 6 欠 Vercel 部署。**  
 **2026-11-24 第二階段（5–7、11）**：錄音畫面示範句；60 秒倒數並自動送出；取消求助即時位置，改選「約在屋企／指定地點」（個人資料／首次設定 `meeting_place`；未設定則用住址）；義工完成須上載相片＋文字說明（migration `015`）。  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
 **2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
-**2026-11-24 義工流程 8–10**：接單前可聽錄音／致電問清楚再決定；接單後仍可致電；列表改為最舊在上、最新在底（migration `014` 開放 pending 電話）。
-**2026-11-24 長者端首頁調整（項目 1–4）**：紅藍掣字級／字重一致（修 `font: inherit` 覆寫）；移除長者端英文切換（只保留 zh-HK）；緊急求助確認改為語音大聲讀出「你是否真的需要緊急求助？」再確認；藍掣及相關頁面標題文案改「搵人幫手」。
-**2026-11-24 管理員項目 12–14**：意見表單列表、活躍義工排行榜個案褒貶、義工背景標籤（首次／很久沒做／經常做）。
+**2026-11-24 義工流程 8–10**：接單前可聽錄音／致電問清楚再決定；接單後仍可致電；列表改為最舊在上、最新在底（migration `014` 開放 pending 電話）。  
+**2026-11-24 長者端首頁調整（項目 1–4）**：紅藍掣字級／字重一致（修 `font: inherit` 覆寫）；移除長者端英文切換（只保留 zh-HK）；緊急求助確認改為語音大聲讀出「你是否真的需要緊急求助？」再確認；藍掣及相關頁面標題文案改「搵人幫手」。  
+**2026-11-24 管理員項目 12–14**：意見表單列表、活躍義工排行榜個案褒貶、義工背景標籤（首次／很久沒做／經常做）。  
+**2026-11-24 整合檢查修復 H1–H3、M1–M9**（migration `016`；`014`/`015` 已在 main）：  
+- **H1** 警方 track：`police_share_expires_at`（進行中 24h；resolved 後最多再 2h）  
+- **H2** API 統一 `jsonSafeError`／`toSafeErrorCode`，不再洩漏 `detail`／原始 DB 訊息  
+- **H3** 非 admin 登入管理後台會 `signOut`  
+- **M1** Admin 逾時強制確認 UI＋RPC 同步發放積分  
+- **M2** 停用長者：`volunteer_can_access`／help_requests RLS 對齊  
+- **M3–M6** 義工列表錄音播放器、「我的積分」、積分文案、長者 `/profile` 入口  
+- **M7–M9** BigButton 停用對比、UUID／body 上限、緊急桌面通知／標題閃爍
 
 ---
 
@@ -129,6 +137,7 @@
 - [x] 各 app `.env.local.example` 與設定說明（見 `docs/AUTH_AND_ENV.md`）
 - [x] 安全加固 migration `012`（C0 role 鎖死、C1/C3 資料範圍、C2 storage、H2 禁直接 UPDATE、H4 activity_logs 身份校驗）
 - [x] 驗收腳本 `pnpm acceptance:security-012`
+- [x] migration `016`：track 過期、停用長者權限、admin 強制確認加分（`014`/`015` 為會議項目：pending 電話／完成證明）
 
 ---
 
@@ -141,6 +150,7 @@
 - [ ] 三個網站各自部署到 Vercel
 - [x] 撰寫／整理專題文件與示範流程（`docs/MANUAL_TEST_GUIDE.md`）
 - [x] 最終驗收對照 `PROJECT_SPEC.md`（整合檢查後已修 C0→其餘；自動化 33/33 + 9/9）
+- [x] 2026-11-24 整合檢查跟進：H1–H3、M1–M9（見上方進度註記）
 
 ---
 

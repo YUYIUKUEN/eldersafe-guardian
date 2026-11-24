@@ -1,4 +1,9 @@
-import { isValidYearMonth, hongKongYearMonth } from "@eldersafe/shared";
+import {
+  isValidYearMonth,
+  hongKongYearMonth,
+  jsonSafeError,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 import { loadMonthLeaderboard } from "@/lib/management/leaderboard";
 
@@ -25,8 +30,6 @@ export async function GET(request: Request) {
     }
     return Response.json(payload);
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "leaderboard_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return jsonSafeError(error, "leaderboard_failed", 500);
   }
 }

@@ -41,6 +41,7 @@ const FILES = [
   "supabase/migrations/013_monthly_leaderboard_service_role.sql",
   "supabase/migrations/014_volunteer_phone_before_accept.sql",
   "supabase/migrations/015_meeting_place_completion_proof.sql",
+  "supabase/migrations/016_track_expiry_disabled_elder_force_confirm.sql",
 ];
 
 function buildConnectionConfig() {

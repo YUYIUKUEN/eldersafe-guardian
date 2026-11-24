@@ -1,14 +1,19 @@
-import { ElderActivityAction, hashDeviceKey } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  hashDeviceKey,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { getElderStore } from "@/lib/elder/store";
 import { toPublicProfile } from "@/lib/elder/types";
 
 export async function POST(request: Request) {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const deviceKey =
     typeof body === "object" &&
@@ -50,7 +55,6 @@ export async function POST(request: Request) {
       storeMode: store.mode,
     });
   } catch (error) {
-    const message = error instanceof Error ? error.message : "session_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return jsonSafeError(error, "session_failed", 500);
   }
 }

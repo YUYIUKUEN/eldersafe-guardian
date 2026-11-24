@@ -96,9 +96,16 @@ function HomeContent({ elder }: { elder: ElderPublicProfile }) {
         >
           {t("needCompany")}
         </BigButton>
+        <BigButton
+          href="/profile"
+          variant="neutral"
+          className="min-h-[72px] text-[22px] underline underline-offset-4"
+        >
+          {t("editProfile")}
+        </BigButton>
         <button
           type="button"
-          className="min-h-[72px] w-full text-center text-[22px] font-bold text-brand underline-offset-4 hover:underline focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+          className="min-h-[72px] w-full text-center text-[22px] font-bold text-brand underline underline-offset-4 focus-visible:outline focus-visible:outline-4 focus-visible:outline-offset-2 focus-visible:outline-foreground"
           onClick={() => router.push("/records")}
         >
           {t("myRecordsLink")}

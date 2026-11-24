@@ -14,11 +14,17 @@ export type EmergencyElderSnapshot = {
   healthNotes: string | null;
 };
 
+/** How long an active police track link stays valid from emergency start. */
+export const POLICE_TRACK_ACTIVE_TTL_MS = 24 * 60 * 60 * 1000;
+/** Grace window after resolve before the public track link stops working. */
+export const POLICE_TRACK_RESOLVED_GRACE_MS = 2 * 60 * 60 * 1000;
+
 export type EmergencyRecord = {
   id: string;
   elderId: string;
   status: EmergencyStatus;
   policeShareToken: string;
+  policeShareExpiresAt: string;
   latitude: number | null;
   longitude: number | null;
   startedAt: string;
@@ -33,6 +39,7 @@ export type PublicTrackPayload = {
     id: string;
     status: EmergencyStatus;
     startedAt: string;
+    expiresAt: string;
   };
   elder: {
     name: string;
@@ -46,6 +53,32 @@ export type PublicTrackPayload = {
     recordedAt: string;
   }>;
 };
+
+export function policeTrackExpiresAtFromStart(startedAt: Date | string): string {
+  const start = typeof startedAt === "string" ? Date.parse(startedAt) : startedAt.getTime();
+  return new Date(start + POLICE_TRACK_ACTIVE_TTL_MS).toISOString();
+}
+
+/** After resolve, keep the link only until min(existingExpiry, endedAt + grace). */
+export function policeTrackExpiresAtAfterResolve(
+  endedAt: Date | string,
+  existingExpiresAt: string | null | undefined,
+): string {
+  const ended =
+    typeof endedAt === "string" ? Date.parse(endedAt) : endedAt.getTime();
+  const graceEnd = ended + POLICE_TRACK_RESOLVED_GRACE_MS;
+  const existing = existingExpiresAt ? Date.parse(existingExpiresAt) : Number.NaN;
+  const chosen = Number.isFinite(existing)
+    ? Math.min(existing, graceEnd)
+    : graceEnd;
+  return new Date(chosen).toISOString();
+}
+
+function isTrackExpired(expiresAt: string | null | undefined): boolean {
+  if (!expiresAt) return true;
+  const ms = Date.parse(expiresAt);
+  return !Number.isFinite(ms) || Date.now() > ms;
+}
 
 type MemoryEmergencyState = {
   byId: Map<string, EmergencyRecord>;
@@ -100,7 +133,7 @@ export async function getEmergencyForElder(
     const { data, error } = await supabase
       .from("emergencies")
       .select(
-        "id, elder_id, status, police_share_token, latitude, longitude, started_at, ended_at, created_at",
+        "id, elder_id, status, police_share_token, police_share_expires_at, latitude, longitude, started_at, ended_at, created_at",
       )
       .eq("id", id)
       .eq("elder_id", elderId)
@@ -129,7 +162,7 @@ export async function findActiveEmergencyForElder(
     const { data, error } = await supabase
       .from("emergencies")
       .select(
-        "id, elder_id, status, police_share_token, latitude, longitude, started_at, ended_at, created_at",
+        "id, elder_id, status, police_share_token, police_share_expires_at, latitude, longitude, started_at, ended_at, created_at",
       )
       .eq("elder_id", elderId)
       .eq("status", "active")
@@ -154,15 +187,37 @@ export async function endEmergencyForElder(input: {
 }): Promise<{ record: EmergencyRecord; storeMode: "supabase" | "memory" }> {
   if (hasSupabaseConfig()) {
     const supabase = createSupabaseServiceClient();
+    const { data: existing, error: existingError } = await supabase
+      .from("emergencies")
+      .select("id, police_share_expires_at")
+      .eq("id", input.id)
+      .eq("elder_id", input.elderId)
+      .eq("status", "active")
+      .maybeSingle();
+    if (existingError) throw new Error(existingError.message);
+    if (!existing) throw new Error("EMERGENCY_NOT_ACTIVE");
+
     const endedAt = new Date().toISOString();
+    const expiresAt =
+      input.status === "cancelled"
+        ? endedAt
+        : policeTrackExpiresAtAfterResolve(
+            endedAt,
+            existing.police_share_expires_at as string | null,
+          );
+
     const { data, error } = await supabase
       .from("emergencies")
-      .update({ status: input.status, ended_at: endedAt })
+      .update({
+        status: input.status,
+        ended_at: endedAt,
+        police_share_expires_at: expiresAt,
+      })
       .eq("id", input.id)
       .eq("elder_id", input.elderId)
       .eq("status", "active")
       .select(
-        "id, elder_id, status, police_share_token, latitude, longitude, started_at, ended_at, created_at",
+        "id, elder_id, status, police_share_token, police_share_expires_at, latitude, longitude, started_at, ended_at, created_at",
       )
       .maybeSingle();
     if (error) throw new Error(error.message);
@@ -175,10 +230,15 @@ export async function endEmergencyForElder(input: {
   if (!current || current.elderId !== input.elderId || current.status !== "active") {
     throw new Error("EMERGENCY_NOT_ACTIVE");
   }
+  const endedAt = new Date().toISOString();
   const next: EmergencyRecord = {
     ...current,
     status: input.status,
-    endedAt: new Date().toISOString(),
+    endedAt,
+    policeShareExpiresAt:
+      input.status === "cancelled"
+        ? endedAt
+        : policeTrackExpiresAtAfterResolve(endedAt, current.policeShareExpiresAt),
   };
   state.byId.set(input.id, next);
   state.byElderActive.delete(input.elderId);
@@ -196,16 +256,22 @@ export async function getPublicTrackByToken(
     const { data: emergency, error } = await supabase
       .from("emergencies")
       .select(
-        "id, elder_id, status, started_at, police_share_token",
+        "id, elder_id, status, started_at, police_share_token, police_share_expires_at",
       )
       .eq("police_share_token", token)
       .maybeSingle();
     if (error) throw new Error(error.message);
     if (!emergency) return { payload: null, storeMode: "supabase" };
 
-    // Cancelled emergencies are not shareable. Resolved stays readable so
-    // police can finish a hand-off, but health notes are never exposed here.
+    // Cancelled or expired links are not shareable. Resolved stays readable
+    // only until police_share_expires_at (shortened on resolve).
     if ((emergency.status as EmergencyStatus) === "cancelled") {
+      return { payload: null, storeMode: "supabase" };
+    }
+    const expiresAt =
+      (emergency.police_share_expires_at as string | null) ??
+      policeTrackExpiresAtFromStart(emergency.started_at as string);
+    if (isTrackExpired(expiresAt)) {
       return { payload: null, storeMode: "supabase" };
     }
 
@@ -232,6 +298,7 @@ export async function getPublicTrackByToken(
           id: emergency.id as string,
           status: emergency.status as EmergencyStatus,
           startedAt: emergency.started_at as string,
+          expiresAt,
         },
         elder: {
           name: elder.name as string,
@@ -256,6 +323,9 @@ export async function getPublicTrackByToken(
   if (emergency.status === "cancelled") {
     return { payload: null, storeMode: "memory" };
   }
+  if (isTrackExpired(emergency.policeShareExpiresAt)) {
+    return { payload: null, storeMode: "memory" };
+  }
 
   const { getMemoryLocationsForEmergency } = await import("./locations");
   const locations = getMemoryLocationsForEmergency(emergency.id);
@@ -267,6 +337,7 @@ export async function getPublicTrackByToken(
         id: emergency.id,
         status: emergency.status,
         startedAt: emergency.startedAt,
+        expiresAt: emergency.policeShareExpiresAt,
       },
       elder: {
         name: emergency.elderSnapshot.name,
@@ -309,6 +380,7 @@ async function createWithMemory(input: {
     elderId: input.elderId,
     status: "active",
     policeShareToken: token,
+    policeShareExpiresAt: policeTrackExpiresAtFromStart(now),
     latitude: input.latitude,
     longitude: input.longitude,
     startedAt: now,
@@ -342,11 +414,12 @@ async function createWithSupabase(input: {
 }): Promise<{ record: EmergencyRecord; storeMode: "supabase" }> {
   const supabase = createSupabaseServiceClient();
 
+  const emergencySelect =
+    "id, elder_id, status, police_share_token, police_share_expires_at, latitude, longitude, started_at, ended_at, created_at";
+
   const { data: existing } = await supabase
     .from("emergencies")
-    .select(
-      "id, elder_id, status, police_share_token, latitude, longitude, started_at, ended_at, created_at",
-    )
+    .select(emergencySelect)
     .eq("elder_id", input.elderId)
     .eq("status", "active")
     .order("started_at", { ascending: false })
@@ -358,18 +431,18 @@ async function createWithSupabase(input: {
   }
 
   const token = generatePoliceShareToken();
+  const expiresAt = policeTrackExpiresAtFromStart(new Date());
   const { data, error } = await supabase
     .from("emergencies")
     .insert({
       elder_id: input.elderId,
       status: "active",
       police_share_token: token,
+      police_share_expires_at: expiresAt,
       latitude: input.latitude,
       longitude: input.longitude,
     })
-    .select(
-      "id, elder_id, status, police_share_token, latitude, longitude, started_at, ended_at, created_at",
-    )
+    .select(emergencySelect)
     .single();
 
   if (error || !data) {
@@ -390,14 +463,18 @@ async function createWithSupabase(input: {
 }
 
 function mapRow(row: Record<string, unknown>): EmergencyRecord {
+  const startedAt = row.started_at as string;
   return {
     id: row.id as string,
     elderId: row.elder_id as string,
     status: row.status as EmergencyStatus,
     policeShareToken: row.police_share_token as string,
+    policeShareExpiresAt:
+      (row.police_share_expires_at as string | null | undefined) ??
+      policeTrackExpiresAtFromStart(startedAt),
     latitude: (row.latitude as number | null) ?? null,
     longitude: (row.longitude as number | null) ?? null,
-    startedAt: row.started_at as string,
+    startedAt,
     endedAt: (row.ended_at as string | null) ?? null,
     createdAt: row.created_at as string,
   };

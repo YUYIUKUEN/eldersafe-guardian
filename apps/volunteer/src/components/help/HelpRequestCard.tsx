@@ -10,6 +10,7 @@ import {
 } from "@eldersafe/shared";
 import { Link } from "@/i18n/navigation";
 import { reverseGeocodeAreaName } from "@/lib/geo/reverse-geocode";
+import { AudioPlayer } from "./AudioPlayer";
 
 type HelpRequestCardProps = {
   item: VolunteerHelpFeedItem;
@@ -146,10 +147,15 @@ export function HelpRequestCard({
         ) : null}
       </dl>
 
-      <div className="mt-4 border-t border-slate-100 pt-4">
+      <div className="mt-4 space-y-3 border-t border-slate-100 pt-4">
         <p className="text-sm text-slate-600">
           {isPending ? t("previewBeforeAccept") : t("recording")}
         </p>
+        <AudioPlayer
+          helpRequestId={item.id}
+          elderId={item.elderId}
+          transcript={item.transcript}
+        />
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">

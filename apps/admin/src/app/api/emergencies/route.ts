@@ -1,3 +1,4 @@
+import { jsonSafeError, toSafeErrorCode } from "@eldersafe/shared";
 import { parsePositiveInt, requireAdminApi } from "@/lib/auth/api";
 import {
   EMERGENCY_PAGE_SIZE,
@@ -31,12 +32,6 @@ export async function GET(request: Request) {
     });
     return Response.json(result);
   } catch (error) {
-    return Response.json(
-      {
-        error: "load_failed",
-        detail: error instanceof Error ? error.message : "unknown",
-      },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "load_failed", 500);
   }
 }

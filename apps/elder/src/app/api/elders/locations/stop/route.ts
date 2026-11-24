@@ -1,4 +1,7 @@
-import { ElderActivityAction } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  readJsonBody,
+} from "@eldersafe/shared";
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
 
@@ -10,12 +13,11 @@ export async function POST(request: Request) {
     return Response.json({ error: "unauthorized" }, { status: 401 });
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    body = {};
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const object =
     typeof body === "object" && body !== null

@@ -189,4 +189,5 @@ export {
   clientKeyFromRequest,
   consumeRateLimit,
 } from "./security/rate-limit";
-export { toSafeErrorCode } from "./security/safe-error";
+export { toSafeErrorCode, jsonSafeError } from "./security/safe-error";
+export { isUuid, readJsonBody, type ReadJsonBodyError } from "./security/request";

@@ -4,6 +4,9 @@ import {
   createSupabaseServiceClient,
   loadAccessContext,
   VolunteerActivityAction,
+  isUuid,
+  jsonSafeError,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
@@ -32,6 +35,10 @@ export async function GET(_request: Request, context: RouteContext) {
   }
 
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
   const { data, error } = await supabase
     .from("certificates")
     .select("id, file_path, year_month, rank, volunteer_id")
@@ -40,7 +47,7 @@ export async function GET(_request: Request, context: RouteContext) {
     .maybeSingle();
 
   if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return jsonSafeError(error, "load_failed", 500);
   }
   if (!data) {
     return Response.json({ error: "not_found" }, { status: 404 });
@@ -70,7 +77,6 @@ export async function GET(_request: Request, context: RouteContext) {
 
     return Response.json({ url: signed.signedUrl });
   } catch (err) {
-    const message = err instanceof Error ? err.message : "download_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return jsonSafeError(err, "download_failed", 500);
   }
 }

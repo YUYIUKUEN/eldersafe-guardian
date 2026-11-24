@@ -4,6 +4,8 @@ import {
   createSupabaseServiceClient,
   loadAccessContext,
   VolunteerActivityAction,
+  isUuid,
+  jsonSafeError,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
@@ -28,6 +30,10 @@ function extensionForMime(mimeType: string): string {
 
 export async function POST(request: Request, context: RouteContext) {
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
 
   let supabase;
   try {
@@ -95,10 +101,7 @@ export async function POST(request: Request, context: RouteContext) {
     });
 
   if (uploadError) {
-    return Response.json(
-      { error: "photo_upload_failed", detail: uploadError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(uploadError, "photo_upload_failed", 500);
   }
 
   const { data, error } = await supabase.rpc("complete_help_request", {
@@ -117,10 +120,7 @@ export async function POST(request: Request, context: RouteContext) {
     if (message.includes("completion_photo_required")) {
       return Response.json({ error: "photo_required" }, { status: 400 });
     }
-    return Response.json(
-      { error: "complete_failed", detail: error.message },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "complete_failed", 500);
   }
 
   const row = Array.isArray(data) ? data[0] : data;

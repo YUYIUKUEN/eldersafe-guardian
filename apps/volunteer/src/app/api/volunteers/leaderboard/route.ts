@@ -2,6 +2,8 @@ import {
   canAccessVolunteerApp,
   loadAccessContext,
   VolunteerActivityAction,
+  jsonSafeError,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import {
   loadVolunteerLeaderboard,
@@ -52,8 +54,6 @@ export async function GET(request: Request) {
 
     return Response.json(payload);
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "leaderboard_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return jsonSafeError(error, "leaderboard_failed", 500);
   }
 }

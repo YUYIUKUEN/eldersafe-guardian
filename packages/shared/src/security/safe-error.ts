@@ -11,3 +11,14 @@ export function toSafeErrorCode(
   if (/^[a-z][a-z0-9_]{2,63}$/.test(message)) return message;
   return fallback;
 }
+
+export function jsonSafeError(
+  error: unknown,
+  fallback: string,
+  status = 500,
+): Response {
+  return Response.json(
+    { error: toSafeErrorCode(error, fallback) },
+    { status },
+  );
+}

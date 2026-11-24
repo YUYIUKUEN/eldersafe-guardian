@@ -274,7 +274,8 @@
     "logout": "登出",
     "loggingOut": "正在登出…",
     "navLeaderboard": "排行榜",
-    "navCertificates": "我的證書"
+    "navCertificates": "我的證書",
+    "navPoints": "我的積分"
   },
   "VolunteerLeaderboard": {
     "title": "義工排行榜",
@@ -490,9 +491,30 @@
   },
   "AdminUnauthorized": {
     "title": "沒有權限",
-    "body": "此帳號已登入，但不是管理員，因此不能使用管理後台。",
+    "body": "此帳號已被登出，因為不是管理員帳號，不能使用管理後台。",
     "backToLogin": "返回登入",
     "logout": "登出"
+  },
+  "AdminOverdue": {
+    "title": "逾期待確認求助單",
+    "subtitle": "以下求助單標記完成已超過 24 小時，長者仍未確認。你可強制確認並發放積分。",
+    "loading": "正在載入逾期清單…",
+    "empty": "目前沒有逾期待確認的求助單。",
+    "loadFailed": "未能載入逾期待確認清單。",
+    "elderLine": "長者：{name}",
+    "volunteerLine": "義工：{name}",
+    "volunteerUnknown": "未知義工",
+    "completedAt": "標記完成：{when}",
+    "hoursWaiting": "已等待 {hours} 小時確認",
+    "openDetail": "打開配對詳情",
+    "forceConfirm": "強制確認",
+    "forcing": "正在確認…",
+    "forceFailed": "未能強制確認。請再試一次。",
+    "notOverdue": "此單已不再逾期。",
+    "notConfirmable": "此單目前不能確認。",
+    "confirmTitle": "強制確認完成？",
+    "confirmBody": "為長者 {name} 的求助單發放積分（義工：{volunteer}）。長者於 24 小時內未確認。",
+    "cancel": "取消"
   },
   "AdminDashboard": {
     "title": "儀表板",
@@ -514,7 +536,9 @@
     "emergencyAlertActive": "現有 {count} 宗進行中的緊急事件 — 請打開緊急事件頁。",
     "emergencyAlertNew": "剛剛有新緊急事件回報，請立刻查看緊急事件。",
     "viewEmergencies": "查看緊急事件",
-    "dismissAlert": "關閉提示"
+    "dismissAlert": "關閉提示",
+    "enableDesktopNotify": "啟用桌面提示",
+    "desktopNotifyBody": "允許瀏覽器通知，有新緊急事件時會收到提示。"
   },
   "AdminLeaderboard": {
     "title": "排行榜與證書",
@@ -1049,8 +1073,8 @@
     "completePhotoTooLarge": "相片太大。請選較小的相片（最多 5MB）。",
     "completePhotoInvalid": "相片格式不支援。請用 JPG、PNG 或 WEBP。",
     "completeProofShow": "完成證明",
-    "awaitingElderHint": "已通知長者確認。長者確認後才會正式完成並計算積分（積分規則稍後接上）。若 24 小時內未確認，管理員可手動處理。",
-    "completedHint": "長者已確認完成。積分會在獎勵系統啟用後發放。",
+    "awaitingElderHint": "已通知長者確認。長者確認完成後會按現行規則發放積分。若 24 小時內未確認，管理員可強制確認並發放積分。",
+    "completedHint": "長者已確認完成。積分已按現行計分規則發放。",
     "previewHint": "請先聽錄音，並可致電長者問清楚內容，再決定是否接單。接單後可再致電確認詳情。",
     "previewThenDecide": "聽錄音／查看後再決定",
     "callBeforeAccept": "致電問清楚",
@@ -1089,5 +1113,18 @@
     "rowHours": "服務時數：{hours}",
     "rowHoursUnknown": "服務時數：—",
     "awaitingNote": "等待長者確認"
+  },
+  "VolunteerPoints": {
+    "title": "我的積分",
+    "subtitle": "長者確認完成後（或逾期 24 小時由管理員強制確認後）才會增加積分。",
+    "loading": "正在載入積分…",
+    "loadFailed": "未能載入積分。請稍後再試。",
+    "totalPoints": "累積積分",
+    "monthPoints": "本月積分",
+    "monthLabel": "月份：{month}",
+    "recentTitle": "最近得分",
+    "empty": "暫時沒有積分紀錄。",
+    "entryPoints": "+{points} 分",
+    "openRequest": "查看求助單"
   }
 }
