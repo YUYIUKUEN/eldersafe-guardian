@@ -25,7 +25,10 @@ export type VolunteerHelpFeedItem = {
   elderAge: number;
   /** Null until this volunteer has accepted the request. */
   elderAddress: string | null;
-  /** Null until this volunteer has accepted the request. */
+  /**
+   * Available for pending requests (call before accept) and for the
+   * assigned volunteer after accept. Null for other volunteers' cases.
+   */
   elderPhone: string | null;
   liveLatitude: number | null;
   liveLongitude: number | null;
@@ -33,7 +36,8 @@ export type VolunteerHelpFeedItem = {
 };
 
 export type VolunteerHelpFeedFilter = "pending" | "mine" | "completed";
-export type VolunteerHelpFeedSort = "newest" | "distance";
+/** Default list order is oldest→newest (newest at the bottom). */
+export type VolunteerHelpFeedSort = "oldest" | "distance";
 
 export type VolunteerDisplayStatus =
   | "pending"

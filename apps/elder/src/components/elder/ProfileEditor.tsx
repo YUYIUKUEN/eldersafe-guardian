@@ -1,9 +1,8 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import type {
-  AppLocale,
   ElderPublicProfile,
   ElderValidationIssue,
 } from "@eldersafe/shared";
@@ -37,7 +36,6 @@ type FormState = {
 export function ProfileEditor({ elder }: { elder: ElderPublicProfile }) {
   const t = useTranslations("Profile");
   const tOnboarding = useTranslations("Onboarding");
-  const locale = useLocale() as AppLocale;
   const router = useRouter();
   const messageFor = useElderValidationMessage();
 
@@ -68,7 +66,7 @@ export function ProfileEditor({ elder }: { elder: ElderPublicProfile }) {
       emergencyContactName: form.emergencyContactName,
       emergencyContactPhone: form.emergencyContactPhone,
       healthNotes: form.healthNotes,
-      language: locale,
+      language: "zh-HK",
     });
 
     if (!validated.value) {

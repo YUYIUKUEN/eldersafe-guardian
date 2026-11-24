@@ -26,6 +26,7 @@ export type {
   HelpMeetingType,
 } from "./elder/types";
 export {
+  buildHkTelHref,
   decodeEmergencyContact,
   encodeEmergencyContact,
   isValidHkPhone,

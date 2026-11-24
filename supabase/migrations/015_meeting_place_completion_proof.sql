@@ -224,7 +224,7 @@ as $$
       else null
     end as elder_address,
     case
-      when hr.volunteer_id = auth.uid() then e.phone
+      when hr.status = 'pending' or hr.volunteer_id = auth.uid() then e.phone
       else null
     end as elder_phone,
     coalesce(loc.latitude, hr.latitude) as live_latitude,
@@ -246,6 +246,7 @@ as $$
       hr.status = 'pending'
       or hr.volunteer_id = auth.uid()
     )
+  -- Newest first so the app can cap to the latest N rows, then reverse for UI.
   order by hr.created_at desc;
 $$;
 
@@ -315,7 +316,7 @@ as $$
       else null
     end as elder_address,
     case
-      when hr.volunteer_id = auth.uid() then e.phone
+      when hr.status = 'pending' or hr.volunteer_id = auth.uid() then e.phone
       else null
     end as elder_phone,
     coalesce(loc.latitude, hr.latitude) as live_latitude,

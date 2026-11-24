@@ -42,6 +42,13 @@ export function isValidHkPhone(input: string): boolean {
   return /^[2-9]\d{7}$/.test(normalizeHkPhone(input));
 }
 
+/** Build a `tel:` href for a Hong Kong number, or null if invalid. */
+export function buildHkTelHref(input: string): string | null {
+  const normalized = normalizeHkPhone(input);
+  if (!isValidHkPhone(normalized)) return null;
+  return `tel:+852${normalized}`;
+}
+
 function trimRequired(value: unknown, max: number): string | null {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();

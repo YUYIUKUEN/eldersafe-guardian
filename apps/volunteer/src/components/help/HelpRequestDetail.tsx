@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState, useTransition } from "react"
 import dynamic from "next/dynamic";
 import { useLocale, useTranslations } from "next-intl";
 import {
+  buildHkTelHref,
   buildMapNavigationUrl,
   isAwaitingElderConfirm,
   volunteerDisplayStatus,
@@ -172,6 +173,7 @@ export function HelpRequestDetail({
   const isAwaiting = isAwaitingElderConfirm(item);
   const isPending = item.status === "pending";
   const isCompleted = item.status === "completed";
+  const telHref = item.elderPhone ? buildHkTelHref(item.elderPhone) : null;
 
   function onAccept() {
     setError(null);
@@ -337,6 +339,11 @@ export function HelpRequestDetail({
             {tHelp("phone")} {item.elderPhone}
           </p>
         ) : null}
+        {isPending ? (
+          <p className="rounded-xl bg-sky-50 px-3 py-2 text-sm text-sky-950">
+            {t("previewHint")}
+          </p>
+        ) : null}
       </div>
 
       <HelpRequestMap points={mapPoints} />
@@ -404,6 +411,15 @@ export function HelpRequestDetail({
       ) : null}
 
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        {telHref ? (
+          <a
+            href={telHref}
+            className="inline-flex min-h-12 items-center justify-center rounded-xl bg-sky-700 px-4 py-3 text-base font-semibold text-white"
+          >
+            {isPending ? t("callBeforeAccept") : t("callElder")}
+          </a>
+        ) : null}
+
         {isPending ? (
           <button
             type="button"

@@ -1,8 +1,8 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
-import { Suspense, startTransition, useEffect, useMemo, useState } from "react";
-import type { AppLocale, ElderValidationIssue } from "@eldersafe/shared";
+import { useTranslations } from "next-intl";
+import { startTransition, useEffect, useMemo, useState } from "react";
+import type { ElderValidationIssue } from "@eldersafe/shared";
 import {
   normalizeHkPhone,
   validateElderProfileInput,
@@ -19,7 +19,6 @@ import { BigButton } from "@/components/ui/BigButton";
 import { BigCheckbox } from "@/components/ui/BigCheckbox";
 import { BigField } from "@/components/ui/BigField";
 import { BigText } from "@/components/ui/BigText";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 const DRAFT_STORAGE_KEY = "eldersafe_onboarding_draft";
 
@@ -101,9 +100,10 @@ function clearDraft() {
   window.sessionStorage.removeItem(DRAFT_STORAGE_KEY);
 }
 
+const ELDER_LOCALE = "zh-HK" as const;
+
 export function OnboardingWizard() {
   const t = useTranslations("Onboarding");
-  const locale = useLocale() as AppLocale;
   const router = useRouter();
   const messageFor = useElderValidationMessage();
 
@@ -179,7 +179,7 @@ export function OnboardingWizard() {
         emergencyContactName: form.emergencyContactName,
         emergencyContactPhone: form.emergencyContactPhone,
         healthNotes: form.healthNotes,
-        language: locale,
+        language: ELDER_LOCALE,
         consentAccepted: form.consentAccepted,
       });
       setIssues(result.issues);
@@ -199,7 +199,7 @@ export function OnboardingWizard() {
           ? form.emergencyContactPhone
           : "91234567",
       healthNotes: form.healthNotes,
-      language: locale,
+      language: ELDER_LOCALE,
     };
 
     const result = validateElderProfileInput(draft);
@@ -252,7 +252,7 @@ export function OnboardingWizard() {
           phone: normalizeHkPhone(form.emergencyContactPhone),
         },
         healthNotes: form.healthNotes.trim() ? form.healthNotes.trim() : null,
-        language: locale,
+        language: ELDER_LOCALE,
         consentAccepted: true,
       });
       writeDeviceKey(result.deviceKey);
@@ -285,9 +285,6 @@ export function OnboardingWizard() {
             {t("backStep")}
           </BigButton>
         ) : null}
-        <Suspense fallback={<div className="min-h-[72px]" aria-hidden />}>
-          <LanguageSwitcher />
-        </Suspense>
       </header>
 
       <BigText as="p" size="caption" tone="muted">
