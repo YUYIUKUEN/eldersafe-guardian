@@ -118,6 +118,17 @@ pnpm --filter @eldersafe/admin run dev      # http://localhost:3003
 
 ---
 
+## 7. Vercel 正式網址上用手機測錄音／定位
+
+完整部署步驟見 [`VERCEL_DEPLOY.md`](./VERCEL_DEPLOY.md)。重點：
+
+1. 三站 Deploy 後，用手機 Safari／Chrome 開長者 **HTTPS** 網址（唔好用唔穩嘅 in-app 瀏覽器）。
+2. 藍色掣：允許麥克風 → 錄音 → 送出；義工站應可播放。
+3. 送出後允許定位；義工接單後地圖應見到位置。
+4. 確認 Vercel 長者專案 `TEST_MODE=true`（緊急只撥測試號，唔好撥 999）。
+
+---
+
 ## 疑難排解
 
 - **503 supabase_not_configured**：`.env.local` 金鑰未填齊。
