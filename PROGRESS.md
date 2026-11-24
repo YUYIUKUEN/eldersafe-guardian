@@ -10,6 +10,7 @@
 **2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
 **2026-11-24 義工流程 8–10**：接單前可聽錄音／致電問清楚再決定；接單後仍可致電；列表改為最舊在上、最新在底（migration `014` 開放 pending 電話）。
 **2026-11-24 長者端首頁調整（項目 1–4）**：紅藍掣字級／字重一致（修 `font: inherit` 覆寫）；移除長者端英文切換（只保留 zh-HK）；緊急求助確認改為語音大聲讀出「你是否真的需要緊急求助？」再確認；藍掣文案改「搵人幫手」。
+**2026-11-24 管理員項目 12–14**：意見表單列表、活躍義工排行榜個案褒貶、義工背景標籤（首次／很久沒做／經常做）。
 
 ---
 
@@ -99,6 +100,10 @@
   - [x] 所有管理 mutation API 均寫入 `activity_logs`；DB append-only migration 004
   - [x] 列表皆分頁（20–30／頁）；假資料腳本可種 ≥1000 筆 `help_requests`（`scripts/seed-admin-demo.mjs`）
   - [x] Live DB：已套用 `003`／`004`／`005`（`pnpm apply:supabase-migrations`）；`seed:admin-demo -- --clean`（200/80/1000）；`acceptance:admin-4.9` **33/33**
+- [x] **項目 12–14（管理員進階）**
+  - [x] 12. 意見表單（Feedback form）：`/feedback` 列出長者確認完成時的星級評分，可篩選正面／負面／需跟進
+  - [x] 13. 活躍義工排行榜：活躍度頁可「打開個案」，查看每宗求助詳情與褒貶（正／負評價）；配對詳情／義工紀錄亦顯示評分
+  - [x] 14. 義工標籤：首次做義工、很久沒做（>30 天）、經常做（近 30 天完成 ≥3）；顯示於義工列表／詳情／活躍度
 
 ---
 

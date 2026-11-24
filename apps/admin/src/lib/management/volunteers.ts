@@ -1,5 +1,11 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import type { VolunteerApprovalStatus } from "@eldersafe/shared";
+import type {
+  RatingSentiment,
+  VolunteerApprovalStatus,
+  VolunteerTag,
+} from "@eldersafe/shared";
+import { ratingSentiment } from "@eldersafe/shared";
+import { loadVolunteerTagsMap } from "./volunteer-tags";
 
 export const VOLUNTEER_PAGE_SIZE = 20;
 
@@ -12,6 +18,7 @@ export type VolunteerListItem = {
   approvalStatus: VolunteerApprovalStatus;
   createdAt: string;
   completedServices: number;
+  tags: VolunteerTag[];
 };
 
 export type VolunteerDetail = VolunteerListItem & {
@@ -24,6 +31,9 @@ export type VolunteerDetail = VolunteerListItem & {
     createdAt: string;
     completedAt: string | null;
     elderName: string | null;
+    elderRating: number | null;
+    ratingSentiment: RatingSentiment;
+    needsFollowUp: boolean;
   }>;
   pointsTotal: number;
   points: Array<{
@@ -173,9 +183,10 @@ export async function listVolunteers(
 
   const rows = (data ?? []) as VolunteerRow[];
   const ids = rows.map((row) => row.id);
-  const [emails, completed] = await Promise.all([
+  const [emails, completed, tagsMap] = await Promise.all([
     emailMapForIds(service, ids),
     completedCountMap(supabase, ids),
+    loadVolunteerTagsMap(supabase, ids),
   ]);
 
   return {
@@ -191,6 +202,7 @@ export async function listVolunteers(
       approvalStatus: row.approval_status,
       createdAt: row.created_at,
       completedServices: completed.get(row.id) ?? 0,
+      tags: tagsMap.get(row.id) ?? [],
     })),
   };
 }
@@ -212,14 +224,15 @@ export async function getVolunteerDetail(
   if (!data) return null;
 
   const row = data as VolunteerRow;
-  const [emails, completed, helpRes, pointsRes, certRes, logsRes] =
+  const [emails, completed, tagsMap, helpRes, pointsRes, certRes, logsRes] =
     await Promise.all([
       emailMapForIds(service, [id]),
       completedCountMap(supabase, [id]),
+      loadVolunteerTagsMap(supabase, [id]),
       supabase
         .from("help_requests")
         .select(
-          "id, status, created_at, completed_at, elders(name)",
+          "id, status, created_at, completed_at, elder_rating, elders(name)",
         )
         .eq("volunteer_id", id)
         .order("created_at", { ascending: false })
@@ -262,6 +275,7 @@ export async function getVolunteerDetail(
     approvalStatus: row.approval_status,
     createdAt: row.created_at,
     completedServices: completed.get(row.id) ?? 0,
+    tags: tagsMap.get(row.id) ?? [],
     age: row.age,
     bio: row.bio ?? "",
     updatedAt: row.updated_at,
@@ -270,12 +284,18 @@ export async function getVolunteerDetail(
       const elderName = Array.isArray(elder)
         ? elder[0]?.name ?? null
         : elder?.name ?? null;
+      const elderRating =
+        item.elder_rating == null ? null : Number(item.elder_rating);
+      const sentiment = ratingSentiment(elderRating);
       return {
         id: item.id,
         status: item.status,
         createdAt: item.created_at,
         completedAt: item.completed_at,
         elderName,
+        elderRating,
+        ratingSentiment: sentiment,
+        needsFollowUp: sentiment === "negative",
       };
     }),
     pointsTotal,

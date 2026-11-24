@@ -76,6 +76,18 @@ export {
   AdminActivityAction,
   type AdminActivityActionName,
 } from "./admin/activity";
+export {
+  isNegativeFeedback,
+  ratingSentiment,
+  type RatingSentiment,
+} from "./admin/feedback";
+export {
+  computeVolunteerTags,
+  VOLUNTEER_FREQUENT_MIN_COMPLETED_30D,
+  VOLUNTEER_INACTIVE_DAYS,
+  type VolunteerTag,
+  type VolunteerTagInput,
+} from "./admin/volunteer-tags";
 
 export type {
   VolunteerRegisterInput,

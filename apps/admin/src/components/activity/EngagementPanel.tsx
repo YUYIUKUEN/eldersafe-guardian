@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { StatusBadge } from "@/components/management/StatusBadge";
+import { VolunteerTags } from "@/components/management/VolunteerTags";
 import { Sparkline } from "@/components/activity/Sparkline";
 import { formatHkDateTime } from "@/lib/management/format";
 import type {
@@ -151,9 +152,12 @@ export function EngagementPanel() {
       ) : data ? (
         <>
           <section className="space-y-3">
-            <h2 className="text-2xl font-bold tracking-tight text-brand">
-              {t("volunteersTitle")}
-            </h2>
+            <div className="space-y-1">
+              <h2 className="text-2xl font-bold tracking-tight text-brand">
+                {t("volunteersTitle")}
+              </h2>
+              <p className="text-sm text-slate-600">{t("volunteersHint")}</p>
+            </div>
             <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
               <table className="min-w-full text-left text-sm">
                 <thead className="border-b border-slate-200 bg-slate-50">
@@ -165,6 +169,9 @@ export function EngagementPanel() {
                         dir={volunteerSortDir}
                         onClick={() => toggleVolunteerSort("name")}
                       />
+                    </th>
+                    <th className="px-3 py-3 font-semibold text-slate-600">
+                      {t("columns.tags")}
                     </th>
                     <th className="px-3 py-3">
                       <SortButton
@@ -217,12 +224,15 @@ export function EngagementPanel() {
                     <th className="px-3 py-3 font-semibold text-slate-600">
                       {t("columns.trend")}
                     </th>
+                    <th className="px-3 py-3 font-semibold text-slate-600">
+                      {t("columns.cases")}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {data.volunteers.length === 0 ? (
                     <tr>
-                      <td colSpan={8} className="px-3 py-8 text-slate-500">
+                      <td colSpan={10} className="px-3 py-8 text-slate-500">
                         {tMgmt("empty")}
                       </td>
                     </tr>
@@ -239,6 +249,9 @@ export function EngagementPanel() {
                           >
                             {item.name}
                           </Link>
+                        </td>
+                        <td className="px-3 py-3">
+                          <VolunteerTags tags={item.tags} />
                         </td>
                         <td className="px-3 py-3 text-slate-700">
                           {item.acceptedCount}
@@ -270,6 +283,14 @@ export function EngagementPanel() {
                             data={item.trend}
                             label={t("trendLabel", { name: item.name })}
                           />
+                        </td>
+                        <td className="px-3 py-3">
+                          <Link
+                            href={`/activity/volunteers/${item.id}`}
+                            className="rounded-lg border border-slate-300 bg-white px-2.5 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-100"
+                          >
+                            {t("openCases")}
+                          </Link>
                         </td>
                       </tr>
                     ))
