@@ -46,6 +46,7 @@ create policy "profiles_update_own"
 -- ---------------------------------------------------------------------------
 
 drop policy if exists "emergencies_authenticated_select" on public.emergencies;
+drop policy if exists "emergencies_admin_select" on public.emergencies;
 create policy "emergencies_admin_select"
   on public.emergencies for select
   to authenticated
