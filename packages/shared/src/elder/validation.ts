@@ -6,6 +6,7 @@ export type ElderField =
   | "age"
   | "phone"
   | "address"
+  | "meetingPlace"
   | "emergencyContactName"
   | "emergencyContactPhone"
   | "healthNotes"
@@ -25,6 +26,7 @@ export type ElderValidationIssue = {
 
 const NAME_MAX = 80;
 const ADDRESS_MAX = 300;
+const MEETING_PLACE_MAX = 300;
 const HEALTH_NOTES_MAX = 1000;
 
 export function normalizeHkPhone(input: string): string {
@@ -107,6 +109,18 @@ export function validateElderProfileInput(
     });
   }
 
+  let meetingPlace: string | null = null;
+  if (typeof input.meetingPlace === "string") {
+    const trimmed = input.meetingPlace.trim();
+    if (trimmed.length > MEETING_PLACE_MAX) {
+      issues.push({ field: "meetingPlace", code: "too_long" });
+    } else {
+      meetingPlace = trimmed.length > 0 ? trimmed : null;
+    }
+  } else if (input.meetingPlace != null) {
+    issues.push({ field: "meetingPlace", code: "too_long" });
+  }
+
   const emergencyName =
     trimRequired(
       input.emergencyContact?.name ?? input.emergencyContactName,
@@ -166,6 +180,7 @@ export function validateElderProfileInput(
       age: age,
       phone,
       address: address!,
+      meetingPlace,
       emergencyContact: {
         name: emergencyName!,
         phone: emergencyPhone,

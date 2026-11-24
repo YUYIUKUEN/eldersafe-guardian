@@ -34,6 +34,7 @@ export function toPublicProfile(record: ElderRecord): ElderPublicProfile {
     age: record.age,
     phone: record.phone,
     address: record.address,
+    meetingPlace: record.meetingPlace,
     emergencyContact: record.emergencyContact,
     healthNotes: record.healthNotes,
     language: record.language,

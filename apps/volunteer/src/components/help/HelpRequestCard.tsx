@@ -98,14 +98,26 @@ export function HelpRequestCard({
       <dl className="mt-4 space-y-2 text-base text-slate-700">
         <div>
           <dt className="inline font-semibold text-slate-800">
-            {t("liveLocation")}
+            {t("meetingPlace")}
           </dt>
           <dd className="inline">
             {" "}
-            <LiveAreaLabel
-              latitude={item.liveLatitude}
-              longitude={item.liveLongitude}
-            />
+            {item.meetingPlace
+              ? `${
+                  item.meetingType === "home"
+                    ? t("meetingTypeHome")
+                    : item.meetingType === "custom"
+                      ? t("meetingTypeCustom")
+                      : ""
+                }${item.meetingType ? " — " : ""}${item.meetingPlace}`
+              : item.liveLatitude != null && item.liveLongitude != null
+                ? (
+                    <LiveAreaLabel
+                      latitude={item.liveLatitude}
+                      longitude={item.liveLongitude}
+                    />
+                  )
+                : t("locationUnknown")}
           </dd>
         </div>
         <div>

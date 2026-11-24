@@ -2,14 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-// format is detected once on the client; MediaRecorder is browser-only.
+import type { ElderPublicProfile, HelpMeetingType } from "@eldersafe/shared";
 import { readDeviceKey } from "@/lib/elder/device-storage";
 import {
   MAX_RECORDING_SECONDS,
   pickSupportedAudioFormat,
   type PickedAudioFormat,
 } from "@/lib/elder/media-recorder";
-import { useRouter } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { BigButton } from "@/components/ui/BigButton";
 import { BigText } from "@/components/ui/BigText";
 import { Page } from "@/components/ui/Page";
@@ -24,21 +24,16 @@ type Phase =
   | "submitting"
   | "submitted";
 
-type LocationFix = {
-  latitude: number;
-  longitude: number;
-  accuracyM: number | null;
-};
-
-function VoiceAssistContent() {
+function VoiceAssistContent({ elder }: { elder: ElderPublicProfile }) {
   const t = useTranslations("VoiceAssist");
   const router = useRouter();
 
   const [phase, setPhase] = useState<Phase>("ready");
-  const [seconds, setSeconds] = useState(0);
+  const [secondsLeft, setSecondsLeft] = useState(MAX_RECORDING_SECONDS);
   const [error, setError] = useState<string | null>(null);
   const [format, setFormat] = useState<PickedAudioFormat | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
+  const [meetingType, setMeetingType] = useState<HelpMeetingType>("home");
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
@@ -47,6 +42,12 @@ function VoiceAssistContent() {
   const audioUrlRef = useRef<string | null>(null);
   const timerRef = useRef<number | null>(null);
   const autoStopRef = useRef<number | null>(null);
+  const autoSubmitRef = useRef(false);
+  const meetingTypeRef = useRef<HelpMeetingType>(meetingType);
+
+  useEffect(() => {
+    meetingTypeRef.current = meetingType;
+  }, [meetingType]);
 
   useEffect(() => {
     return () => {
@@ -84,6 +85,11 @@ function VoiceAssistContent() {
 
   async function startRecording() {
     setError(null);
+    if (!meetingType) {
+      setError(t("meetingRequired"));
+      return;
+    }
+
     const picked = format ?? pickSupportedAudioFormat();
     if (!picked) {
       setPhase("unsupported");
@@ -111,6 +117,7 @@ function VoiceAssistContent() {
     streamRef.current = stream;
     chunksRef.current = [];
     resetBlobPreview();
+    autoSubmitRef.current = false;
 
     let recorder: MediaRecorder;
     try {
@@ -136,19 +143,29 @@ function VoiceAssistContent() {
       if (audioUrlRef.current) URL.revokeObjectURL(audioUrlRef.current);
       audioUrlRef.current = url;
       setAudioUrl(url);
-      setPhase("review");
       cleanupRecording();
+
+      if (autoSubmitRef.current) {
+        setPhase("submitting");
+        void submitRecording({ auto: true });
+        return;
+      }
+      setPhase("review");
     };
 
     recorder.start(250);
-    setSeconds(0);
+    setSecondsLeft(MAX_RECORDING_SECONDS);
     setPhase("recording");
 
+    const startedAt = Date.now();
     timerRef.current = window.setInterval(() => {
-      setSeconds((value) => value + 1);
-    }, 1000);
+      const elapsed = Math.floor((Date.now() - startedAt) / 1000);
+      const left = Math.max(0, MAX_RECORDING_SECONDS - elapsed);
+      setSecondsLeft(left);
+    }, 250);
 
     autoStopRef.current = window.setTimeout(() => {
+      autoSubmitRef.current = true;
       stopRecording();
     }, MAX_RECORDING_SECONDS * 1000);
   }
@@ -171,65 +188,30 @@ function VoiceAssistContent() {
 
   function reRecord() {
     setError(null);
+    autoSubmitRef.current = false;
     resetBlobPreview();
-    setSeconds(0);
+    setSecondsLeft(MAX_RECORDING_SECONDS);
     setPhase("ready");
   }
 
-  async function readLocation(): Promise<LocationFix | null> {
-    if (!navigator.geolocation) {
-      setError(t("locationUnsupported"));
-      return null;
-    }
-
-    try {
-      const position = await new Promise<GeolocationPosition>(
-        (resolve, reject) => {
-          navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 15000,
-            maximumAge: 0,
-          });
-        },
-      );
-      return {
-        latitude: position.coords.latitude,
-        longitude: position.coords.longitude,
-        accuracyM: Number.isFinite(position.coords.accuracy)
-          ? position.coords.accuracy
-          : null,
-      };
-    } catch (err) {
-      const code =
-        err && typeof err === "object" && "code" in err
-          ? Number((err as { code: number }).code)
-          : null;
-      if (code === 1) {
-        setError(t("locationDenied"));
-      } else {
-        setError(t("locationError"));
-      }
-      return null;
-    }
-  }
-
-  async function submitRecording() {
+  async function submitRecording(options?: { auto?: boolean }) {
     const blob = blobRef.current;
     const picked = format;
     const deviceKey = readDeviceKey();
     if (!blob || !picked || !deviceKey) {
       setError(t("submitFailed"));
+      if (options?.auto) setPhase("review");
+      return;
+    }
+
+    if (!meetingTypeRef.current) {
+      setError(t("meetingRequired"));
+      setPhase("review");
       return;
     }
 
     setPhase("submitting");
     setError(null);
-
-    const location = await readLocation();
-    if (!location) {
-      setPhase("review");
-      return;
-    }
 
     const body = new FormData();
     body.append(
@@ -240,11 +222,7 @@ function VoiceAssistContent() {
     );
     body.append("mimeType", blob.type || picked.mimeType || "");
     body.append("extension", picked.extension);
-    body.append("latitude", String(location.latitude));
-    body.append("longitude", String(location.longitude));
-    if (location.accuracyM != null) {
-      body.append("accuracyM", String(location.accuracyM));
-    }
+    body.append("meetingType", meetingTypeRef.current);
 
     try {
       const response = await fetch("/api/elders/help-requests", {
@@ -270,9 +248,10 @@ function VoiceAssistContent() {
     }
   }
 
-  const timerLabel = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(
-    seconds % 60,
-  ).padStart(2, "0")}`;
+  const customPlace = elder.meetingPlace?.trim() || null;
+  const resolvedCustomHint = customPlace
+    ? t("meetingCustomHint", { place: customPlace })
+    : t("meetingCustomFallbackHint", { address: elder.address });
 
   return (
     <Page backHref="/" hideLanguageSwitcher={phase === "recording"}>
@@ -300,10 +279,62 @@ function VoiceAssistContent() {
       ) : null}
 
       {phase === "ready" ? (
-        <section className="flex flex-1 flex-col justify-center gap-4">
+        <section className="flex flex-1 flex-col justify-center gap-5">
           <BigText className="text-center" tone="muted">
             {t("hint")}
           </BigText>
+
+          <div className="rounded-2xl border-2 border-border bg-surface px-4 py-4">
+            <BigText size="caption" tone="assist" className="mb-2">
+              {t("examplesTitle")}
+            </BigText>
+            <ul className="flex flex-col gap-2">
+              <li>
+                <BigText>{t("example1")}</BigText>
+              </li>
+              <li>
+                <BigText>{t("example2")}</BigText>
+              </li>
+              <li>
+                <BigText>{t("example3")}</BigText>
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <BigText size="caption" className="text-center">
+              {t("meetingTitle")}
+            </BigText>
+            <BigButton
+              variant={meetingType === "home" ? "assist" : "assistSoft"}
+              className="whitespace-normal text-[22px] leading-snug"
+              onClick={() => setMeetingType("home")}
+            >
+              {t("meetingHome")}
+            </BigButton>
+            <BigText className="text-center" tone="muted" size="caption">
+              {t("meetingHomeHint", { address: elder.address })}
+            </BigText>
+            <BigButton
+              variant={meetingType === "custom" ? "assist" : "assistSoft"}
+              className="whitespace-normal text-[22px] leading-snug"
+              onClick={() => setMeetingType("custom")}
+            >
+              {t("meetingCustom")}
+            </BigButton>
+            <BigText className="text-center" tone="muted" size="caption">
+              {resolvedCustomHint}
+            </BigText>
+            {!customPlace ? (
+              <Link
+                href="/profile"
+                className="text-center text-[20px] font-semibold text-assist underline"
+              >
+                {t("meetingEditLink")}
+              </Link>
+            ) : null}
+          </div>
+
           <BigButton
             variant="assist"
             className="min-h-[160px] whitespace-normal text-[28px] leading-snug"
@@ -320,15 +351,24 @@ function VoiceAssistContent() {
             className="elder-recording-pulse flex size-40 items-center justify-center rounded-full bg-assist text-[28px] font-bold text-assist-fg"
             aria-live="polite"
           >
-            {timerLabel}
+            {secondsLeft}
           </div>
           <BigText className="text-center" size="caption" tone="assist">
             {t("recording")}
           </BigText>
           <BigText className="text-center" tone="muted">
+            {t("countdown", { seconds: secondsLeft })}
+          </BigText>
+          <BigText className="text-center" tone="muted">
             {t("maxSeconds", { seconds: MAX_RECORDING_SECONDS })}
           </BigText>
-          <BigButton variant="emergency" onClick={stopRecording}>
+          <BigButton
+            variant="emergency"
+            onClick={() => {
+              autoSubmitRef.current = false;
+              stopRecording();
+            }}
+          >
             {t("stop")}
           </BigButton>
         </section>
@@ -336,9 +376,15 @@ function VoiceAssistContent() {
 
       {phase === "review" || phase === "submitting" ? (
         <section className="flex flex-1 flex-col gap-4">
-          <BigText className="text-center" tone="muted">
-            {t("reviewHint")}
-          </BigText>
+          {phase === "submitting" && autoSubmitRef.current ? (
+            <BigText className="text-center" tone="assist">
+              {t("autoSubmitting")}
+            </BigText>
+          ) : (
+            <BigText className="text-center" tone="muted">
+              {t("reviewHint")}
+            </BigText>
+          )}
           {audioUrl ? (
             <audio
               controls
@@ -348,6 +394,29 @@ function VoiceAssistContent() {
               {t("replay")}
             </audio>
           ) : null}
+
+          <div className="flex flex-col gap-3">
+            <BigText size="caption" className="text-center">
+              {t("meetingTitle")}
+            </BigText>
+            <BigButton
+              variant={meetingType === "home" ? "assist" : "assistSoft"}
+              disabled={phase === "submitting"}
+              className="whitespace-normal text-[22px] leading-snug"
+              onClick={() => setMeetingType("home")}
+            >
+              {t("meetingHome")}
+            </BigButton>
+            <BigButton
+              variant={meetingType === "custom" ? "assist" : "assistSoft"}
+              disabled={phase === "submitting"}
+              className="whitespace-normal text-[22px] leading-snug"
+              onClick={() => setMeetingType("custom")}
+            >
+              {t("meetingCustom")}
+            </BigButton>
+          </div>
+
           <BigButton
             variant="assistSoft"
             disabled={phase === "submitting"}
@@ -398,7 +467,7 @@ function VoiceAssistContent() {
 export function VoiceAssistScreen() {
   return (
     <ElderSessionGate>
-      {() => <VoiceAssistContent />}
+      {(elder) => <VoiceAssistContent elder={elder} />}
     </ElderSessionGate>
   );
 }

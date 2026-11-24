@@ -1,3 +1,5 @@
+import type { HelpMeetingType } from "../elder/types";
+
 export type VolunteerHelpFeedStatus = "pending" | "accepted" | "completed";
 
 export type VolunteerHelpFeedItem = {
@@ -12,6 +14,11 @@ export type VolunteerHelpFeedItem = {
   transcript: string | null;
   requestLatitude: number | null;
   requestLongitude: number | null;
+  meetingType: HelpMeetingType | null;
+  /** Resolved meeting place text (home address or custom spot). */
+  meetingPlace: string | null;
+  completionPhotoPath: string | null;
+  completionNotes: string | null;
   volunteerId: string | null;
   elderId: string;
   elderName: string;
@@ -49,6 +56,10 @@ type FeedRow = {
   transcript?: string | null;
   request_latitude: number | null;
   request_longitude: number | null;
+  meeting_type?: string | null;
+  meeting_place?: string | null;
+  completion_photo_path?: string | null;
+  completion_notes?: string | null;
   volunteer_id: string | null;
   elder_id: string;
   elder_name: string;
@@ -59,6 +70,11 @@ type FeedRow = {
   live_longitude: number | null;
   live_recorded_at: string | null;
 };
+
+function asMeetingType(value: string | null | undefined): HelpMeetingType | null {
+  if (value === "home" || value === "custom") return value;
+  return null;
+}
 
 function asStatus(value: string): VolunteerHelpFeedStatus | null {
   if (value === "pending" || value === "accepted" || value === "completed") {
@@ -118,6 +134,14 @@ export function mapVolunteerHelpFeedRow(
     transcript: row.transcript?.trim() ? row.transcript.trim() : null,
     requestLatitude: row.request_latitude,
     requestLongitude: row.request_longitude,
+    meetingType: asMeetingType(row.meeting_type),
+    meetingPlace: row.meeting_place?.trim() ? row.meeting_place.trim() : null,
+    completionPhotoPath: row.completion_photo_path?.trim()
+      ? row.completion_photo_path.trim()
+      : null,
+    completionNotes: row.completion_notes?.trim()
+      ? row.completion_notes.trim()
+      : null,
     volunteerId: row.volunteer_id,
     elderId: row.elder_id,
     elderName: row.elder_name,

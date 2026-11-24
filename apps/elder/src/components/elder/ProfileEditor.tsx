@@ -27,6 +27,7 @@ type FormState = {
   age: string;
   phone: string;
   address: string;
+  meetingPlace: string;
   emergencyContactName: string;
   emergencyContactPhone: string;
   healthNotes: string;
@@ -61,6 +62,7 @@ export function ProfileEditor({ elder }: { elder: ElderPublicProfile }) {
       age: form.age,
       phone: form.phone,
       address: form.address,
+      meetingPlace: form.meetingPlace,
       emergencyContactName: form.emergencyContactName,
       emergencyContactPhone: form.emergencyContactPhone,
       healthNotes: form.healthNotes,
@@ -131,6 +133,14 @@ export function ProfileEditor({ elder }: { elder: ElderPublicProfile }) {
         error={messageFor(firstIssueForField(issues, "address"))}
       />
       <BigField
+        id="profile-meeting-place"
+        label={tOnboarding("fields.meetingPlace")}
+        value={form.meetingPlace}
+        onChange={(event) => updateField("meetingPlace", event.target.value)}
+        error={messageFor(firstIssueForField(issues, "meetingPlace"))}
+      />
+      <BigText tone="muted">{tOnboarding("meetingPlaceHint")}</BigText>
+      <BigField
         id="profile-emergency-name"
         label={tOnboarding("fields.emergencyContactName")}
         value={form.emergencyContactName}
@@ -184,6 +194,7 @@ function fromElder(elder: ElderPublicProfile): FormState {
     age: String(elder.age),
     phone: normalizeHkPhone(elder.phone),
     address: elder.address,
+    meetingPlace: elder.meetingPlace ?? "",
     emergencyContactName: elder.emergencyContact.name,
     emergencyContactPhone: normalizeHkPhone(elder.emergencyContact.phone),
     healthNotes: elder.healthNotes ?? "",
