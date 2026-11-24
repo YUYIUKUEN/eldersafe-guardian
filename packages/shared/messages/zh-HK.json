@@ -29,7 +29,7 @@
     "myRecords": "我的求助紀錄",
     "emergencyTitle": "緊急求助",
     "emergencyBody": "緊急倒數與求助功能。",
-    "assistTitle": "想找人陪我",
+    "assistTitle": "搵人幫手",
     "assistBody": "錄一段短語音，請人陪伴或協助。",
     "recordsTitle": "我的求助紀錄",
     "recordsBody": "查看你的求助單狀態。"
@@ -38,7 +38,7 @@
     "title": "我的求助紀錄",
     "autoUpdateHint": "義工接單後，這裡會自動更新。",
     "empty": "你暫時未有求助單。",
-    "askHelp": "想找人陪我",
+    "askHelp": "搵人幫手",
     "createdAt": "送出時間：{when}",
     "volunteerFallback": "義工",
     "confirmThanks": "確認完成，多謝義工",
@@ -124,7 +124,7 @@
     "autoStopped": "求助已結束，位置分享已自動停止。"
   },
   "VoiceAssist": {
-    "title": "想找人陪我",
+    "title": "搵人幫手",
     "hint": "按一下開始說話，講你需要甚麼幫助。",
     "examplesTitle": "可以這樣說：",
     "example1": "「我想有人陪我去街市買餸」",
