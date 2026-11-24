@@ -18,7 +18,8 @@
 - **M1** Admin 逾時強制確認 UI＋RPC 同步發放積分  
 - **M2** 停用長者：`volunteer_can_access`／help_requests RLS 對齊  
 - **M3–M6** 義工列表錄音播放器、「我的積分」、積分文案、長者 `/profile` 入口  
-- **M7–M9** BigButton 停用對比、UUID／body 上限、緊急桌面通知／標題閃爍
+- **M7–M9** BigButton 停用對比、UUID／body 上限、緊急桌面通知／標題閃爍  
+**2026-11-24 答辯示範資料**：新增 `pnpm seed:defense-demo`（3 長者、8 義工、30 求助、2 緊急、一個月日誌）＋ `docs/DEFENSE_DEMO_SCRIPT.md` 五分鐘示範劇本（排行榜／活躍度／日誌）。
 
 ---
 
@@ -150,6 +151,7 @@
 - [ ] 三個網站各自部署到 Vercel（實際 Deploy 由你在 Vercel Dashboard 完成）
 - [x] Vercel 三專案部署逐步指南（`docs/VERCEL_DEPLOY.md`：GitHub 連接、Root Directory、環境變數公開／私密、`TEST_MODE=true`、Supabase 允許網域、手機錄音／定位）
 - [x] 撰寫／整理專題文件與示範流程（`docs/MANUAL_TEST_GUIDE.md`）
+- [x] 答辯示範種子資料（`pnpm seed:defense-demo`）＋五分鐘劇本（`docs/DEFENSE_DEMO_SCRIPT.md`）
 - [x] 最終驗收對照 `PROJECT_SPEC.md`（整合檢查後已修 C0→其餘；自動化 33/33 + 9/9）
 - [x] 2026-11-24 整合檢查跟進：H1–H3、M1–M9（見上方進度註記）
 
