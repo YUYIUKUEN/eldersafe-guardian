@@ -1,3 +1,4 @@
+import { jsonSafeError, toSafeErrorCode } from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 import {
   loadElderEngagement,
@@ -45,12 +46,6 @@ export async function GET(request: Request) {
       },
     });
   } catch (error) {
-    return Response.json(
-      {
-        error: "load_failed",
-        detail: error instanceof Error ? error.message : "unknown",
-      },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "load_failed", 500);
   }
 }

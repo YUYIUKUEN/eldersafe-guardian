@@ -3,10 +3,18 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 1–5 核心流程已接上（含義工求助列表／接單／完成）；階段 2 缺 PWA；階段 6 未開始。**  
+**目前進度：階段 1–5 核心流程已接上；階段 6 欠 Vercel 部署。**  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
-**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。
+**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
+**2026-11-24 整合檢查修復 H1–H3、M1–M9**（migration `014`）：  
+- **H1** 警方 track：`police_share_expires_at`（進行中 24h；resolved 後最多再 2h）  
+- **H2** API 統一 `jsonSafeError`／`toSafeErrorCode`，不再洩漏 `detail`／原始 DB 訊息  
+- **H3** 非 admin 登入管理後台會 `signOut`  
+- **M1** Admin 逾時強制確認 UI＋RPC 同步發放積分  
+- **M2** 停用長者：`volunteer_can_access`／help_requests RLS 對齊  
+- **M3–M6** 義工列表錄音播放器、「我的積分」、積分文案、長者 `/profile` 入口  
+- **M7–M9** BigButton 停用對比、UUID／body 上限、緊急桌面通知／標題閃爍
 
 ---
 
@@ -115,6 +123,7 @@
 - [x] 各 app `.env.local.example` 與設定說明（見 `docs/AUTH_AND_ENV.md`）
 - [x] 安全加固 migration `012`（C0 role 鎖死、C1/C3 資料範圍、C2 storage、H2 禁直接 UPDATE、H4 activity_logs 身份校驗）
 - [x] 驗收腳本 `pnpm acceptance:security-012`
+- [x] migration `014`：track 過期、停用長者權限、admin 強制確認加分
 
 ---
 
@@ -127,6 +136,7 @@
 - [ ] 三個網站各自部署到 Vercel
 - [x] 撰寫／整理專題文件與示範流程（`docs/MANUAL_TEST_GUIDE.md`）
 - [x] 最終驗收對照 `PROJECT_SPEC.md`（整合檢查後已修 C0→其餘；自動化 33/33 + 9/9）
+- [x] 2026-11-24 整合檢查跟進：H1–H3、M1–M9（見上方進度註記）
 
 ---
 

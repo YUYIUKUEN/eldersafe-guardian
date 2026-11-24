@@ -2,6 +2,8 @@ import {
   canAccessVolunteerApp,
   loadAccessContext,
   VolunteerActivityAction,
+  jsonSafeError,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
@@ -32,7 +34,7 @@ export async function GET() {
     .order("year_month", { ascending: false });
 
   if (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return jsonSafeError(error, "load_failed", 500);
   }
 
   await supabase.from("activity_logs").insert({

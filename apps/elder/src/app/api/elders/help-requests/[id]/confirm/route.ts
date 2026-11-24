@@ -1,4 +1,9 @@
-import { ElderActivityAction } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  isUuid,
+  readJsonBody,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { confirmHelpRequestForElder } from "@/lib/elder/help-requests";
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
@@ -9,6 +14,10 @@ type RouteContext = {
 
 export async function POST(request: Request, context: RouteContext) {
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
   const elder = await resolveElderFromRequest(request);
   const store = getElderStore();
 
@@ -22,15 +31,14 @@ export async function POST(request: Request, context: RouteContext) {
   }
 
   let rating: number | null = null;
-  try {
-    const body = (await request.json().catch(() => null)) as {
-      rating?: unknown;
-    } | null;
-    if (body && "rating" in body) {
-      rating = body.rating as number | null;
+  const parsed = await readJsonBody<{ rating?: unknown }>(request);
+  if (!parsed.ok) {
+    if (parsed.error === "body_too_large") {
+      return Response.json({ error: parsed.error }, { status: 400 });
     }
-  } catch {
-    // Body is optional; invalid JSON treated as no rating.
+    // Optional body; empty or invalid JSON means no rating.
+  } else if ("rating" in parsed.value) {
+    rating = parsed.value.rating as number | null;
   }
 
   try {
@@ -80,11 +88,10 @@ export async function POST(request: Request, context: RouteContext) {
       storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "help_request_confirm_failed";
-    const notConfirmable = message === "HELP_REQUEST_NOT_CONFIRMABLE";
-    const notFound = message === "HELP_REQUEST_NOT_FOUND";
-    const invalidRating = message === "INVALID_RATING";
+    const code = toSafeErrorCode(error, "help_request_confirm_failed");
+    const notConfirmable = code === "HELP_REQUEST_NOT_CONFIRMABLE";
+    const notFound = code === "HELP_REQUEST_NOT_FOUND";
+    const invalidRating = code === "INVALID_RATING";
     return Response.json(
       {
         error: notConfirmable
@@ -93,7 +100,7 @@ export async function POST(request: Request, context: RouteContext) {
             ? "not_found"
             : invalidRating
               ? "invalid_rating"
-              : message,
+              : code,
       },
       {
         status: notFound

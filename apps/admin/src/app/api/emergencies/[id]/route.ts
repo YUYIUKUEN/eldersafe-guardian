@@ -1,3 +1,4 @@
+import { isUuid, jsonSafeError, toSafeErrorCode } from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 import { getEmergencyDetail } from "@/lib/management/emergencies";
 
@@ -10,6 +11,10 @@ export async function GET(_request: Request, context: RouteContext) {
   if (!auth.ok) return auth.response;
 
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
   try {
     const detail = await getEmergencyDetail(auth.ctx.supabase, id);
     if (!detail) {
@@ -17,12 +22,6 @@ export async function GET(_request: Request, context: RouteContext) {
     }
     return Response.json(detail);
   } catch (error) {
-    return Response.json(
-      {
-        error: "load_failed",
-        detail: error instanceof Error ? error.message : "unknown",
-      },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "load_failed", 500);
   }
 }

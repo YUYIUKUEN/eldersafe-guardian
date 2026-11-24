@@ -4,6 +4,9 @@ import {
   createSupabaseServiceClient,
   validateVolunteerRegisterInput,
   VolunteerActivityAction,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 
 export async function POST(request: Request) {
@@ -19,12 +22,11 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const validated = validateVolunteerRegisterInput(
     (body ?? {}) as Record<string, unknown>,
@@ -65,10 +67,7 @@ export async function POST(request: Request) {
     ) {
       return Response.json({ error: "email_taken" }, { status: 409 });
     }
-    return Response.json(
-      { error: "register_failed", detail: createError?.message },
-      { status: 500 },
-    );
+    return jsonSafeError(createError, "register_failed", 500);
   }
 
   const userId = created.user.id;
@@ -81,10 +80,7 @@ export async function POST(request: Request) {
 
   if (profileError) {
     await service.auth.admin.deleteUser(userId);
-    return Response.json(
-      { error: "register_failed", detail: profileError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(profileError, "register_failed", 500);
   }
 
   const { error: volunteerError } = await service.from("volunteers").insert({
@@ -100,10 +96,7 @@ export async function POST(request: Request) {
   if (volunteerError) {
     await service.from("profiles").delete().eq("id", userId);
     await service.auth.admin.deleteUser(userId);
-    return Response.json(
-      { error: "register_failed", detail: volunteerError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(volunteerError, "register_failed", 500);
   }
 
   await service.from("activity_logs").insert({

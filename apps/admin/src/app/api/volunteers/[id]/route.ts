@@ -1,6 +1,10 @@
 import {
   AdminActivityAction,
   validateVolunteerProfileInput,
+  isUuid,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 import { getVolunteerDetail } from "@/lib/management/volunteers";
@@ -14,6 +18,10 @@ export async function GET(_request: Request, context: RouteContext) {
   if (!auth.ok) return auth.response;
 
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
   try {
     const detail = await getVolunteerDetail(
       auth.ctx.supabase,
@@ -25,13 +33,7 @@ export async function GET(_request: Request, context: RouteContext) {
     }
     return Response.json(detail);
   } catch (error) {
-    return Response.json(
-      {
-        error: "load_failed",
-        detail: error instanceof Error ? error.message : "unknown",
-      },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "load_failed", 500);
   }
 }
 
@@ -40,12 +42,15 @@ export async function PATCH(request: Request, context: RouteContext) {
   if (!auth.ok) return auth.response;
 
   const { id } = await context.params;
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
   }
+
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
+  }
+  const body = parsed.value;
 
   const validated = validateVolunteerProfileInput(
     (body ?? {}) as Record<string, unknown>,
@@ -64,10 +69,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     .maybeSingle();
 
   if (existingError) {
-    return Response.json(
-      { error: "load_failed", detail: existingError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(existingError, "load_failed", 500);
   }
   if (!existing) {
     return Response.json({ error: "not_found" }, { status: 404 });
@@ -101,10 +103,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     .eq("id", id);
 
   if (updateError) {
-    return Response.json(
-      { error: "update_failed", detail: updateError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(updateError, "update_failed", 500);
   }
 
   await auth.ctx.supabase

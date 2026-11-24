@@ -3,6 +3,9 @@ import {
   loadAccessContext,
   validateVolunteerProfileInput,
   VolunteerActivityAction,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
@@ -48,12 +51,11 @@ export async function GET() {
 }
 
 export async function PATCH(request: Request) {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const validated = validateVolunteerProfileInput(
     (body ?? {}) as Record<string, unknown>,
@@ -98,10 +100,7 @@ export async function PATCH(request: Request) {
     .eq("id", user.id);
 
   if (volunteerError) {
-    return Response.json(
-      { error: "update_failed", detail: volunteerError.message },
-      { status: 500 },
-    );
+    return jsonSafeError(volunteerError, "update_failed", 500);
   }
 
   await supabase

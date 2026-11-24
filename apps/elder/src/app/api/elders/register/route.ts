@@ -7,6 +7,7 @@ import {
   hashDeviceKey,
   toSafeErrorCode,
   validateElderRegisterPayload,
+  readJsonBody,
 } from "@eldersafe/shared";
 import { getElderStore } from "@/lib/elder/store";
 import { toPublicProfile } from "@/lib/elder/types";
@@ -24,12 +25,11 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const validated = validateElderRegisterPayload(
     (body ?? {}) as Record<string, unknown>,

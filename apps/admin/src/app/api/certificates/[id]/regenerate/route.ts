@@ -1,4 +1,9 @@
-import { AdminActivityAction } from "@eldersafe/shared";
+import {
+  AdminActivityAction,
+  isUuid,
+  jsonSafeError,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 import { regenerateCertificatePdf } from "@/lib/management/leaderboard";
 
@@ -11,6 +16,10 @@ export async function POST(_request: Request, context: RouteContext) {
   if (!auth.ok) return auth.response;
 
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
 
   try {
     const certificate = await regenerateCertificatePdf(
@@ -35,9 +44,8 @@ export async function POST(_request: Request, context: RouteContext) {
 
     return Response.json({ certificate });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "regenerate_failed";
-    const status = message === "CERTIFICATE_NOT_FOUND" ? 404 : 500;
-    return Response.json({ error: message }, { status });
+    const code = toSafeErrorCode(error, "regenerate_failed");
+    const status = code === "CERTIFICATE_NOT_FOUND" ? 404 : 500;
+    return Response.json({ error: code }, { status });
   }
 }

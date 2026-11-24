@@ -255,7 +255,8 @@
     "logout": "Log out",
     "loggingOut": "Logging out…",
     "navLeaderboard": "Leaderboard",
-    "navCertificates": "My certificates"
+    "navCertificates": "My certificates",
+    "navPoints": "My points"
   },
   "VolunteerLeaderboard": {
     "title": "Volunteer leaderboard",
@@ -468,9 +469,30 @@
   },
   "AdminUnauthorized": {
     "title": "No permission",
-    "body": "This account is signed in, but it is not an administrator. You cannot use the admin site.",
+    "body": "This account was signed out because it is not an administrator. You cannot use the admin site.",
     "backToLogin": "Back to login",
     "logout": "Log out"
+  },
+  "AdminOverdue": {
+    "title": "Overdue elder confirmations",
+    "subtitle": "These help requests were marked complete more than 24 hours ago but are still unconfirmed. You can force-confirm to award points.",
+    "loading": "Loading overdue items…",
+    "empty": "No overdue confirmations right now.",
+    "loadFailed": "Could not load overdue confirmations.",
+    "elderLine": "Elder: {name}",
+    "volunteerLine": "Volunteer: {name}",
+    "volunteerUnknown": "Unknown volunteer",
+    "completedAt": "Marked complete: {when}",
+    "hoursWaiting": "Waiting {hours} h for confirmation",
+    "openDetail": "Open match detail",
+    "forceConfirm": "Force confirm",
+    "forcing": "Confirming…",
+    "forceFailed": "Could not force-confirm. Please try again.",
+    "notOverdue": "This request is no longer overdue.",
+    "notConfirmable": "This request cannot be confirmed right now.",
+    "confirmTitle": "Force confirm completion?",
+    "confirmBody": "Award points for {name}'s help request served by {volunteer}. The elder did not confirm within 24 hours.",
+    "cancel": "Cancel"
   },
   "AdminDashboard": {
     "title": "Dashboard",
@@ -492,7 +514,9 @@
     "emergencyAlertActive": "There are {count} active emergencies — open the Emergencies page.",
     "emergencyAlertNew": "A new emergency was just reported. Open Emergencies now.",
     "viewEmergencies": "View emergencies",
-    "dismissAlert": "Dismiss"
+    "dismissAlert": "Dismiss",
+    "enableDesktopNotify": "Enable desktop alerts",
+    "desktopNotifyBody": "Allow browser notifications to get an alert when a new emergency is reported."
   },
   "AdminLeaderboard": {
     "title": "Leaderboard & certificates",
@@ -944,8 +968,8 @@
     "completing": "Marking complete…",
     "completeFailed": "Could not mark complete. Please try again.",
     "completeNotAllowed": "This request cannot be marked complete right now.",
-    "awaitingElderHint": "The elder has been notified to confirm. Points are awarded only after confirmation (scoring arrives in phase 5). If there is no confirmation within 24 hours, an admin can handle it manually.",
-    "completedHint": "The elder confirmed completion. Points will be awarded when the rewards system is enabled.",
+    "awaitingElderHint": "The elder has been notified to confirm. Points are awarded when the elder confirms completion. If there is no confirmation within 24 hours, an admin can force-confirm and award points.",
+    "completedHint": "The elder confirmed completion. Points have been awarded according to the live scoring rules.",
     "openDetail": "Open details / map",
     "viewMap": "View map",
     "openMaps": "Navigate in Maps app",
@@ -980,5 +1004,18 @@
     "rowHours": "Service hours: {hours}",
     "rowHoursUnknown": "Service hours: —",
     "awaitingNote": "Waiting for elder confirmation"
+  },
+  "VolunteerPoints": {
+    "title": "My points",
+    "subtitle": "Points are added after an elder confirms completion (or an admin force-confirms after 24 hours).",
+    "loading": "Loading points…",
+    "loadFailed": "Could not load points. Please try again later.",
+    "totalPoints": "All-time points",
+    "monthPoints": "Points this month",
+    "monthLabel": "Month: {month}",
+    "recentTitle": "Recent awards",
+    "empty": "No points recorded yet.",
+    "entryPoints": "+{points} pts",
+    "openRequest": "View help request"
   }
 }
