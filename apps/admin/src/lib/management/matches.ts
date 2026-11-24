@@ -1,4 +1,8 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import {
+  ratingSentiment,
+  type RatingSentiment,
+} from "@eldersafe/shared";
 import { parseAudioStoragePath } from "./format";
 
 export const MATCH_PAGE_SIZE = 20;
@@ -22,6 +26,9 @@ export type MatchListItem = {
   completedAt: string | null;
   cancelledAt: string | null;
   elderConfirmedAt: string | null;
+  elderRating: number | null;
+  ratingSentiment: RatingSentiment;
+  needsFollowUp: boolean;
 };
 
 export type MatchLocationPoint = {
@@ -64,6 +71,7 @@ type HelpRow = {
   completed_at: string | null;
   cancelled_at: string | null;
   elder_confirmed_at: string | null;
+  elder_rating: number | null;
   elders:
     | { name: string; phone?: string; address?: string }
     | { name: string; phone?: string; address?: string }[]
@@ -79,6 +87,9 @@ function oneRelation<T>(value: T | T[] | null | undefined): T | null {
 function mapListItem(row: HelpRow): MatchListItem {
   const elder = oneRelation(row.elders);
   const volunteer = oneRelation(row.volunteers);
+  const elderRating =
+    row.elder_rating == null ? null : Number(row.elder_rating);
+  const sentiment = ratingSentiment(elderRating);
   return {
     id: row.id,
     shortId: row.id.slice(0, 8),
@@ -92,6 +103,9 @@ function mapListItem(row: HelpRow): MatchListItem {
     completedAt: row.completed_at,
     cancelledAt: row.cancelled_at,
     elderConfirmedAt: row.elder_confirmed_at,
+    elderRating,
+    ratingSentiment: sentiment,
+    needsFollowUp: sentiment === "negative",
   };
 }
 
@@ -116,7 +130,7 @@ export async function listMatches(
   let query = supabase
     .from("help_requests")
     .select(
-      "id, status, elder_id, volunteer_id, audio_path, transcript, latitude, longitude, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at, elders(name), volunteers(name)",
+      "id, status, elder_id, volunteer_id, audio_path, transcript, latitude, longitude, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at, elder_rating, elders(name), volunteers(name)",
       { count: "exact" },
     )
     .order("created_at", { ascending: false });
@@ -158,7 +172,7 @@ export async function getMatchDetail(
   const { data, error } = await supabase
     .from("help_requests")
     .select(
-      "id, status, elder_id, volunteer_id, audio_path, transcript, latitude, longitude, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at, elders(name, phone, address), volunteers(name)",
+      "id, status, elder_id, volunteer_id, audio_path, transcript, latitude, longitude, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at, elder_rating, elders(name, phone, address), volunteers(name)",
     )
     .eq("id", id)
     .maybeSingle();

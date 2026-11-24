@@ -1,6 +1,4 @@
 import type { ReactNode } from "react";
-import { Suspense } from "react";
-import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { BackButton } from "@/components/ui/BackButton";
 
 type PageProps = {
@@ -9,7 +7,10 @@ type PageProps = {
   backHref?: string;
   /** Optional override for the back button label. */
   backLabel?: string;
-  /** Hide the language switcher (rare; default shows it). */
+  /**
+   * Kept for call-site compatibility. Elder app is zh-HK only;
+   * language switcher is not shown.
+   */
   hideLanguageSwitcher?: boolean;
   className?: string;
 };
@@ -18,7 +19,6 @@ export function Page({
   children,
   backHref,
   backLabel,
-  hideLanguageSwitcher = false,
   className,
 }: PageProps) {
   return (
@@ -29,11 +29,6 @@ export function Page({
     >
       <header className="flex flex-col gap-3">
         {backHref ? <BackButton href={backHref} label={backLabel} /> : null}
-        {hideLanguageSwitcher ? null : (
-          <Suspense fallback={<div className="min-h-[72px]" aria-hidden />}>
-            <LanguageSwitcher />
-          </Suspense>
-        )}
       </header>
       <div className="flex flex-1 flex-col gap-4">{children}</div>
     </div>

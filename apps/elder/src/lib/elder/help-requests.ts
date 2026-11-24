@@ -6,6 +6,7 @@ import {
   tryGetSupabaseAnonConfig,
   tryGetSupabaseServiceRoleKey,
   type AwardPointsResult,
+  type HelpMeetingType,
 } from "@eldersafe/shared";
 import type {
   HelpRequestListItem,
@@ -21,6 +22,8 @@ export type HelpRequestRecord = {
   status: HelpRequestStatus;
   latitude: number | null;
   longitude: number | null;
+  meetingType: HelpMeetingType | null;
+  meetingPlace: string | null;
   volunteerId: string | null;
   volunteerName: string | null;
   createdAt: string;
@@ -35,9 +38,8 @@ export type CreateHelpRequestInput = {
   audioBytes: Uint8Array;
   mimeType: string;
   extension: string;
-  latitude: number | null;
-  longitude: number | null;
-  accuracyM: number | null;
+  meetingType: HelpMeetingType;
+  meetingPlace: string;
 };
 
 const VOICE_BUCKET = "voice-recordings";
@@ -264,8 +266,10 @@ async function createWithMemory(
     elderId: input.elderId,
     audioPath,
     status: "pending",
-    latitude: input.latitude,
-    longitude: input.longitude,
+    latitude: null,
+    longitude: null,
+    meetingType: input.meetingType,
+    meetingPlace: input.meetingPlace,
     createdAt: new Date().toISOString(),
     ...emptyTimestamps(),
   };
@@ -301,29 +305,18 @@ async function createWithSupabase(
       elder_id: input.elderId,
       audio_path: audioPath,
       status: "pending",
-      latitude: input.latitude,
-      longitude: input.longitude,
+      meeting_type: input.meetingType,
+      meeting_place: input.meetingPlace,
+      latitude: null,
+      longitude: null,
     })
     .select(
-      "id, elder_id, audio_path, status, latitude, longitude, volunteer_id, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at",
+      "id, elder_id, audio_path, status, latitude, longitude, meeting_type, meeting_place, volunteer_id, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at",
     )
     .single();
 
   if (error || !data) {
     throw new Error(error?.message ?? "HELP_REQUEST_INSERT_FAILED");
-  }
-
-  if (input.latitude != null && input.longitude != null) {
-    const { error: locationError } = await supabase.from("locations").insert({
-      elder_id: input.elderId,
-      help_request_id: data.id,
-      latitude: input.latitude,
-      longitude: input.longitude,
-      accuracy_m: input.accuracyM,
-    });
-    if (locationError) {
-      throw new Error(locationError.message);
-    }
   }
 
   return {
@@ -337,7 +330,7 @@ async function listWithSupabase(elderId: string): Promise<HelpRequestRecord[]> {
   const { data, error } = await supabase
     .from("help_requests")
     .select(
-      "id, elder_id, audio_path, status, latitude, longitude, volunteer_id, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at, volunteers(name)",
+      "id, elder_id, audio_path, status, latitude, longitude, meeting_type, meeting_place, volunteer_id, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at, volunteers(name)",
     )
     .eq("elder_id", elderId)
     .order("created_at", { ascending: false });
@@ -357,7 +350,7 @@ async function getOneWithSupabase(
   const { data, error } = await supabase
     .from("help_requests")
     .select(
-      "id, elder_id, audio_path, status, latitude, longitude, volunteer_id, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at, volunteers(name)",
+      "id, elder_id, audio_path, status, latitude, longitude, meeting_type, meeting_place, volunteer_id, created_at, accepted_at, completed_at, cancelled_at, elder_confirmed_at, volunteers(name)",
     )
     .eq("id", id)
     .eq("elder_id", elderId)
@@ -513,10 +506,15 @@ async function confirmWithSupabase(input: {
   };
 }
 
+function asMeetingType(value: unknown): HelpMeetingType | null {
+  return value === "home" || value === "custom" ? value : null;
+}
+
 function mapRow(
   row: Record<string, unknown>,
   volunteerName: string | null,
 ): HelpRequestRecord {
+  const meetingPlaceRaw = row.meeting_place;
   return {
     id: row.id as string,
     elderId: row.elder_id as string,
@@ -524,6 +522,11 @@ function mapRow(
     status: row.status as HelpRequestStatus,
     latitude: (row.latitude as number | null) ?? null,
     longitude: (row.longitude as number | null) ?? null,
+    meetingType: asMeetingType(row.meeting_type),
+    meetingPlace:
+      typeof meetingPlaceRaw === "string" && meetingPlaceRaw.trim()
+        ? meetingPlaceRaw.trim()
+        : null,
     volunteerId: (row.volunteer_id as string | null) ?? null,
     volunteerName,
     createdAt: row.created_at as string,

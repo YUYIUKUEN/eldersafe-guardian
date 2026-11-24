@@ -25,11 +25,11 @@
     "startOnboarding": "Enter my details",
     "continueOnboarding": "Continue entering details",
     "emergencyHelp": "Emergency help (fall, injury)",
-    "needCompany": "Want someone with me (shopping, walking)",
+    "needCompany": "Find someone to help",
     "myRecords": "My help records",
     "emergencyTitle": "Emergency help",
     "emergencyBody": "Emergency countdown and help flow.",
-    "assistTitle": "Want someone with me",
+    "assistTitle": "Find someone to help",
     "assistBody": "Record a short voice message to ask for companionship or help.",
     "recordsTitle": "My help records",
     "recordsBody": "See the status of your help requests."
@@ -38,7 +38,7 @@
     "title": "My help records",
     "autoUpdateHint": "This list updates by itself when a volunteer accepts.",
     "empty": "You have no help requests yet.",
-    "askHelp": "Ask for company",
+    "askHelp": "Find someone to help",
     "createdAt": "Sent: {when}",
     "volunteerFallback": "Volunteer",
     "confirmThanks": "Confirm complete, thank the volunteer",
@@ -67,10 +67,11 @@
   },
   "Emergency": {
     "tapHint": "Tap once. We will ask you again to confirm, to avoid mistakes.",
-    "confirmTitle": "Start emergency help?",
+    "confirmTitle": "Do you really need emergency help?",
     "confirmBody": "If you confirm, the next step is a countdown and then dialling.",
     "confirmYes": "Yes, start countdown",
     "confirmNo": "No, go back",
+    "speechConfirm": "Do you really need emergency help?",
     "loading": "Preparing emergency help…",
     "countdownTitle": "Calling {number} in 5 seconds",
     "countdownHint": "Tap Cancel if this was a mistake.",
@@ -123,17 +124,30 @@
     "autoStopped": "Your request has ended. Location sharing stopped automatically."
   },
   "VoiceAssist": {
-    "title": "Want someone with me",
+    "title": "Find someone to help",
     "hint": "Tap once to start talking. Say what help you need.",
+    "examplesTitle": "You can say something like:",
+    "example1": "“I want someone to go to the market with me”",
+    "example2": "“I want someone to go to the clinic with me”",
+    "example3": "“I want someone to walk in the park with me”",
     "start": "Tap to start talking",
     "recording": "Recording…",
-    "maxSeconds": "Up to {seconds} seconds. It stops automatically.",
+    "countdown": "{seconds} seconds left",
+    "maxSeconds": "Up to {seconds} seconds. It sends automatically when time is up.",
     "stop": "Stop",
+    "meetingTitle": "Where should we meet?",
+    "meetingHome": "Meet at home",
+    "meetingCustom": "Meet at my chosen place",
+    "meetingHomeHint": "Uses your home address: {address}",
+    "meetingCustomHint": "Uses your saved place: {place}",
+    "meetingCustomFallbackHint": "No chosen place yet — will use your home address: {address}",
+    "meetingEditLink": "Set a chosen place in My details",
     "reviewHint": "You can listen again. Re-record if needed, or send it.",
     "replay": "Listen again",
     "reRecord": "Record again",
     "submit": "Send",
     "submitting": "Sending…",
+    "autoSubmitting": "Time is up. Sending automatically…",
     "submitted": "Volunteers have been notified. Please wait.",
     "redirecting": "Opening your request status…",
     "unsupported": "This phone cannot record audio. Please try again in a newer Safari or Chrome.",
@@ -142,13 +156,13 @@
     "micDeniedAndroid": "Android: open Settings → Apps → your browser (Chrome) → Permissions → turn on Microphone.",
     "tryAgain": "I turned on permission. Try again",
     "micError": "Could not start recording. Please try again.",
-    "locationDenied": "Location is blocked. Turn on Location in settings, then tap Send again.",
-    "locationUnsupported": "This phone cannot share location.",
-    "locationError": "Could not read location. Move to a place with signal, then tap Send again.",
+    "meetingRequired": "Please choose meet at home or a chosen place first.",
     "submitFailed": "Could not send. Check your network and try again.",
     "statusTitle": "Request status",
     "statusHint": "The status will update after a volunteer accepts.",
     "statusLoadFailed": "Could not load the request status. Please try again later.",
+    "meetingSummaryHome": "Meeting place: home ({place})",
+    "meetingSummaryCustom": "Meeting place: {place}",
     "backHome": "Back to home",
     "status": {
       "pending": "Waiting for a volunteer",
@@ -168,12 +182,14 @@
     "reviewTitle": "Please confirm your details",
     "consentLabel": "I agree that the system may use my details and location for safety purposes",
     "healthNotesHint": "Optional. You can write long-term conditions or medicine allergies here.",
+    "meetingPlaceHint": "Optional. For example “Tai Po Plaza entrance” or “park bench nearby”. You can choose this place when asking for help. If empty, your home address is used.",
     "skipped": "(Skipped)",
     "fields": {
       "name": "What is your name?",
       "age": "What is your age?",
       "phone": "What is your phone number?",
       "address": "What is your address?",
+      "meetingPlace": "Chosen meeting place (optional)",
       "emergencyContactName": "Emergency contact name?",
       "emergencyContactPhone": "Emergency contact phone?",
       "healthNotes": "Health notes (optional)"
@@ -193,6 +209,9 @@
       "address": {
         "required": "Please enter your address.",
         "too_long": "That address is too long. Please keep it within 300 characters."
+      },
+      "meetingPlace": {
+        "too_long": "That meeting place is too long. Please keep it within 300 characters, or tap Skip this question."
       },
       "emergencyContactName": {
         "required": "Please enter the emergency contact name.",
@@ -424,6 +443,7 @@
       "volunteers": "Volunteers",
       "matches": "Matching overview",
       "emergencies": "Emergencies",
+      "feedback": "Feedback form",
       "logs": "Activity logs",
       "activity": "Engagement",
       "leaderboard": "Leaderboard & certificates"
@@ -437,6 +457,8 @@
       "matchesBody": "Browse all help requests and elder–volunteer pairings.",
       "emergenciesTitle": "Emergencies",
       "emergenciesBody": "Monitor emergency events and live maps.",
+      "feedbackTitle": "Feedback form",
+      "feedbackBody": "Review star ratings submitted when elders confirm completion.",
       "logsTitle": "Activity logs",
       "logsBody": "Filter who did what and when.",
       "activityTitle": "Engagement",
@@ -609,6 +631,7 @@
     "emptyCertificates": "No certificates yet.",
     "emptyEmergencies": "No emergency events yet.",
     "emptyLogs": "No related logs yet.",
+    "openCase": "Open case",
     "status": {
       "all": "All",
       "pending": "Pending",
@@ -649,6 +672,8 @@
       "status": "Status",
       "registeredAt": "Registered",
       "completedServices": "Completed services",
+      "tags": "Tags",
+      "feedback": "Feedback",
       "actions": "Actions",
       "age": "Age",
       "address": "Address",
@@ -751,7 +776,8 @@
     "fields": {
       "elderPhone": "Elder phone",
       "elderAddress": "Elder address",
-      "elderConfirmed": "Elder confirmed"
+      "elderConfirmed": "Elder confirmed",
+      "feedback": "Elder feedback (rating)"
     },
     "sections": {
       "summary": "Summary",
@@ -783,7 +809,9 @@
       "days": "d",
       "hours": "h",
       "minutes": "m"
-    }
+    },
+    "feedbackPending": "Elder has not confirmed / rated yet",
+    "needsFollowUp": "Negative feedback — follow up recommended"
   },
   "AdminEmergencies": {
     "title": "Emergencies",
@@ -874,8 +902,8 @@
     }
   },
   "AdminEngagement": {
-    "title": "Engagement",
-    "subtitle": "Monthly activity levels for volunteers and elders, with a 30-day trend.",
+    "title": "Active volunteer ranking",
+    "subtitle": "Monthly activity for volunteers and elders, with a 30-day trend. Open each case to review praise and criticism.",
     "loadFailed": "Could not load engagement data. Please try again.",
     "rulesTitle": "Activity level rules",
     "rulesNote": "Metrics use Hong Kong calendar month. Volunteer trend counts accept events; elder trend counts help requests over the last 30 days.",
@@ -891,10 +919,20 @@
       "medium": "Medium: 1–2 help requests this month.",
       "low": "Low: 0 help requests this month."
     },
-    "volunteersTitle": "Volunteer engagement",
+    "volunteersTitle": "Active volunteer ranking",
+    "volunteersHint": "Use “Open cases” to see each help request and elder praise / criticism.",
     "eldersTitle": "Elder engagement",
     "minutesValue": "{count} min",
     "trendLabel": "30-day trend for {name}",
+    "openCases": "Open cases",
+    "backToRanking": "Back to active volunteer ranking",
+    "casesTitle": "Cases for {name}",
+    "casesSubtitle": "Each case shows elder rating sentiment. Negative ratings are flagged for follow-up.",
+    "casesLoadFailed": "Could not load cases. Please try again.",
+    "casesEmpty": "This volunteer has no cases yet.",
+    "openCase": "Open details",
+    "feedbackPending": "Not rated yet",
+    "needsFollowUp": "Follow up recommended",
     "level": {
       "high": "High",
       "medium": "Medium",
@@ -902,6 +940,7 @@
     },
     "columns": {
       "name": "Name",
+      "tags": "Tags",
       "acceptedCount": "Accepts (month)",
       "completedCount": "Completed (month)",
       "completionRate": "Completion rate",
@@ -909,7 +948,56 @@
       "lastActiveAt": "Last active",
       "level": "Level",
       "trend": "30-day trend",
+      "cases": "Cases",
       "helpCount": "Help requests (month)"
+    },
+    "caseColumns": {
+      "id": "Request ID",
+      "elder": "Elder",
+      "status": "Status",
+      "createdAt": "Created",
+      "feedback": "Feedback",
+      "actions": "Actions"
+    }
+  },
+  "AdminFeedback": {
+    "title": "Feedback form",
+    "subtitle": "Review star ratings submitted when elders confirm completion. Negative ratings are flagged for follow-up.",
+    "hint": "Data comes from the elder confirm-complete star rating form.",
+    "loadFailed": "Could not load feedback. Please try again.",
+    "empty": "No rated feedback yet. Complete a volunteer service and have the elder confirm with a rating first.",
+    "filterLabel": "Filter sentiment",
+    "filters": {
+      "all": "All",
+      "needsFollowUp": "Needs follow-up (negative)",
+      "positive": "Positive",
+      "neutral": "Neutral",
+      "negative": "Negative"
+    },
+    "columns": {
+      "id": "Request ID",
+      "elder": "Elder",
+      "volunteer": "Volunteer",
+      "rating": "Rating",
+      "sentiment": "Sentiment",
+      "confirmedAt": "Confirmed",
+      "actions": "Actions"
+    },
+    "starsValue": "{count} stars",
+    "openCase": "Open case",
+    "sentiment": {
+      "positive": "Positive",
+      "negative": "Negative",
+      "neutral": "Neutral",
+      "none": "Not rated"
+    },
+    "sentimentWithStars": "{sentiment} ({stars}★)"
+  },
+  "AdminVolunteerTags": {
+    "tags": {
+      "first_time": "First-time volunteer",
+      "inactive": "Inactive (>30 days)",
+      "frequent": "Frequent volunteer"
     }
   },
   "VolunteerHelp": {
@@ -917,11 +1005,12 @@
     "filterMine": "My requests",
     "filterCompleted": "Completed",
     "sortLabel": "Sort",
-    "sortNewest": "Newest first",
+    "sortOldest": "Oldest first",
+    "sortOldestHint": "Newest requests appear at the bottom of the list.",
     "sortDistance": "Nearest first",
     "soundToggle": "New-request sound",
     "locationPermissionHint": "Location is off, so distance is hidden. Allow location in the browser, then refresh.",
-    "distanceSortNeedsLocation": "Sorting by distance needs your location. Until then, newest-first is used.",
+    "distanceSortNeedsLocation": "Sorting by distance needs your location. Until then, oldest-first is used.",
     "newRequestBanner": "A new pending help request arrived!",
     "dismissBanner": "Dismiss",
     "loading": "Loading help requests…",
@@ -929,11 +1018,15 @@
     "empty": "No help requests match this filter.",
     "elderLine": "Elder {name}, {age}",
     "liveLocation": "Live location:",
+    "meetingPlace": "Meeting place:",
+    "meetingTypeHome": "Meet at home",
+    "meetingTypeCustom": "Chosen place",
     "address": "Address:",
     "addressAfterAccept": "Address available after you accept",
     "phone": "Phone:",
     "distance": "Distance from you:",
     "createdAt": "Created: {when}",
+    "previewBeforeAccept": "Listen to the recording and call to clarify before you accept.",
     "recording": "Recording",
     "locationLoading": "Resolving area…",
     "locationUnknown": "No location yet",
@@ -968,8 +1061,24 @@
     "completing": "Marking complete…",
     "completeFailed": "Could not mark complete. Please try again.",
     "completeNotAllowed": "This request cannot be marked complete right now.",
+    "completeProofTitle": "Upload completion proof",
+    "completePhotoLabel": "Completion photo (required)",
+    "completePhotoHint": "Take or choose a photo that shows the service is done.",
+    "completePhotoChoose": "Choose photo",
+    "completePhotoChange": "Change photo",
+    "completeNotesLabel": "Description (required)",
+    "completeNotesHint": "Briefly describe what was completed (at least 2 characters).",
+    "completePhotoRequired": "Please choose a completion photo first.",
+    "completeNotesRequired": "Please enter a description (at least 2 characters).",
+    "completePhotoTooLarge": "That photo is too large. Please choose one under 5MB.",
+    "completePhotoInvalid": "Unsupported photo type. Please use JPG, PNG, or WEBP.",
+    "completeProofShow": "Completion proof",
     "awaitingElderHint": "The elder has been notified to confirm. Points are awarded when the elder confirms completion. If there is no confirmation within 24 hours, an admin can force-confirm and award points.",
     "completedHint": "The elder confirmed completion. Points have been awarded according to the live scoring rules.",
+    "previewHint": "Listen to the recording first. You can also call the elder to clarify before accepting. After accepting, call again to confirm details.",
+    "previewThenDecide": "Listen / review, then decide",
+    "callBeforeAccept": "Call to clarify",
+    "callElder": "Call elder",
     "openDetail": "Open details / map",
     "viewMap": "View map",
     "openMaps": "Navigate in Maps app",

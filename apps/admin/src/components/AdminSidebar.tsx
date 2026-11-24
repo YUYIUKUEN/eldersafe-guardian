@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { href: "/volunteers", key: "volunteers" as const },
   { href: "/matches", key: "matches" as const },
   { href: "/emergencies", key: "emergencies" as const },
+  { href: "/feedback", key: "feedback" as const },
   { href: "/logs", key: "logs" as const },
   { href: "/activity", key: "activity" as const },
   { href: "/leaderboard", key: "leaderboard" as const },
