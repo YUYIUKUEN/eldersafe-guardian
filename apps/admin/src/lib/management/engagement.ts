@@ -1,4 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import type { VolunteerTag } from "@eldersafe/shared";
+import { loadVolunteerTagsMap } from "./volunteer-tags";
 
 export type ActivityLevel = "high" | "medium" | "low";
 
@@ -14,6 +16,7 @@ export type VolunteerEngagement = {
   lastActiveAt: string | null;
   level: ActivityLevel;
   trend: DayCount[];
+  tags: VolunteerTag[];
 };
 
 export type ElderEngagement = {
@@ -218,6 +221,8 @@ export async function loadVolunteerEngagement(
     }
   }
 
+  const tagsMap = await loadVolunteerTagsMap(supabase, ids);
+
   return (volunteers ?? []).map((row) => {
     const id = row.id as string;
     const stats = byVolunteer.get(id)!;
@@ -257,6 +262,7 @@ export async function loadVolunteerEngagement(
         stats.trendTs.length > 0
           ? fillTrend(keys, stats.trendTs)
           : emptyTrend(keys),
+      tags: tagsMap.get(id) ?? [],
     };
   });
 }

@@ -1,4 +1,9 @@
-import { ElderActivityAction } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  isUuid,
+  readJsonBody,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { endEmergencyForElder } from "@/lib/elder/emergencies";
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
@@ -9,6 +14,10 @@ type RouteContext = {
 
 export async function POST(request: Request, context: RouteContext) {
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
   const elder = await resolveElderFromRequest(request);
   const store = getElderStore();
 
@@ -22,11 +31,14 @@ export async function POST(request: Request, context: RouteContext) {
   }
 
   let status: "resolved" | "cancelled" = "resolved";
-  try {
-    const body = (await request.json()) as { status?: string };
-    if (body.status === "cancelled") status = "cancelled";
-  } catch {
-    // Default resolved ("I am safe").
+  const parsed = await readJsonBody<{ status?: string }>(request);
+  if (!parsed.ok) {
+    if (parsed.error === "body_too_large") {
+      return Response.json({ error: parsed.error }, { status: 400 });
+    }
+    // Empty or invalid JSON defaults to resolved ("I am safe").
+  } else if (parsed.value.status === "cancelled") {
+    status = "cancelled";
   }
 
   try {
@@ -54,11 +66,10 @@ export async function POST(request: Request, context: RouteContext) {
       storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "emergency_end_failed";
-    const notActive = message === "EMERGENCY_NOT_ACTIVE";
+    const code = toSafeErrorCode(error, "emergency_end_failed");
+    const notActive = code === "EMERGENCY_NOT_ACTIVE";
     return Response.json(
-      { error: notActive ? "not_active" : message },
+      { error: notActive ? "not_active" : code },
       { status: notActive ? 409 : 500 },
     );
   }

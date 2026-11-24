@@ -1,4 +1,10 @@
-import { isValidYearMonth, type CertificatePdfInput } from "@eldersafe/shared";
+import {
+  isValidYearMonth,
+  type CertificatePdfInput,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { generateCertificatePdf } from "@eldersafe/shared/certificates/pdf";
 import { requireAdminApi } from "@/lib/auth/api";
 
@@ -6,15 +12,25 @@ export async function POST(request: Request) {
   const auth = await requireAdminApi();
   if (!auth.ok) return auth.response;
 
-  let body: Partial<CertificatePdfInput> & { rank?: number };
-  try {
-    body = (await request.json()) as typeof body;
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  const parsed = await readJsonBody<{
+    volunteerName?: unknown;
+    yearMonth?: unknown;
+    rank?: unknown;
+    completedCount?: unknown;
+    points?: unknown;
+    orgNameZh?: unknown;
+    orgNameEn?: unknown;
+    issuedAt?: unknown;
+  }>(request, 8192);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
-  const name = body.volunteerName?.trim();
-  const yearMonth = body.yearMonth?.trim() ?? "";
+  const name =
+    typeof body.volunteerName === "string" ? body.volunteerName.trim() : "";
+  const yearMonth =
+    typeof body.yearMonth === "string" ? body.yearMonth.trim() : "";
   const rank = body.rank;
   const completedCount = Number(body.completedCount ?? 0);
   const points =
@@ -42,9 +58,14 @@ export async function POST(request: Request) {
       rank,
       completedCount,
       points: Number.isFinite(points) ? points : undefined,
-      orgNameZh: body.orgNameZh,
-      orgNameEn: body.orgNameEn,
-      issuedAt: body.issuedAt ? new Date(body.issuedAt) : new Date(),
+      orgNameZh:
+        typeof body.orgNameZh === "string" ? body.orgNameZh : undefined,
+      orgNameEn:
+        typeof body.orgNameEn === "string" ? body.orgNameEn : undefined,
+      issuedAt:
+        typeof body.issuedAt === "string" || typeof body.issuedAt === "number"
+          ? new Date(body.issuedAt)
+          : new Date(),
     });
 
     return new Response(Buffer.from(bytes), {
@@ -56,8 +77,6 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "preview_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return jsonSafeError(error, "preview_failed", 500);
   }
 }

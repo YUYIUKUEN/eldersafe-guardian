@@ -1,4 +1,9 @@
-import { ElderActivityAction } from "@eldersafe/shared";
+import {
+  ElderActivityAction,
+  isUuid,
+  jsonSafeError,
+  toSafeErrorCode,
+} from "@eldersafe/shared";
 import { cancelHelpRequestForElder } from "@/lib/elder/help-requests";
 import { resolveElderFromRequest } from "@/lib/elder/request-auth";
 import { getElderStore } from "@/lib/elder/store";
@@ -9,6 +14,10 @@ type RouteContext = {
 
 export async function POST(request: Request, context: RouteContext) {
   const { id } = await context.params;
+  if (!isUuid(id)) {
+    return Response.json({ error: "invalid_id" }, { status: 400 });
+  }
+
   const elder = await resolveElderFromRequest(request);
   const store = getElderStore();
 
@@ -45,12 +54,11 @@ export async function POST(request: Request, context: RouteContext) {
       storeMode,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "help_request_cancel_failed";
-    const notPending = message === "HELP_REQUEST_NOT_PENDING";
-    const notFound = message === "HELP_REQUEST_NOT_FOUND";
+    const code = toSafeErrorCode(error, "help_request_cancel_failed");
+    const notPending = code === "HELP_REQUEST_NOT_PENDING";
+    const notFound = code === "HELP_REQUEST_NOT_FOUND";
     return Response.json(
-      { error: notPending ? "not_pending" : notFound ? "not_found" : message },
+      { error: notPending ? "not_pending" : notFound ? "not_found" : code },
       { status: notFound ? 404 : notPending ? 409 : 500 },
     );
   }

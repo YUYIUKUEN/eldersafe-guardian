@@ -50,7 +50,7 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<VolunteerHelpFeedFilter>("pending");
-  const [sort, setSort] = useState<VolunteerHelpFeedSort>("newest");
+  const [sort, setSort] = useState<VolunteerHelpFeedSort>("oldest");
   const [banner, setBanner] = useState<string | null>(null);
   const [highlightId, setHighlightId] = useState<string | null>(null);
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -112,8 +112,16 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
             setBanner(t("newRequestBanner"));
             setHighlightId(id);
             setFilter("pending");
+            setSort("oldest");
             if (soundEnabled) playSoftChime();
             window.setTimeout(() => setHighlightId(null), 8000);
+            // Newest sits at the bottom — scroll so the volunteer can see it.
+            window.setTimeout(() => {
+              window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: "smooth",
+              });
+            }, 100);
           });
         },
       )
@@ -134,9 +142,10 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
   const visible = useMemo(() => {
     const filtered = filterVolunteerHelpFeed(items, filter, volunteerId);
     if (sort !== "distance" || !location.coords) {
+      // Oldest first so the newest pending request sits at the bottom.
       return [...filtered].sort(
         (a, b) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       );
     }
 
@@ -199,7 +208,7 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
                 setSort(event.target.value as VolunteerHelpFeedSort)
               }
             >
-              <option value="newest">{t("sortNewest")}</option>
+              <option value="oldest">{t("sortOldest")}</option>
               <option value="distance">{t("sortDistance")}</option>
             </select>
           </label>
@@ -225,6 +234,10 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
         <p className="rounded-xl bg-slate-100 px-3 py-2 text-sm text-slate-700">
           {t("distanceSortNeedsLocation")}
         </p>
+      ) : null}
+
+      {sort === "oldest" && visible.length > 0 ? (
+        <p className="text-sm text-slate-600">{t("sortOldestHint")}</p>
       ) : null}
 
       {banner ? (
@@ -272,9 +285,6 @@ export function HelpRequestList({ volunteerId }: HelpRequestListProps) {
                   distanceMeters={distanceMeters}
                   highlight={highlightId === item.id}
                   volunteerId={volunteerId}
-                  onChanged={() => {
-                    void loadFeed();
-                  }}
                 />
               </li>
             );

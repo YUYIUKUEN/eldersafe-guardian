@@ -3,10 +3,22 @@
 > 本檔案追蹤畢業專題各階段完成情況。  
 > 標記說明：`[x]` = 已完成　`[ ]` = 未開始／進行中
 
-**目前進度：階段 1–5 核心流程已接上；階段 6 本地驗收＋`docs/VERCEL_DEPLOY.md` 部署指南已備，欠你在 Vercel 實際建立三個專案並 Deploy。**  
+**目前進度：階段 1–5 核心流程已接上；教授會議項目 1–14 程式已合入 main；階段 6 本地驗收＋`docs/VERCEL_DEPLOY.md` 部署指南已備，欠你在 Vercel 實際建立三個專案並 Deploy。**  
+**2026-11-24 第二階段（5–7、11）**：錄音畫面示範句；60 秒倒數並自動送出；取消求助即時位置，改選「約在屋企／指定地點」（個人資料／首次設定 `meeting_place`；未設定則用住址）；義工完成須上載相片＋文字說明（migration `015`）。  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
-**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。
+**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
+**2026-11-24 義工流程 8–10**：接單前可聽錄音／致電問清楚再決定；接單後仍可致電；列表改為最舊在上、最新在底（migration `014` 開放 pending 電話）。  
+**2026-11-24 長者端首頁調整（項目 1–4）**：紅藍掣字級／字重一致（修 `font: inherit` 覆寫）；移除長者端英文切換（只保留 zh-HK）；緊急求助確認改為語音大聲讀出「你是否真的需要緊急求助？」再確認；藍掣及相關頁面標題文案改「搵人幫手」。  
+**2026-11-24 管理員項目 12–14**：意見表單列表、活躍義工排行榜個案褒貶、義工背景標籤（首次／很久沒做／經常做）。  
+**2026-11-24 整合檢查修復 H1–H3、M1–M9**（migration `016`；`014`/`015` 已在 main）：  
+- **H1** 警方 track：`police_share_expires_at`（進行中 24h；resolved 後最多再 2h）  
+- **H2** API 統一 `jsonSafeError`／`toSafeErrorCode`，不再洩漏 `detail`／原始 DB 訊息  
+- **H3** 非 admin 登入管理後台會 `signOut`  
+- **M1** Admin 逾時強制確認 UI＋RPC 同步發放積分  
+- **M2** 停用長者：`volunteer_can_access`／help_requests RLS 對齊  
+- **M3–M6** 義工列表錄音播放器、「我的積分」、積分文案、長者 `/profile` 入口  
+- **M7–M9** BigButton 停用對比、UUID／body 上限、緊急桌面通知／標題閃爍
 
 ---
 
@@ -44,10 +56,12 @@
 - [x] 驗證錯誤用大字紅色語言說明；行為寫入 `activity_logs`（無 Supabase 時用記憶體 fallback）
 - [x] 首頁兩大按鈕（緊急紅／陪伴藍）+「我的求助紀錄」；點擊暫導空白頁
 - [x] 藍色按鈕全螢幕錄音（MediaRecorder、iOS/Android 格式偵測、最長 60 秒）
-- [x] 錄音上傳 `voice-recordings`、建立 `help_requests`（待接單）+ 位置 + `activity_logs`（裝置密鑰 API）
+- [x] 錄音畫面上示範句（項目 5）
+- [x] 錄音 60 秒倒數；滿時自動結束並送出（項目 6）
+- [x] 錄音上傳 `voice-recordings`、建立 `help_requests`（待接單）+ 見面地點 + `activity_logs`（裝置密鑰 API）
 - [x] 送出後大字提示並導向求助狀態頁
-- [x] 求助進行中持續分享位置（`watchPosition`、10 秒節流寫入 `locations`、可停止；結束自動停）
-- [x] `locations` 已在 Realtime publication（義工／管理員接收端之後階段接）
+- [x] 取消求助即時位置分享；改為「約在屋企／指定地點」（個人資料／首次設定；未設定用住址）（項目 7；緊急求助仍用即時位置）
+- [x] `locations` 已在 Realtime publication（緊急事件仍用；義工／管理員接收端已接）
 - [x] 紅色緊急按鈕：首頁按一下再確認（避免 iPhone 長按預覽）；全紅 5 秒倒數（震動 + speechSynthesis）；取消；建立 `emergencies` + 警方 `/track/{token}`；`tel:` 撥號（`TEST_MODE` 預設測試號）；「請按通話鍵」+ 位置分享 +「我已安全／結束」
 - [x] 我的求助紀錄：超大狀態卡（待接單／義工已接單／已完成）、可取消未接單、義工完成後「確認完成，多謝義工」、列表自動更新（輪詢 + Realtime）
 - [x] 求助確認完成：1–5 星評分（可略過）+ 伺服器交易標記完成／加分／寫日誌（同一單不重複加分）
@@ -67,6 +81,10 @@
 - [x] 排行榜頁（本月／全部時間、金銀銅、底部自己名次、本月倒數、匿名姓氏、Realtime／每分鐘更新）
 - [x] 我的證書頁（下載已結算 Top 3 PDF）
 - [x] 求助列表、接單、地圖、標記完成、我的紀錄（Realtime／距離／錄音詳情頁）
+- [x] 義工可先聽錄音／睇內容再決定接單（列表不再直接接單；詳情頁錄音＋提示）
+- [x] 接單前後均可致電長者（migration `014`：pending 即顯示電話；`tel:` 按鈕）
+- [x] 求助列表時間由舊至新（最近的在最底）
+- [x] 義工完成須上載完成證明（相片＋文字說明；bucket `completion-proofs`；migration `015`）（項目 11）
 
 ---
 
@@ -90,6 +108,10 @@
   - [x] 所有管理 mutation API 均寫入 `activity_logs`；DB append-only migration 004
   - [x] 列表皆分頁（20–30／頁）；假資料腳本可種 ≥1000 筆 `help_requests`（`scripts/seed-admin-demo.mjs`）
   - [x] Live DB：已套用 `003`／`004`／`005`（`pnpm apply:supabase-migrations`）；`seed:admin-demo -- --clean`（200/80/1000）；`acceptance:admin-4.9` **33/33**
+- [x] **項目 12–14（管理員進階）**
+  - [x] 12. 意見表單（Feedback form）：`/feedback` 列出長者確認完成時的星級評分，可篩選正面／負面／需跟進
+  - [x] 13. 活躍義工排行榜：活躍度頁可「打開個案」，查看每宗求助詳情與褒貶（正／負評價）；配對詳情／義工紀錄亦顯示評分
+  - [x] 14. 義工標籤：首次做義工、很久沒做（>30 天）、經常做（近 30 天完成 ≥3）；顯示於義工列表／詳情／活躍度
 
 ---
 
@@ -115,6 +137,7 @@
 - [x] 各 app `.env.local.example` 與設定說明（見 `docs/AUTH_AND_ENV.md`）
 - [x] 安全加固 migration `012`（C0 role 鎖死、C1/C3 資料範圍、C2 storage、H2 禁直接 UPDATE、H4 activity_logs 身份校驗）
 - [x] 驗收腳本 `pnpm acceptance:security-012`
+- [x] migration `016`：track 過期、停用長者權限、admin 強制確認加分（`014`/`015` 為會議項目：pending 電話／完成證明）
 
 ---
 
@@ -128,6 +151,7 @@
 - [x] Vercel 三專案部署逐步指南（`docs/VERCEL_DEPLOY.md`：GitHub 連接、Root Directory、環境變數公開／私密、`TEST_MODE=true`、Supabase 允許網域、手機錄音／定位）
 - [x] 撰寫／整理專題文件與示範流程（`docs/MANUAL_TEST_GUIDE.md`）
 - [x] 最終驗收對照 `PROJECT_SPEC.md`（整合檢查後已修 C0→其餘；自動化 33/33 + 9/9）
+- [x] 2026-11-24 整合檢查跟進：H1–H3、M1–M9（見上方進度註記）
 
 ---
 

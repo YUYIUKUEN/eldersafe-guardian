@@ -11,7 +11,9 @@ import {
 } from "@/lib/management/format";
 import type { VolunteerDetail } from "@/lib/management/volunteers";
 import { ConfirmDialog } from "./ConfirmDialog";
+import { SentimentBadge } from "./SentimentBadge";
 import { StatusBadge } from "./StatusBadge";
+import { VolunteerTags } from "./VolunteerTags";
 
 type VolunteerDetailPanelProps = {
   id: string;
@@ -198,6 +200,7 @@ export function VolunteerDetailPanel({ id }: VolunteerDetailPanelProps) {
               label={t(`status.${detail.approvalStatus}`)}
               tone={statusTone(detail.approvalStatus)}
             />
+            <VolunteerTags tags={detail.tags} />
             <span className="text-sm text-slate-600">
               {t("registeredAtLabel", {
                 date: formatHkDate(detail.createdAt, locale),
@@ -350,21 +353,69 @@ export function VolunteerDetailPanel({ id }: VolunteerDetailPanelProps) {
         <h2 className="text-lg font-bold text-slate-900">
           {t("sections.helpHistory")}
         </h2>
-        <HistoryTable
-          empty={t("emptyHistory")}
-          rows={detail.helpRequests.map((item) => [
-            item.elderName ?? "—",
-            helpStatusLabel(t, item.status),
-            formatHkDateTime(item.createdAt, locale),
-            formatHkDateTime(item.completedAt, locale),
-          ])}
-          headers={[
-            t("columns.elder"),
-            t("columns.status"),
-            t("columns.createdAt"),
-            t("columns.completedAt"),
-          ]}
-        />
+        {detail.helpRequests.length === 0 ? (
+          <p className="mt-3 text-sm text-slate-500">{t("emptyHistory")}</p>
+        ) : (
+          <div className="mt-3 overflow-x-auto">
+            <table className="min-w-full text-left text-sm">
+              <thead className="border-b border-slate-200 text-slate-600">
+                <tr>
+                  <th className="px-2 py-2 font-semibold">{t("columns.elder")}</th>
+                  <th className="px-2 py-2 font-semibold">{t("columns.status")}</th>
+                  <th className="px-2 py-2 font-semibold">
+                    {t("columns.feedback")}
+                  </th>
+                  <th className="px-2 py-2 font-semibold">
+                    {t("columns.createdAt")}
+                  </th>
+                  <th className="px-2 py-2 font-semibold">
+                    {t("columns.completedAt")}
+                  </th>
+                  <th className="px-2 py-2 font-semibold">
+                    {t("columns.actions")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {detail.helpRequests.map((item) => (
+                  <tr
+                    key={item.id}
+                    className={`border-t border-slate-100 ${
+                      item.needsFollowUp ? "bg-red-50/40" : ""
+                    }`}
+                  >
+                    <td className="px-2 py-2 text-slate-700">
+                      {item.elderName ?? "—"}
+                    </td>
+                    <td className="px-2 py-2 text-slate-700">
+                      {helpStatusLabel(t, item.status)}
+                    </td>
+                    <td className="px-2 py-2">
+                      <SentimentBadge
+                        sentiment={item.ratingSentiment}
+                        rating={item.elderRating}
+                      />
+                    </td>
+                    <td className="px-2 py-2 text-slate-700">
+                      {formatHkDateTime(item.createdAt, locale)}
+                    </td>
+                    <td className="px-2 py-2 text-slate-700">
+                      {formatHkDateTime(item.completedAt, locale)}
+                    </td>
+                    <td className="px-2 py-2">
+                      <Link
+                        href={`/matches/${item.id}`}
+                        className="font-semibold text-brand underline-offset-2 hover:underline"
+                      >
+                        {t("openCase")}
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-4 sm:p-5">

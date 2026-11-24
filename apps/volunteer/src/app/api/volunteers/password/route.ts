@@ -3,16 +3,18 @@ import {
   loadAccessContext,
   validateResetPasswordInput,
   VolunteerActivityAction,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST(request: Request) {
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const validated = validateResetPasswordInput(
     (body ?? {}) as { password?: unknown },
@@ -48,10 +50,7 @@ export async function POST(request: Request) {
   });
 
   if (error) {
-    return Response.json(
-      { error: "password_change_failed", detail: error.message },
-      { status: 500 },
-    );
+    return jsonSafeError(error, "password_change_failed", 500);
   }
 
   await supabase.from("activity_logs").insert({

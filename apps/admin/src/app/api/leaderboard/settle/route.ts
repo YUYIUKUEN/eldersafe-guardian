@@ -1,6 +1,9 @@
 import {
   AdminActivityAction,
   isValidYearMonth,
+  jsonSafeError,
+  readJsonBody,
+  toSafeErrorCode,
 } from "@eldersafe/shared";
 import { requireAdminApi } from "@/lib/auth/api";
 import { settleMonthLeaderboard } from "@/lib/management/leaderboard";
@@ -9,15 +12,14 @@ export async function POST(request: Request) {
   const auth = await requireAdminApi();
   if (!auth.ok) return auth.response;
 
-  let body: {
+  const parsed = await readJsonBody<{
     yearMonth?: string;
     podiumVolunteerIds?: string[];
-  };
-  try {
-    body = (await request.json()) as typeof body;
-  } catch {
-    return Response.json({ error: "invalid_json" }, { status: 400 });
+  }>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const yearMonth = body.yearMonth?.trim() ?? "";
   if (!isValidYearMonth(yearMonth)) {
@@ -50,21 +52,20 @@ export async function POST(request: Request) {
 
     return Response.json(result);
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "settle_failed";
+    const code = toSafeErrorCode(error, "settle_failed");
     const status =
-      message === "MONTH_ALREADY_SETTLED"
+      code === "MONTH_ALREADY_SETTLED"
         ? 409
-        : message === "PODIUM_DECISION_REQUIRED" ||
-            message === "INVALID_PODIUM_SELECTION" ||
-            message === "INVALID_PODIUM_SELECTION_COUNT" ||
-            message === "DUPLICATE_PODIUM_SELECTION" ||
-            message === "PODIUM_ORDER_VIOLATES_SCORES" ||
-            message === "PODIUM_NOT_ELIGIBLE" ||
-            message === "NO_RANKING_DATA" ||
-            message === "NO_PODIUM"
+        : code === "PODIUM_DECISION_REQUIRED" ||
+            code === "INVALID_PODIUM_SELECTION" ||
+            code === "INVALID_PODIUM_SELECTION_COUNT" ||
+            code === "DUPLICATE_PODIUM_SELECTION" ||
+            code === "PODIUM_ORDER_VIOLATES_SCORES" ||
+            code === "PODIUM_NOT_ELIGIBLE" ||
+            code === "NO_RANKING_DATA" ||
+            code === "NO_PODIUM"
           ? 400
           : 500;
-    return Response.json({ error: message }, { status });
+    return Response.json({ error: code }, { status });
   }
 }

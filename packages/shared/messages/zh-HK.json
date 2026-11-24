@@ -25,11 +25,11 @@
     "startOnboarding": "開始輸入我的資料",
     "continueOnboarding": "繼續輸入資料",
     "emergencyHelp": "緊急求助（跌倒、受傷）",
-    "needCompany": "想找人陪我（買餸、行街）",
+    "needCompany": "搵人幫手",
     "myRecords": "我的求助紀錄",
     "emergencyTitle": "緊急求助",
     "emergencyBody": "緊急倒數與求助功能。",
-    "assistTitle": "想找人陪我",
+    "assistTitle": "搵人幫手",
     "assistBody": "錄一段短語音，請人陪伴或協助。",
     "recordsTitle": "我的求助紀錄",
     "recordsBody": "查看你的求助單狀態。"
@@ -38,7 +38,7 @@
     "title": "我的求助紀錄",
     "autoUpdateHint": "義工接單後，這裡會自動更新。",
     "empty": "你暫時未有求助單。",
-    "askHelp": "想找人陪我",
+    "askHelp": "搵人幫手",
     "createdAt": "送出時間：{when}",
     "volunteerFallback": "義工",
     "confirmThanks": "確認完成，多謝義工",
@@ -67,10 +67,11 @@
   },
   "Emergency": {
     "tapHint": "按一下後會再問你一次，避免誤觸。",
-    "confirmTitle": "確定要緊急求助？",
+    "confirmTitle": "你是否真的需要緊急求助？",
     "confirmBody": "如果確定，下一步會開始倒數並準備撥號。",
     "confirmYes": "確定，開始倒數",
     "confirmNo": "不是，返回",
+    "speechConfirm": "你是否真的需要緊急求助？",
     "loading": "正在準備緊急求助…",
     "countdownTitle": "5 秒後會撥打 {number}",
     "countdownHint": "如果按錯，請立即按「取消」。",
@@ -123,17 +124,30 @@
     "autoStopped": "求助已結束，位置分享已自動停止。"
   },
   "VoiceAssist": {
-    "title": "想找人陪我",
+    "title": "搵人幫手",
     "hint": "按一下開始說話，講你需要甚麼幫助。",
+    "examplesTitle": "可以這樣說：",
+    "example1": "「我想有人陪我去街市買餸」",
+    "example2": "「我想有人陪我去診所覆診」",
+    "example3": "「我想有人陪我行公園」",
     "start": "按一下開始說話",
     "recording": "正在錄音…",
-    "maxSeconds": "最長 {seconds} 秒，到時會自動停止。",
+    "countdown": "剩餘 {seconds} 秒",
+    "maxSeconds": "最長 {seconds} 秒，到時會自動送出。",
     "stop": "停止",
+    "meetingTitle": "約在邊度見面？",
+    "meetingHome": "約在屋企",
+    "meetingCustom": "指定地點",
+    "meetingHomeHint": "用你的住址：{address}",
+    "meetingCustomHint": "用你預先設定的地點：{place}",
+    "meetingCustomFallbackHint": "你未設定指定地點，會用住址：{address}",
+    "meetingEditLink": "去「我的資料」設定指定地點",
     "reviewHint": "可以重聽。不滿意就重錄，滿意就送出。",
     "replay": "重聽",
     "reRecord": "重錄",
     "submit": "送出",
     "submitting": "正在送出…",
+    "autoSubmitting": "時間到，正在自動送出…",
     "submitted": "已通知義工，請等候",
     "redirecting": "正在打開你的求助狀態…",
     "unsupported": "這部手機未能錄音。請改用較新的 Safari 或 Chrome 再開一次。",
@@ -142,13 +156,13 @@
     "micDeniedAndroid": "Android：打開「設定」→「應用程式」→ 瀏覽器（Chrome）→「權限」→ 打開「麥克風」。",
     "tryAgain": "我已打開權限，再試一次",
     "micError": "未能開始錄音。請再試一次。",
-    "locationDenied": "未能取得位置。請在手機設定打開「位置」後再按送出。",
-    "locationUnsupported": "這部手機未能提供位置。",
-    "locationError": "未能讀取位置。請到有訊號的地方再按送出。",
+    "meetingRequired": "請先選擇約在屋企或指定地點。",
     "submitFailed": "未能送出。請檢查網絡後再試。",
     "statusTitle": "求助狀態",
     "statusHint": "義工接單後，狀態會更新。",
     "statusLoadFailed": "未能載入求助狀態。請稍後再試。",
+    "meetingSummaryHome": "見面地點：屋企（{place}）",
+    "meetingSummaryCustom": "見面地點：{place}",
     "backHome": "返回首頁",
     "status": {
       "pending": "待接單",
@@ -168,12 +182,14 @@
     "reviewTitle": "請確認你的資料",
     "consentLabel": "我同意系統使用我的資料和位置作安全用途",
     "healthNotesHint": "可不填。如有長期病或藥物過敏，可在這裡寫下。",
+    "meetingPlaceHint": "可不填。例如「大埔廣場門口」或「附近公園長椅」。求助時可選「指定地點」。未設定時會用你的住址。",
     "skipped": "（已略過）",
     "fields": {
       "name": "你的姓名？",
       "age": "你的年齡？",
       "phone": "你的電話？",
       "address": "你的住址？",
+      "meetingPlace": "指定見面地點（可略過）",
       "emergencyContactName": "緊急聯絡人姓名？",
       "emergencyContactPhone": "緊急聯絡人電話？",
       "healthNotes": "健康備註（可略過）"
@@ -193,6 +209,9 @@
       "address": {
         "required": "請輸入你的住址。",
         "too_long": "住址太長。請縮短至 300 個字以內。"
+      },
+      "meetingPlace": {
+        "too_long": "指定地點太長。請縮短至 300 個字以內，或按「略過此題」。"
       },
       "emergencyContactName": {
         "required": "請輸入緊急聯絡人的姓名。",
@@ -255,7 +274,8 @@
     "logout": "登出",
     "loggingOut": "正在登出…",
     "navLeaderboard": "排行榜",
-    "navCertificates": "我的證書"
+    "navCertificates": "我的證書",
+    "navPoints": "我的積分"
   },
   "VolunteerLeaderboard": {
     "title": "義工排行榜",
@@ -423,6 +443,7 @@
       "volunteers": "義工管理",
       "matches": "配對總覽",
       "emergencies": "緊急事件",
+      "feedback": "意見表單",
       "logs": "日誌",
       "activity": "活躍度",
       "leaderboard": "排行榜與證書"
@@ -436,6 +457,8 @@
       "matchesBody": "查看所有求助單及長者與義工配對詳情。",
       "emergenciesTitle": "緊急事件",
       "emergenciesBody": "監察緊急事件與即時地圖。",
+      "feedbackTitle": "意見表單",
+      "feedbackBody": "查看長者確認完成時提交的評分意見。",
       "logsTitle": "日誌",
       "logsBody": "篩選誰在何時做了什麼。",
       "activityTitle": "活躍度",
@@ -468,9 +491,30 @@
   },
   "AdminUnauthorized": {
     "title": "沒有權限",
-    "body": "此帳號已登入，但不是管理員，因此不能使用管理後台。",
+    "body": "此帳號已被登出，因為不是管理員帳號，不能使用管理後台。",
     "backToLogin": "返回登入",
     "logout": "登出"
+  },
+  "AdminOverdue": {
+    "title": "逾期待確認求助單",
+    "subtitle": "以下求助單標記完成已超過 24 小時，長者仍未確認。你可強制確認並發放積分。",
+    "loading": "正在載入逾期清單…",
+    "empty": "目前沒有逾期待確認的求助單。",
+    "loadFailed": "未能載入逾期待確認清單。",
+    "elderLine": "長者：{name}",
+    "volunteerLine": "義工：{name}",
+    "volunteerUnknown": "未知義工",
+    "completedAt": "標記完成：{when}",
+    "hoursWaiting": "已等待 {hours} 小時確認",
+    "openDetail": "打開配對詳情",
+    "forceConfirm": "強制確認",
+    "forcing": "正在確認…",
+    "forceFailed": "未能強制確認。請再試一次。",
+    "notOverdue": "此單已不再逾期。",
+    "notConfirmable": "此單目前不能確認。",
+    "confirmTitle": "強制確認完成？",
+    "confirmBody": "為長者 {name} 的求助單發放積分（義工：{volunteer}）。長者於 24 小時內未確認。",
+    "cancel": "取消"
   },
   "AdminDashboard": {
     "title": "儀表板",
@@ -492,7 +536,9 @@
     "emergencyAlertActive": "現有 {count} 宗進行中的緊急事件 — 請打開緊急事件頁。",
     "emergencyAlertNew": "剛剛有新緊急事件回報，請立刻查看緊急事件。",
     "viewEmergencies": "查看緊急事件",
-    "dismissAlert": "關閉提示"
+    "dismissAlert": "關閉提示",
+    "enableDesktopNotify": "啟用桌面提示",
+    "desktopNotifyBody": "允許瀏覽器通知，有新緊急事件時會收到提示。"
   },
   "AdminLeaderboard": {
     "title": "排行榜與證書",
@@ -585,6 +631,7 @@
     "emptyCertificates": "尚未有證書。",
     "emptyEmergencies": "尚未有緊急事件。",
     "emptyLogs": "尚未有相關日誌。",
+    "openCase": "打開個案",
     "status": {
       "all": "全部",
       "pending": "待審批",
@@ -625,6 +672,8 @@
       "status": "狀態",
       "registeredAt": "註冊日期",
       "completedServices": "完成服務數",
+      "tags": "標籤",
+      "feedback": "褒貶",
       "actions": "操作",
       "age": "年齡",
       "address": "住址",
@@ -727,7 +776,8 @@
     "fields": {
       "elderPhone": "長者電話",
       "elderAddress": "長者住址",
-      "elderConfirmed": "長者是否確認"
+      "elderConfirmed": "長者是否確認",
+      "feedback": "長者褒貶（評分）"
     },
     "sections": {
       "summary": "摘要",
@@ -759,7 +809,9 @@
       "days": "日",
       "hours": "小時",
       "minutes": "分"
-    }
+    },
+    "feedbackPending": "長者尚未確認／評分",
+    "needsFollowUp": "負面評價 — 建議跟進"
   },
   "AdminEmergencies": {
     "title": "緊急事件",
@@ -850,8 +902,8 @@
     }
   },
   "AdminEngagement": {
-    "title": "活躍度",
-    "subtitle": "義工與長者本月活躍程度，附最近 30 天趨勢。",
+    "title": "活躍義工排行榜",
+    "subtitle": "義工與長者本月活躍程度，附最近 30 天趨勢。可打開每宗個案查看褒貶。",
     "loadFailed": "無法載入活躍度，請再試一次。",
     "rulesTitle": "活躍度分級規則",
     "rulesNote": "統計以香港曆法本月為準。義工趨勢計算接單次數；長者趨勢計算最近 30 天求助次數。",
@@ -867,10 +919,20 @@
       "medium": "中：本月求助 1–2 次。",
       "low": "低：本月求助 0 次。"
     },
-    "volunteersTitle": "義工活躍度",
+    "volunteersTitle": "活躍義工排行榜",
+    "volunteersHint": "按「打開個案」查看該義工每宗求助的詳細資料與長者褒貶。",
     "eldersTitle": "長者活躍度",
     "minutesValue": "{count} 分鐘",
     "trendLabel": "{name} 最近 30 天趨勢",
+    "openCases": "打開個案",
+    "backToRanking": "返回活躍義工排行榜",
+    "casesTitle": "{name} 的個案",
+    "casesSubtitle": "每宗個案顯示長者評分褒貶，負面評價會標示建議跟進。",
+    "casesLoadFailed": "無法載入個案，請再試一次。",
+    "casesEmpty": "此義工暫時沒有個案。",
+    "openCase": "打開詳情",
+    "feedbackPending": "尚未評分",
+    "needsFollowUp": "建議跟進",
     "level": {
       "high": "高",
       "medium": "中",
@@ -878,6 +940,7 @@
     },
     "columns": {
       "name": "姓名",
+      "tags": "標籤",
       "acceptedCount": "本月接單數",
       "completedCount": "本月完成數",
       "completionRate": "完成率",
@@ -885,7 +948,56 @@
       "lastActiveAt": "最後活動時間",
       "level": "活躍度",
       "trend": "近 30 天趨勢",
+      "cases": "個案",
       "helpCount": "本月求助次數"
+    },
+    "caseColumns": {
+      "id": "單號",
+      "elder": "長者",
+      "status": "狀態",
+      "createdAt": "建立時間",
+      "feedback": "褒貶",
+      "actions": "操作"
+    }
+  },
+  "AdminFeedback": {
+    "title": "意見表單（Feedback form）",
+    "subtitle": "查看長者確認完成時提交的評分內容。負面評價會標示，方便跟進。",
+    "hint": "資料來自長者確認完成表單的星級評分。",
+    "loadFailed": "無法載入意見表單，請再試一次。",
+    "empty": "暫時未有已評分的意見。請先完成「義工服務 → 長者確認並評分」。",
+    "filterLabel": "篩選褒貶",
+    "filters": {
+      "all": "全部",
+      "needsFollowUp": "需要跟進（負面）",
+      "positive": "正面",
+      "neutral": "中性",
+      "negative": "負面"
+    },
+    "columns": {
+      "id": "單號",
+      "elder": "長者",
+      "volunteer": "義工",
+      "rating": "評分",
+      "sentiment": "褒貶",
+      "confirmedAt": "確認時間",
+      "actions": "操作"
+    },
+    "starsValue": "{count} 星",
+    "openCase": "打開個案",
+    "sentiment": {
+      "positive": "正面",
+      "negative": "負面",
+      "neutral": "中性",
+      "none": "未評分"
+    },
+    "sentimentWithStars": "{sentiment}（{stars} 星）"
+  },
+  "AdminVolunteerTags": {
+    "tags": {
+      "first_time": "首次做義工",
+      "inactive": "很久沒做（超過 30 天）",
+      "frequent": "經常做"
     }
   },
   "VolunteerHelp": {
@@ -893,11 +1005,12 @@
     "filterMine": "我的單",
     "filterCompleted": "已完成",
     "sortLabel": "排序",
-    "sortNewest": "最新優先",
+    "sortOldest": "時間由舊至新",
+    "sortOldestHint": "最近的求助在列表最底。",
     "sortDistance": "距離由近至遠",
     "soundToggle": "新求助提示音",
     "locationPermissionHint": "未取得你的位置，因此不會顯示距離。可在瀏覽器允許位置權限後重新整理。",
-    "distanceSortNeedsLocation": "按距離排序需要你的位置。尚未取得位置前會暫時用最新優先。",
+    "distanceSortNeedsLocation": "按距離排序需要你的位置。尚未取得位置前會暫時用時間由舊至新。",
     "newRequestBanner": "有新的待接單求助！",
     "dismissBanner": "知道了",
     "loading": "正在載入求助列表…",
@@ -905,11 +1018,15 @@
     "empty": "暫時沒有符合條件的求助單。",
     "elderLine": "長者 {name}，{age} 歲",
     "liveLocation": "即時位置：",
+    "meetingPlace": "見面地點：",
+    "meetingTypeHome": "約在屋企",
+    "meetingTypeCustom": "指定地點",
     "address": "住址：",
     "addressAfterAccept": "接單後可查看住址",
     "phone": "電話：",
     "distance": "與你的距離：",
     "createdAt": "建立時間：{when}",
+    "previewBeforeAccept": "請先聽錄音、致電問清楚，再決定是否接單。",
     "recording": "錄音",
     "locationLoading": "正在辨識地區…",
     "locationUnknown": "暫無位置",
@@ -944,8 +1061,24 @@
     "completing": "正在標記完成…",
     "completeFailed": "未能標記完成。請再試一次。",
     "completeNotAllowed": "此單目前不能標記完成。",
-    "awaitingElderHint": "已通知長者確認。長者確認後才會正式完成並計算積分（積分規則稍後接上）。若 24 小時內未確認，管理員可手動處理。",
-    "completedHint": "長者已確認完成。積分會在獎勵系統啟用後發放。",
+    "completeProofTitle": "上載完成證明",
+    "completePhotoLabel": "完成相片（必填）",
+    "completePhotoHint": "請拍一張可證明服務已完成的相片。",
+    "completePhotoChoose": "選擇相片",
+    "completePhotoChange": "更換相片",
+    "completeNotesLabel": "文字說明（必填）",
+    "completeNotesHint": "簡單寫下完成了甚麼，至少兩個字。",
+    "completePhotoRequired": "請先選擇一張完成相片。",
+    "completeNotesRequired": "請填寫至少兩個字的說明。",
+    "completePhotoTooLarge": "相片太大。請選較小的相片（最多 5MB）。",
+    "completePhotoInvalid": "相片格式不支援。請用 JPG、PNG 或 WEBP。",
+    "completeProofShow": "完成證明",
+    "awaitingElderHint": "已通知長者確認。長者確認完成後會按現行規則發放積分。若 24 小時內未確認，管理員可強制確認並發放積分。",
+    "completedHint": "長者已確認完成。積分已按現行計分規則發放。",
+    "previewHint": "請先聽錄音，並可致電長者問清楚內容，再決定是否接單。接單後可再致電確認詳情。",
+    "previewThenDecide": "聽錄音／查看後再決定",
+    "callBeforeAccept": "致電問清楚",
+    "callElder": "致電長者",
     "openDetail": "查看詳情／地圖",
     "viewMap": "查看地圖",
     "openMaps": "用地圖 App 導航",
@@ -980,5 +1113,18 @@
     "rowHours": "服務時數：{hours}",
     "rowHoursUnknown": "服務時數：—",
     "awaitingNote": "等待長者確認"
+  },
+  "VolunteerPoints": {
+    "title": "我的積分",
+    "subtitle": "長者確認完成後（或逾期 24 小時由管理員強制確認後）才會增加積分。",
+    "loading": "正在載入積分…",
+    "loadFailed": "未能載入積分。請稍後再試。",
+    "totalPoints": "累積積分",
+    "monthPoints": "本月積分",
+    "monthLabel": "月份：{month}",
+    "recentTitle": "最近得分",
+    "empty": "暫時沒有積分紀錄。",
+    "entryPoints": "+{points} 分",
+    "openRequest": "查看求助單"
   }
 }

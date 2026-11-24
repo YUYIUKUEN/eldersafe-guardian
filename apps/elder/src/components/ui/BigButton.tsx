@@ -37,6 +37,9 @@ const variantClassName: Record<BigButtonVariant, string> = {
     "bg-assist-soft text-assist-soft-fg border-assist hover:brightness-95",
 };
 
+const disabledClassName =
+  "bg-slate-500 text-white border-slate-500 hover:brightness-100";
+
 function buildClassName(
   variant: BigButtonVariant,
   className?: string,
@@ -47,8 +50,8 @@ function buildClassName(
     "min-h-[72px] text-[24px] font-bold leading-tight tracking-tight",
     "text-center transition-[filter] focus-visible:outline focus-visible:outline-4",
     "focus-visible:outline-offset-2 focus-visible:outline-foreground",
-    disabled ? "cursor-not-allowed opacity-55" : "cursor-pointer",
-    variantClassName[variant],
+    disabled ? "cursor-not-allowed" : "cursor-pointer",
+    disabled ? disabledClassName : variantClassName[variant],
     className,
   ]
     .filter(Boolean)

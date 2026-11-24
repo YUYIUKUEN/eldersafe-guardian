@@ -5,6 +5,8 @@ import {
   getEmergencyDialNumber,
   isEmergencyTestMode,
   toSafeErrorCode,
+  jsonSafeError,
+  readJsonBody,
 } from "@eldersafe/shared";
 import {
   createEmergency,
@@ -78,9 +80,7 @@ export async function GET(request: Request) {
       ...dial,
     });
   } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "emergency_lookup_failed";
-    return Response.json({ error: message }, { status: 500 });
+    return jsonSafeError(error, "emergency_lookup_failed", 500);
   }
 }
 
@@ -109,12 +109,11 @@ export async function POST(request: Request) {
     );
   }
 
-  let body: unknown = {};
-  try {
-    body = await request.json();
-  } catch {
-    body = {};
+  const parsed = await readJsonBody<unknown>(request);
+  if (!parsed.ok) {
+    return Response.json({ error: parsed.error }, { status: 400 });
   }
+  const body = parsed.value;
 
   const object =
     typeof body === "object" && body !== null

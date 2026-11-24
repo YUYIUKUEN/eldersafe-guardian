@@ -12,6 +12,7 @@ import type { VolunteerListItem } from "@/lib/management/volunteers";
 import { ConfirmDialog } from "./ConfirmDialog";
 import { PaginationBar } from "./PaginationBar";
 import { StatusBadge } from "./StatusBadge";
+import { VolunteerTags } from "./VolunteerTags";
 
 type ListResponse = {
   items: VolunteerListItem[];
@@ -190,6 +191,7 @@ export function VolunteersManager() {
           <thead className="border-b border-slate-200 bg-slate-50 text-slate-600">
             <tr>
               <th className="px-3 py-3 font-semibold">{t("columns.name")}</th>
+              <th className="px-3 py-3 font-semibold">{t("columns.tags")}</th>
               <th className="px-3 py-3 font-semibold">{t("columns.phone")}</th>
               <th className="px-3 py-3 font-semibold">{t("columns.email")}</th>
               <th className="px-3 py-3 font-semibold">{t("columns.serviceAreas")}</th>
@@ -202,13 +204,13 @@ export function VolunteersManager() {
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={8} className="px-3 py-8 text-slate-500">
+                <td colSpan={9} className="px-3 py-8 text-slate-500">
                   {t("loading")}
                 </td>
               </tr>
             ) : !data || data.items.length === 0 ? (
               <tr>
-                <td colSpan={8} className="px-3 py-8 text-slate-500">
+                <td colSpan={9} className="px-3 py-8 text-slate-500">
                   {t("empty")}
                 </td>
               </tr>
@@ -225,6 +227,9 @@ export function VolunteersManager() {
                     >
                       {item.name}
                     </Link>
+                  </td>
+                  <td className="px-3 py-3">
+                    <VolunteerTags tags={item.tags} />
                   </td>
                   <td className="px-3 py-3 text-slate-700">{item.phone}</td>
                   <td className="px-3 py-3 text-slate-700">
