@@ -29,7 +29,7 @@
     "myRecords": "My help records",
     "emergencyTitle": "Emergency help",
     "emergencyBody": "Emergency countdown and help flow.",
-    "assistTitle": "Want someone with me",
+    "assistTitle": "Find someone to help",
     "assistBody": "Record a short voice message to ask for companionship or help.",
     "recordsTitle": "My help records",
     "recordsBody": "See the status of your help requests."
@@ -38,7 +38,7 @@
     "title": "My help records",
     "autoUpdateHint": "This list updates by itself when a volunteer accepts.",
     "empty": "You have no help requests yet.",
-    "askHelp": "Ask for company",
+    "askHelp": "Find someone to help",
     "createdAt": "Sent: {when}",
     "volunteerFallback": "Volunteer",
     "confirmThanks": "Confirm complete, thank the volunteer",
@@ -124,7 +124,7 @@
     "autoStopped": "Your request has ended. Location sharing stopped automatically."
   },
   "VoiceAssist": {
-    "title": "Want someone with me",
+    "title": "Find someone to help",
     "hint": "Tap once to start talking. Say what help you need.",
     "examplesTitle": "You can say something like:",
     "example1": "“I want someone to go to the market with me”",
