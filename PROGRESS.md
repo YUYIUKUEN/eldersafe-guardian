@@ -6,7 +6,8 @@
 **目前進度：階段 1–5 核心流程已接上（含義工求助列表／接單／完成）；階段 2 缺 PWA；階段 6 未開始。**  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
-**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。
+**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
+**2026-11-24 長者端首頁調整（項目 1–4）**：紅藍掣字級／字重一致（修 `font: inherit` 覆寫）；移除長者端英文切換（只保留 zh-HK）；緊急求助確認改為語音大聲讀出「你是否真的需要緊急求助？」再確認；藍掣文案改「搵人幫手」。
 
 ---
 
