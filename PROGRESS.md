@@ -6,7 +6,8 @@
 **目前進度：階段 1–5 核心流程已接上（含義工求助列表／接單／完成）；階段 2 缺 PWA；階段 6 未開始。**  
 **2026-11-10 全流程修復**：已併入義工求助列表／接單／地圖／完成／紀錄（migrations `008`–`011`）；修 PDF barrel 全站 500、`NEXT_PUBLIC_*` 登入、錄音 `audio_path` 桶前綴、長者語言切換 session gate、義工 login Suspense。E2E：建立求助 → 接單 → 完成 → 確認加分 → 管理員 OK。  
 **2026-11-10 義工地圖**：修復接單／地圖頁 `Can't resolve 'leaflet'`（確認 `leaflet` 依賴、client-only 載入地圖、README 重裝說明）。  
-**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。
+**2026-11-10 Admin 排行榜**：修復「排行榜與證書」未能載入（`get_monthly_leaderboard` 被 service_role 叫時 FORBIDDEN；改用 admin session 讀取 + migration `013` 允許 service_role）。  
+**2026-11-24 答辯示範資料**：新增 `pnpm seed:defense-demo`（3 長者、8 義工、30 求助、2 緊急、一個月日誌）＋ `docs/DEFENSE_DEMO_SCRIPT.md` 五分鐘示範劇本（排行榜／活躍度／日誌）。
 
 ---
 
@@ -126,6 +127,7 @@
 - [x] 確認金鑰未進入 git（只追蹤 `.env*.example`）
 - [ ] 三個網站各自部署到 Vercel
 - [x] 撰寫／整理專題文件與示範流程（`docs/MANUAL_TEST_GUIDE.md`）
+- [x] 答辯示範種子資料（`pnpm seed:defense-demo`）＋五分鐘劇本（`docs/DEFENSE_DEMO_SCRIPT.md`）
 - [x] 最終驗收對照 `PROJECT_SPEC.md`（整合檢查後已修 C0→其餘；自動化 33/33 + 9/9）
 
 ---
