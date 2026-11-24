@@ -23,8 +23,10 @@ export type {
   ElderProfileInput,
   ElderPublicProfile,
   ElderRegisterPayload,
+  HelpMeetingType,
 } from "./elder/types";
 export {
+  buildHkTelHref,
   decodeEmergencyContact,
   encodeEmergencyContact,
   isValidHkPhone,
